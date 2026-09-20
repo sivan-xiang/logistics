@@ -324,11 +324,109 @@
     });
   }
 
+  /* -------------------------------------------------------------------
+   * 7. PARTICLE TEXT — a word rendered as hundreds of drifting dots that
+   *    assemble into the letter shapes, with gentle pointer parallax.
+   *    Used as the home-hero kinetic wordmark (data-particle-text="GIRAF").
+   * ----------------------------------------------------------------- */
+  function initParticleText() {
+    var canvases = document.querySelectorAll('[data-particle-text]');
+    if (!canvases.length) return;
+    Array.prototype.forEach.call(canvases, function (c) {
+      var ctx = c.getContext('2d');
+      var text = c.dataset.particleText || 'GIRAF';
+      var w = 0, h = 0, dpr = 1, raf = 0, running = true, pts = [];
+      var mouse = { x: -9999, y: -9999 };
+
+      function build() {
+        var off = document.createElement('canvas');
+        off.width = Math.max(1, Math.floor(w)); off.height = Math.max(1, Math.floor(h));
+        var o = off.getContext('2d');
+        var fontSize = Math.min(h * 0.86, (w * 0.82) / text.length * 1.35);
+        o.fillStyle = '#fff';
+        o.textAlign = 'center'; o.textBaseline = 'middle';
+        o.font = '700 ' + fontSize + 'px "Space Grotesk", system-ui, sans-serif';
+        o.fillText(text, w / 2, h / 2);
+        var data = o.getImageData(0, 0, off.width, off.height).data;
+        var step = Math.max(3, Math.round(dpr * 3));
+        var targets = [];
+        for (var y = 0; y < h; y += step) {
+          for (var x = 0; x < w; x += step) {
+            var a = data[((Math.floor(y) * off.width + Math.floor(x)) * 4) + 3];
+            if (a > 130) targets.push({ x: x, y: y });
+          }
+        }
+        pts = targets.map(function (t) {
+          return {
+            x: Math.random() * w, y: Math.random() * h,
+            tx: t.x, ty: t.y, vx: 0, vy: 0,
+            gold: Math.random() < 0.16, c: 0.45 + Math.random() * 0.55
+          };
+        });
+      }
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 1.4);
+        var r = c.getBoundingClientRect();
+        w = r.width; h = r.height;
+        c.width = Math.max(1, Math.floor(w * dpr));
+        c.height = Math.max(1, Math.floor(h * dpr));
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        build();
+      }
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        for (var i = 0; i < pts.length; i++) {
+          var p = pts[i];
+          if (running && !reduce) {
+            p.vx += (p.tx - p.x) * 0.012;
+            p.vy += (p.ty - p.y) * 0.012;
+            p.vx *= 0.86; p.vy *= 0.86;
+            var dx = p.x - mouse.x, dy = p.y - mouse.y, d2 = dx * dx + dy * dy;
+            if (d2 < 11000 && d2 > 0.01) {
+              var f = (11000 - d2) / 11000 * 1.8, d = Math.sqrt(d2);
+              p.vx += (dx / d) * f; p.vy += (dy / d) * f;
+            }
+            p.x += p.vx; p.y += p.vy;
+          }
+          var col = p.gold ? '232,163,61' : '186,212,255';
+          ctx.fillStyle = 'rgba(' + col + ',' + (0.6 * p.c).toFixed(2) + ')';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.gold ? 1.7 : 1.3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      function loop() { draw(); if (running && !reduce) raf = requestAnimationFrame(loop); }
+
+      c.addEventListener('pointermove', function (e) {
+        var r = c.getBoundingClientRect();
+        mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+      });
+      c.addEventListener('pointerleave', function () { mouse.x = -9999; mouse.y = -9999; });
+
+      resize();
+      if (reduce) { pts.forEach(function (p) { p.x = p.tx; p.y = p.ty; }); draw(); }
+      else loop();
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () { if (running) build(); });
+      }
+      var rt;
+      window.addEventListener('resize', function () {
+        clearTimeout(rt); rt = setTimeout(function () {
+          resize();
+          if (reduce) { pts.forEach(function (p) { p.x = p.tx; p.y = p.ty; }); draw(); }
+        }, 150);
+      });
+      visibilityPause(c, function () { running = true; if (!reduce) loop(); },
+        function () { running = false; cancelAnimationFrame(raf); });
+    });
+  }
+
   ready(function () {
     initAurora();
     initGlowCursor();
     initSpotlight();
     initDotField();
     initHeroNetwork();
+    initParticleText();
   });
 })();

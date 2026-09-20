@@ -17,7 +17,7 @@ const COPY = {
     "nav.contact": "Contact",
 
     "hero.eyebrow": "GIRAFSAIL · A Longsail Sub-Brand",
-    "hero.title": "Simplify the<br>cross-border trade.",
+    "hero.title": "Simplify the<br><span class=\"stroke\">cross-border</span> trade.",
     "hero.sub": "One-stop global logistics built on localized operations and globalized resources — powered by a self-developed IT platform and an AAAAA-level network.",
     "hero.cta1": "Explore services",
     "hero.cta2": "Talk to our team",
@@ -82,7 +82,7 @@ const COPY = {
     "nav.contact": "联系我们",
 
     "hero.eyebrow": "GIRAFSAIL · 长帆国际物流子品牌",
-    "hero.title": "让跨境贸易<br>更简单。",
+    "hero.title": "让<span class=\"stroke\">跨境</span>贸易<br>更简单。",
     "hero.sub": "以本地化运营与全球化资源，提供一站式全球物流解决方案——依托自主研发的 IT 平台与 AAAAA 级服务网络。",
     "hero.cta1": "浏览服务",
     "hero.cta2": "联系我们",

@@ -356,6 +356,7 @@ a { color: inherit; text-decoration: none; }
   .subs__list, .contact { grid-template-columns: 1fr; gap: 28px; }
   .detail-list { grid-template-columns: 1fr; }
   .page-hero { padding: 96px 0 48px; }
+  .page-hero__stroke { font-size: clamp(54px, 22vw, 130px); top: 54%; opacity: .13; }
 }
 @media (max-width: 640px) {
   .nav__links {
