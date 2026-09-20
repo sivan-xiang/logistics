@@ -205,11 +205,16 @@
   function initHeroNetwork() {
     var canvases = document.querySelectorAll('[data-hero-network]');
     if (!canvases.length) return;
+    var ACCENTS = {
+      blue: [158, 198, 255], gold: [255, 217, 168], cyan: [143, 233, 244],
+      violet: [195, 184, 255], green: [143, 240, 212]
+    };
     Array.prototype.forEach.call(canvases, function (c) {
       var ctx = c.getContext('2d');
       var w = 0, h = 0, dpr = 1, raf = 0, running = true, t = 0;
       var nodes = [], links = [], packets = [], parts = [];
-      var blue = [96, 156, 255], gold = [232, 163, 61];
+      var accent = ACCENTS[c.dataset.heroAccent] || ACCENTS.blue;
+      var gold = [232, 163, 61]; // gold "cargo" packets stay consistent across pages
 
       function resize() {
         dpr = Math.min(window.devicePixelRatio || 1, 1.4);
@@ -255,8 +260,8 @@
         for (var i = 0; i < links.length; i++) {
           var l = links[i], A = nodes[l.a], B = nodes[l.b];
           var g = ctx.createLinearGradient(A.x, A.y, B.x, B.y);
-          g.addColorStop(0, 'rgba(96,156,255,0.10)');
-          g.addColorStop(1, 'rgba(120,170,255,0.05)');
+          g.addColorStop(0, 'rgba(' + accent[0] + ',' + accent[1] + ',' + accent[2] + ',0.12)');
+          g.addColorStop(1, 'rgba(' + accent[0] + ',' + accent[1] + ',' + accent[2] + ',0.05)');
           ctx.strokeStyle = g;
           ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
         }
@@ -264,7 +269,7 @@
         if (!reduce) {
           ctx.setLineDash([3, 7]);
           ctx.lineDashOffset = -(t * 6) % 14;
-          ctx.strokeStyle = 'rgba(150,190,255,0.22)';
+          ctx.strokeStyle = 'rgba(' + accent[0] + ',' + accent[1] + ',' + accent[2] + ',0.30)';
           for (var j = 0; j < links.length; j++) {
             var L = links[j], X = nodes[L.a], Y = nodes[L.b];
             ctx.beginPath(); ctx.moveTo(X.x, X.y); ctx.lineTo(Y.x, Y.y); ctx.stroke();
@@ -287,7 +292,7 @@
         for (var m = 0; m < nodes.length; m++) {
           var nd = nodes[m];
           var pulse = reduce ? 0.6 : (0.55 + 0.45 * Math.sin(t * nd.sp + nd.ph));
-          var col = nd.gold ? gold : blue;
+          var col = nd.gold ? gold : accent;
           var rr = nd.r * (0.8 + 0.4 * pulse);
           var gl = ctx.createRadialGradient(nd.x, nd.y, 0, nd.x, nd.y, rr * 3.2);
           gl.addColorStop(0, 'rgba(' + col[0] + ',' + col[1] + ',' + col[2] + ',' + (0.5 * pulse).toFixed(3) + ')');
