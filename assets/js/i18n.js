@@ -108,9 +108,9 @@ const COPY = {
 const DATA = {
   en: {
     stats: [
-      { value: 450000, suffix: "+", label: "TEU shipped annually" },
-      { value: 110236, suffix: "+", label: "Customers served" },
-      { value: 36, suffix: "", label: "Global subsidiaries" },
+      { value: 600000, suffix: "+", label: "Containers (2025)" },
+      { value: 110000, suffix: "+", label: "Customers" },
+      { value: 37, suffix: "+", label: "Subsidiaries" },
       { value: 20, suffix: "+", label: "Years of experience" }
     ],
     services: [
@@ -154,9 +154,9 @@ const DATA = {
 
   zh: {
     stats: [
-      { value: 450000, suffix: "+", label: "年运输标箱量" },
-      { value: 110236, suffix: "+", label: "累计服务客户" },
-      { value: 36, suffix: "", label: "全球直属分子公司" },
+      { value: 600000, suffix: "+", label: "集装箱运输量（2025）" },
+      { value: 110000, suffix: "+", label: "累计服务客户" },
+      { value: 37, suffix: "+", label: "全球分子公司" },
       { value: 20, suffix: "+", label: "年专业经验" }
     ],
     services: [
