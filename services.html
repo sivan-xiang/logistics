@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — GIRAFSAIL Logistics</title>
+  <meta name="description" content="GIRAFSAIL full-spectrum logistics services: ocean, air, railway, inland, e-commerce, DG, destination port, customs, warehousing and bonded logistics." />
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="services">
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo" aria-label="GIRAFSAIL Logistics home">
+        <img src="assets/img/logo.png" alt="GIRAFSAIL Logistics" />
+      </a>
+      <nav class="nav__links" id="navLinks">
+        <a href="services.html" data-nav="services" data-i18n="nav.services">Services</a>
+        <a href="solutions.html" data-nav="solutions" data-i18n="nav.solutions">Solutions</a>
+        <a href="network.html" data-nav="network" data-i18n="nav.network">Global Network</a>
+        <a href="about.html" data-nav="about" data-i18n="nav.about">About</a>
+        <a href="contact.html" data-nav="contact" data-i18n="nav.contact">Contact</a>
+      </nav>
+      <div class="nav__right">
+        <div class="lang" id="langSwitch" role="group" aria-label="Language">
+          <button class="lang__btn is-active" data-lang="en">EN</button>
+          <button class="lang__btn" data-lang="zh">中文</button>
+        </div>
+        <button class="nav__burger" id="burger" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="wrap reveal">
+        <p class="page-hero__eyebrow" data-i18n="services.eyebrow">What we do</p>
+        <h1 class="page-hero__title" data-i18n="services.title">A full-spectrum logistics portfolio</h1>
+        <p class="page-hero__lead" data-i18n="services.lead">From origin to destination, one call or one email is all it takes. Our team with 20+ years of experience designs the plan that fits you.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="cards" id="servicesGrid"><!-- rendered by JS --></div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="wrap cta__inner reveal">
+        <h2 class="cta__title" data-i18n="cta.title">Ready to simplify your global trade?</h2>
+        <p class="cta__sub" data-i18n="cta.sub">Tell us about your shipment. One email, one call — we build the plan.</p>
+        <div class="cta__actions">
+          <a href="contact.html" class="btn btn--gold" data-i18n="cta.email">Email us</a>
+          <a href="tel:+8607550000000" class="btn btn--ghost" data-i18n="cta.call">Call us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__grid">
+      <div class="footer__brand">
+        <div class="footer__logo">
+          <img src="assets/img/logo-white.png" alt="GIRAFSAIL Logistics" />
+        </div>
+        <p class="footer__tag" data-i18n="footer.tag">Simplify the cross-border trade.</p>
+      </div>
+      <div class="footer__col">
+        <h4 data-i18n="footer.nav">Explore</h4>
+        <a href="services.html" data-i18n="nav.services">Services</a>
+        <a href="solutions.html" data-i18n="nav.solutions">Solutions</a>
+        <a href="network.html" data-i18n="nav.network">Global Network</a>
+        <a href="about.html" data-i18n="nav.about">About</a>
+      </div>
+      <div class="footer__col">
+        <h4 data-i18n="footer.contact">Contact</h4>
+        <a href="mailto:info@giraf-logistics.com">info@giraf-logistics.com</a>
+        <a href="tel:+8607550000000">+86 755 0000 0000</a>
+        <span data-i18n="footer.addr">Shenzhen · London · Hamburg · Mexico City</span>
+      </div>
+    </div>
+    <div class="wrap footer__bottom">
+      <span>© <span id="year"></span> GIRAFSAIL Logistics. <span data-i18n="footer.rights">All rights reserved.</span></span>
+      <span data-i18n="footer.parent">A sub-brand of Longsail International Logistics Co., Ltd.</span>
+    </div>
+  </footer>
+
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

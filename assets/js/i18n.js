@@ -52,7 +52,25 @@ const COPY = {
     "footer.contact": "Contact",
     "footer.addr": "Shenzhen · London · Hamburg · Mexico City",
     "footer.rights": "All rights reserved.",
-    "footer.parent": "A sub-brand of Longsail International Logistics Co., Ltd."
+    "footer.parent": "A sub-brand of Longsail International Logistics Co., Ltd.",
+
+    "about.eyebrow": "Our story",
+    "about.title": "A global sub-brand of Longsail",
+    "about.lead": "GIRAFSAIL is an international logistics sub-brand of Longsail International Logistics Co., Ltd.",
+    "about.story": "Backed by the AAAAA-level qualification, a global network spanning 30+ subsidiaries, and the self-developed IT platform of Longsail, GIRAFSAIL has established its own teams in key markets including Mexico City, London, Hamburg, Ho Chi Minh City, Hanoi, Bangkok and Riyadh. Through local compliance support and agile response, GIRAFSAIL helps customers efficiently open up new markets.",
+    "network.subsTitle": "The Longsail network",
+    "network.subsLead": "GIRAFSAIL is part of the Longsail group — 36 subsidiaries worldwide.",
+    "contact.eyebrow": "Get in touch",
+    "contact.title": "Let's move your cargo",
+    "contact.lead": "Tell us about your shipment. One email, one call — we build the plan.",
+    "contact.name": "Name",
+    "contact.email": "Email",
+    "contact.message": "How can we help?",
+    "contact.submit": "Send inquiry",
+    "contact.info": "Contact details",
+    "contact.emailLabel": "Email",
+    "contact.phoneLabel": "Phone",
+    "contact.addrLabel": "Offices"
   },
 
   zh: {
@@ -98,7 +116,25 @@ const COPY = {
     "footer.contact": "联系方式",
     "footer.addr": "深圳 · 伦敦 · 汉堡 · 墨西哥城",
     "footer.rights": "保留所有权利。",
-    "footer.parent": "长帆国际物流股份有限公司旗下子品牌。"
+    "footer.parent": "长帆国际物流股份有限公司旗下子品牌。",
+
+    "about.eyebrow": "我们的故事",
+    "about.title": "长帆国际物流旗下全球子品牌",
+    "about.lead": "GIRAFSAIL 是长帆国际物流股份有限公司旗下的国际物流子品牌。",
+    "about.story": "依托长帆 AAAAA 级资质、覆盖 30 余家分子公司的全球网络，以及自主研发的 IT 平台，GIRAFSAIL 已在墨西哥城、伦敦、汉堡、胡志明市、河内、曼谷、利雅得等重点市场设立直属团队。通过本地合规支持与敏捷响应，GIRAFSAIL 帮助客户高效开拓新市场。",
+    "network.subsTitle": "长帆集团网络",
+    "network.subsLead": "GIRAFSAIL 隶属长帆集团，全球拥有 36 家分子公司。",
+    "contact.eyebrow": "联系我们",
+    "contact.title": "让您的货物动起来",
+    "contact.lead": "告诉我们您的运输需求，一封邮件、一个电话，方案由我们构建。",
+    "contact.name": "姓名",
+    "contact.email": "邮箱",
+    "contact.message": "您的需求",
+    "contact.submit": "提交咨询",
+    "contact.info": "联系方式",
+    "contact.emailLabel": "邮箱",
+    "contact.phoneLabel": "电话",
+    "contact.addrLabel": "办公地点"
   }
 
   /* es: { ... }  // <- add a full locale here to extend */
@@ -149,6 +185,21 @@ const DATA = {
       { icon: "platform", title: "Self-developed IT platform", desc: "A proprietary system connects every node for transparent, efficient service." },
       { icon: "experience", title: "20+ years of expertise", desc: "A seasoned team turns complex trade into a simple, reliable plan." },
       { icon: "local", title: "Localized + global", desc: "Local compliance and agile response in every key market we serve." }
+    ],
+    subsidiaries: [
+      "GIRAFSAIL LOGISTICS GMBH",
+      "GIRAFSAIL LOGISTICS VIETNAM CO., LTD.",
+      "GIRAFSAIL LOGISTICS (THAILAND) CO., LTD.",
+      "GIRAF LOGISTICS (UK) LTD",
+      "GIRAFSAIL LOGISTICS DE MEXICO S.A. DE C.V.",
+      "FUTURE SAIL LOGISTICS SERVICES COMPANY",
+      "LONGSAIL USA CORPORATION",
+      "LONGSAIL INTERNATIONAL LOGISTICS CO., LTD.",
+      "LONGSAIL SUPPLY CHAIN CO., LTD.",
+      "REXPRESS TECHNOLOGY CO., LTD.",
+      "ESAN INTERNATIONAL LOGISTICS CO., LTD.",
+      "SAFESAIL SUPPLY CHAIN CO., LTD.",
+      "SOWOLL NETWORK TECHNOLOGY CO., LTD."
     ]
   },
 
@@ -195,6 +246,21 @@ const DATA = {
       { icon: "platform", title: "自主研发 IT 平台", desc: "自研系统连接每个节点，服务透明高效。" },
       { icon: "experience", title: "20 余年专业经验", desc: "资深团队将复杂贸易转化为简单可靠的方案。" },
       { icon: "local", title: "本地化 + 全球化", desc: "在每一个重点市场提供本地合规与敏捷响应。" }
+    ],
+    subsidiaries: [
+      "GIRAFSAIL LOGISTICS GMBH",
+      "GIRAFSAIL LOGISTICS VIETNAM CO., LTD.",
+      "GIRAFSAIL LOGISTICS (THAILAND) CO., LTD.",
+      "GIRAF LOGISTICS (UK) LTD",
+      "GIRAFSAIL LOGISTICS DE MEXICO S.A. DE C.V.",
+      "FUTURE SAIL LOGISTICS SERVICES COMPANY",
+      "LONGSAIL USA CORPORATION",
+      "LONGSAIL INTERNATIONAL LOGISTICS CO., LTD.",
+      "LONGSAIL SUPPLY CHAIN CO., LTD.",
+      "REXPRESS TECHNOLOGY CO., LTD.",
+      "ESAN INTERNATIONAL LOGISTICS CO., LTD.",
+      "SAFESAIL SUPPLY CHAIN CO., LTD.",
+      "SOWOLL NETWORK TECHNOLOGY CO., LTD."
     ]
   }
 };

@@ -95,6 +95,7 @@ function renderIndustries() {
 
 function renderWhy() {
   const grid = document.getElementById("whyGrid");
+  if (!grid) return;
   grid.innerHTML = DATA[current].why.map((w) => `
     <article class="card reveal">
       <div class="card__icon">${svg(w.icon)}</div>
@@ -103,14 +104,30 @@ function renderWhy() {
     </article>`).join("");
 }
 
+function renderSubsidiaries() {
+  const el = document.getElementById("subsidiariesList");
+  if (!el) return;
+  el.innerHTML = DATA[current].subsidiaries.map((s) =>
+    `<li class="reveal">${s}</li>`).join("");
+}
+
+function setActiveNav() {
+  const page = document.body.dataset.page;
+  document.querySelectorAll(".nav__links a").forEach((a) => {
+    a.classList.toggle("is-active", a.dataset.nav === page);
+  });
+}
+
 function renderAll() {
   applyStatic();
-  renderStats();
-  renderServices();
-  renderSolutions();
-  renderOffices();
-  renderIndustries();
-  renderWhy();
+  if (document.getElementById("statsGrid")) renderStats();
+  if (document.getElementById("servicesGrid")) renderServices();
+  if (document.getElementById("solutionsGrid")) renderSolutions();
+  if (document.getElementById("officesGrid")) renderOffices();
+  if (document.getElementById("industriesGrid")) renderIndustries();
+  if (document.getElementById("whyGrid")) renderWhy();
+  renderSubsidiaries();
+  setActiveNav();
   observeReveal();
   observeCounters();
 }
@@ -197,6 +214,21 @@ navLinks.addEventListener("click", (e) => {
     burger.classList.remove("is-open");
   }
 });
+
+/* --------------------------- contact form --------------------------- */
+const contactForm = document.getElementById("contactForm");
+if (contactForm) {
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const d = new FormData(contactForm);
+    const name = (d.get("name") || "").toString().trim();
+    const email = (d.get("email") || "").toString().trim();
+    const msg = (d.get("message") || "").toString().trim();
+    const subject = encodeURIComponent("GIRAFSAIL inquiry from " + name);
+    const body = encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\n" + msg);
+    window.location.href = "mailto:info@giraf-logistics.com?subject=" + subject + "&body=" + body;
+  });
+}
 
 /* --------------------------- boot --------------------------- */
 document.getElementById("year").textContent = new Date().getFullYear();
