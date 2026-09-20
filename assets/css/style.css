@@ -227,6 +227,66 @@ a { color: inherit; text-decoration: none; }
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.in-view { opacity: 1; transform: none; }
 
+/* ===================================================================
+   EFFECTS (vue-bits inspired) — zero-dep, reduced-motion aware
+   =================================================================== */
+
+/* 1. Aurora hero canvas */
+.hero__aurora { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+.hero__routes { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; opacity: .9; }
+
+/* 2. Glow cursor — soft light following the pointer */
+.glow-cursor {
+  position: fixed; top: 0; left: 0; width: 520px; height: 520px; border-radius: 50%;
+  pointer-events: none; z-index: 60; opacity: 0; transition: opacity .4s ease;
+  background: radial-gradient(circle, rgba(60,130,255,.16) 0%, rgba(232,163,61,.10) 35%, transparent 68%);
+  mix-blend-mode: screen; will-change: transform;
+}
+
+/* 3. Card spotlight + animated gradient border glow (BorderGlow) */
+@property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+
+.card { position: relative; overflow: hidden; isolation: isolate; }
+.card > * { position: relative; z-index: 1; }
+.card::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(240px circle at var(--mx, -300px) var(--my, -300px),
+    rgba(0,113,227,.14), transparent 62%);
+  opacity: 0; transition: opacity .35s ease;
+}
+.card:hover::before { opacity: 1; }
+.card::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  border-radius: inherit; padding: 1px;
+  background: conic-gradient(from var(--angle),
+    transparent 0%, var(--blue) 18%, var(--gold) 36%, transparent 58%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; transition: opacity .35s ease;
+}
+.card:hover::after { opacity: 1; animation: spinBorder 3.2s linear infinite; }
+@keyframes spinBorder { to { --angle: 360deg; } }
+
+/* 4. Hero flowing route lines */
+.hero__routes .route {
+  stroke-dasharray: 14 10; animation: routeFlow 3.2s linear infinite;
+}
+.hero__routes .route__node { animation: nodePulse 2.4s ease-in-out infinite; transform-origin: center; }
+@keyframes routeFlow { to { stroke-dashoffset: -48; } }
+@keyframes nodePulse { 0%,100% { opacity: .45; r: 4; } 50% { opacity: 1; r: 6.5; } }
+
+/* 5. Dark-section dot field */
+.section--dark { position: relative; overflow: hidden; }
+.section__dots { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; opacity: .55; pointer-events: none; }
+.section--dark .wrap { position: relative; z-index: 1; }
+
+/* Reduced motion: neutralize all effect animation */
+@media (prefers-reduced-motion: reduce) {
+  .glow-cursor { display: none; }
+  .card:hover::after { animation: none; }
+  .hero__routes .route, .hero__routes .route__node { animation: none; }
+}
+
 /* ----------------------------- RESPONSIVE ----------------------------- */
 @media (max-width: 900px) {
   .cards, .cards--4 { grid-template-columns: repeat(2, 1fr); }

@@ -39,20 +39,13 @@
     <!-- ===================== HERO ===================== -->
     <section class="hero" id="home">
       <div class="hero__bg" aria-hidden="true">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <radialGradient id="glow" cx="70%" cy="20%" r="80%">
-              <stop offset="0%" stop-color="#1d4ed8" stop-opacity="0.55"/>
-              <stop offset="60%" stop-color="#0b1e3a" stop-opacity="0.2"/>
-              <stop offset="100%" stop-color="#0b1e3a" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <rect width="1440" height="900" fill="url(#glow)"/>
-          <g class="hero__lines" stroke="#e8a33d" stroke-opacity="0.18" fill="none" stroke-width="1.5">
-            <path d="M-50 720 C 300 600, 520 760, 820 540 S 1300 360, 1500 480"/>
-            <path d="M-50 640 C 260 540, 540 700, 900 460 S 1320 300, 1500 420"/>
-            <circle cx="820" cy="540" r="5" fill="#e8a33d" fill-opacity="0.5" stroke="none"/>
-            <circle cx="900" cy="460" r="5" fill="#e8a33d" fill-opacity="0.5" stroke="none"/>
+        <canvas id="aurora" class="hero__aurora"></canvas>
+        <svg class="hero__routes" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+          <g stroke="#e8a33d" stroke-opacity="0.5" fill="none" stroke-width="1.5" stroke-linecap="round">
+            <path class="route" d="M-50 720 C 300 600, 520 760, 820 540 S 1300 360, 1500 480"/>
+            <path class="route" d="M-50 640 C 260 540, 540 700, 900 460 S 1320 300, 1500 420"/>
+            <circle class="route__node" cx="820" cy="540" r="5" fill="#e8a33d"/>
+            <circle class="route__node" cx="900" cy="460" r="5" fill="#e8a33d"/>
           </g>
         </svg>
       </div>
@@ -101,6 +94,7 @@
 
     <!-- ===================== GLOBAL NETWORK ===================== -->
     <section class="section section--dark" id="network">
+      <canvas id="dotfield" class="section__dots" aria-hidden="true"></canvas>
       <div class="wrap">
         <header class="section__head reveal">
           <p class="section__eyebrow" data-i18n="network.eyebrow">Where we are</p>
@@ -179,5 +173,6 @@
 
   <script src="assets/js/i18n.js"></script>
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/effects.js"></script>
 </body>
 </html>
