@@ -57,24 +57,63 @@ function renderStats() {
     </div>`).join("");
 }
 
+function featureList(features) {
+  if (!features || !features.length) return "";
+  const items = features.map((f) => `
+    <li class="caps__item">
+      <svg class="caps__tick" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg>
+      <span>${f}</span>
+    </li>`).join("");
+  return `<ul class="caps">${items}</ul>`;
+}
+
+function detailCard(s, accent) {
+  const cls = "card detail-item reveal" + (accent ? " card--accent" : "");
+  const iconCls = "card__icon" + (accent ? " card__icon--gold" : "");
+  return `
+    <article class="${cls}">
+      <div class="detail-item__head">
+        <div class="${iconCls}">${svg(s.icon)}</div>
+        <div>
+          <h3 class="card__title">${s.title}</h3>
+          <p class="card__desc">${s.desc}</p>
+        </div>
+      </div>
+      <p class="detail-item__intro">${s.intro || ""}</p>
+      <div class="detail-item__caps">
+        <p class="detail-item__caps-label">${t("detail.capLabel")}</p>
+        ${featureList(s.features)}
+      </div>
+    </article>`;
+}
+
 function renderServices() {
   const grid = document.getElementById("servicesGrid");
-  grid.innerHTML = DATA[current].services.map((s) => `
-    <article class="card reveal">
-      <div class="card__icon">${svg(s.icon)}</div>
-      <h3 class="card__title">${s.title}</h3>
-      <p class="card__desc">${s.desc}</p>
-    </article>`).join("");
+  if (!grid) return;
+  const items = DATA[current].services;
+  grid.innerHTML = grid.classList.contains("detail-list")
+    ? items.map((s) => detailCard(s, false)).join("")
+    : items.map((s) => `
+      <article class="card reveal">
+        <div class="card__icon">${svg(s.icon)}</div>
+        <h3 class="card__title">${s.title}</h3>
+        <p class="card__desc">${s.desc}</p>
+      </article>`).join("");
 }
 
 function renderSolutions() {
   const grid = document.getElementById("solutionsGrid");
-  grid.innerHTML = DATA[current].solutions.map((s) => `
-    <article class="card card--accent reveal">
-      <div class="card__icon card__icon--gold">${svg(s.icon)}</div>
-      <h3 class="card__title">${s.title}</h3>
-      <p class="card__desc">${s.desc}</p>
-    </article>`).join("");
+  if (!grid) return;
+  const items = DATA[current].solutions;
+  grid.innerHTML = grid.classList.contains("detail-list")
+    ? items.map((s) => detailCard(s, true)).join("")
+    : items.map((s) => `
+      <article class="card card--accent reveal">
+        <div class="card__icon card__icon--gold">${svg(s.icon)}</div>
+        <h3 class="card__title">${s.title}</h3>
+        <p class="card__desc">${s.desc}</p>
+      </article>`).join("");
 }
 
 function renderOffices() {

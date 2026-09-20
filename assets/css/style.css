@@ -161,6 +161,23 @@ a { color: inherit; text-decoration: none; }
 .card__desc { font-size: 15px; color: var(--ink-soft); }
 .section--dark .card__desc { color: rgba(255,255,255,.74); }
 
+/* ----------------------------- DETAIL LIST (Services / Solutions pages) ----------------------------- */
+.detail-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+.detail-item__head { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 14px; }
+.detail-item__head .card__icon { margin-bottom: 0; flex: none; }
+.detail-item__intro { font-size: 15px; line-height: 1.65; color: var(--ink-soft); margin-bottom: 16px; }
+.section--dark .detail-item__intro { color: rgba(255,255,255,.74); }
+.detail-item__caps-label {
+  font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--gold-deep); margin-bottom: 10px;
+}
+.section--dark .detail-item__caps-label { color: var(--gold); }
+.caps { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; }
+.caps__item { display: flex; gap: 9px; align-items: flex-start; font-size: 14px; color: var(--ink); line-height: 1.4; }
+.section--dark .caps__item { color: rgba(255,255,255,.85); }
+.caps__tick { flex: none; width: 18px; height: 18px; color: var(--blue); margin-top: 1px; }
+.card--accent .caps__tick { color: var(--gold); }
+
 /* ----------------------------- OFFICES ----------------------------- */
 .offices { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 .office {
@@ -294,6 +311,7 @@ a { color: inherit; text-decoration: none; }
   .stats__grid { grid-template-columns: repeat(2, 1fr); }
   .footer__grid { grid-template-columns: 1fr 1fr; }
   .subs__list, .contact { grid-template-columns: 1fr; gap: 28px; }
+  .detail-list { grid-template-columns: 1fr; }
   .page-hero { padding: 96px 0 48px; }
 }
 @media (max-width: 640px) {
@@ -305,7 +323,8 @@ a { color: inherit; text-decoration: none; }
   .nav__links.is-open { transform: translateY(0); }
   .nav__links a { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
   .nav__burger { display: flex; }
-  .cards, .cards--4, .offices, .stats__grid { grid-template-columns: 1fr; }
+  .cards, .cards--4, .offices, .stats__grid, .detail-list { grid-template-columns: 1fr; }
+  .caps { grid-template-columns: 1fr; }
   .footer__grid { grid-template-columns: 1fr; }
   .section { padding: 72px 0; }
 }
