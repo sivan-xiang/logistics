@@ -58,7 +58,8 @@ const COPY = {
     "about.eyebrow": "Our story",
     "about.title": "A global sub-brand of Longsail",
     "about.lead": "GIRAFSAIL is an international logistics sub-brand of Longsail International Logistics Co., Ltd.",
-    "about.story": "Backed by the AAAAA-level qualification, a global network spanning 30+ subsidiaries, and the self-developed IT platform of Longsail, GIRAFSAIL has established its own teams in key markets including Mexico City, London, Hamburg, Ho Chi Minh City, Hanoi, Bangkok and Riyadh. Through local compliance support and agile response, GIRAFSAIL helps customers efficiently open up new markets.",
+    "about.story": "Backed by the AAAAA-level qualification, a global network spanning 30+ subsidiaries, and a self-developed IT platform, GIRAFSAIL turns complex cross-border trade into a simple, reliable plan — with local teams in the world’s key hubs.",
+    "about.presenceLabel": "Local teams established in",
     "network.subsTitle": "The Longsail network",
     "network.subsLead": "GIRAFSAIL is part of the Longsail group — 36 subsidiaries worldwide.",
     "contact.eyebrow": "Get in touch",
@@ -123,7 +124,8 @@ const COPY = {
     "about.eyebrow": "我们的故事",
     "about.title": "长帆国际物流旗下全球子品牌",
     "about.lead": "GIRAFSAIL 是长帆国际物流股份有限公司旗下的国际物流子品牌。",
-    "about.story": "依托长帆 AAAAA 级资质、覆盖 30 余家分子公司的全球网络，以及自主研发的 IT 平台，GIRAFSAIL 已在墨西哥城、伦敦、汉堡、胡志明市、河内、曼谷、利雅得等重点市场设立直属团队。通过本地合规支持与敏捷响应，GIRAFSAIL 帮助客户高效开拓新市场。",
+    "about.story": "依托长帆 AAAAA 级资质、覆盖 30 余家分子公司的全球网络，以及自主研发的 IT 平台，GIRAFSAIL 将复杂的跨境贸易化为简单可靠的方案——在各大核心枢纽均设有本地团队。",
+    "about.presenceLabel": "本地团队已设立于",
     "network.subsTitle": "长帆集团网络",
     "network.subsLead": "GIRAFSAIL 隶属长帆集团，全球拥有 36 家分子公司。",
     "contact.eyebrow": "联系我们",
@@ -215,6 +217,11 @@ const DATA = {
       { icon: "platform", title: "Self-developed IT platform", desc: "A proprietary system connects every node for transparent, efficient service." },
       { icon: "experience", title: "20+ years of expertise", desc: "A seasoned team turns complex trade into a simple, reliable plan." },
       { icon: "local", title: "Localized + global", desc: "Local compliance and agile response in every key market we serve." }
+    ],
+    aboutFoundations: [
+      { icon: "grade", title: "AAAAA-level qualification", desc: "Top-tier national logistics certification behind every shipment." },
+      { icon: "local", title: "30+ global subsidiaries", desc: "Owned offices and local teams across the world's key markets." },
+      { icon: "platform", title: "Self-developed IT platform", desc: "A proprietary system connects every node for full visibility." }
     ],
     subsidiaries: [
       { region: "Europe", items: [
@@ -312,6 +319,11 @@ const DATA = {
       { icon: "platform", title: "自主研发 IT 平台", desc: "自研系统连接每个节点，服务透明高效。" },
       { icon: "experience", title: "20 余年专业经验", desc: "资深团队将复杂贸易转化为简单可靠的方案。" },
       { icon: "local", title: "本地化 + 全球化", desc: "在每一个重点市场提供本地合规与敏捷响应。" }
+    ],
+    aboutFoundations: [
+      { icon: "grade", title: "AAAAA 级资质", desc: "每一票货物背后，都是国家级物流最高等级资质认证。" },
+      { icon: "local", title: "30+ 家全球分子公司", desc: "在各大重点市场拥有直属办公室与本地团队。" },
+      { icon: "platform", title: "自主研发 IT 平台", desc: "自研系统连接每个节点，全程可视透明。" }
     ],
       subsidiaries: [
         { region: "欧洲", items: [

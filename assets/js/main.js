@@ -143,6 +143,23 @@ function renderWhy() {
     </article>`).join("");
 }
 
+function renderAbout() {
+  const f = document.getElementById("aboutFoundations");
+  if (f) {
+    f.innerHTML = DATA[current].aboutFoundations.map((x) => `
+      <article class="about-found reveal">
+        <div class="about-found__icon">${svg(x.icon)}</div>
+        <h3 class="about-found__title">${x.title}</h3>
+        <p class="about-found__desc">${x.desc}</p>
+      </article>`).join("");
+  }
+  const c = document.getElementById("aboutCities");
+  if (c) {
+    c.innerHTML = DATA[current].offices.map((o) =>
+      `<span class="about-presence__city">${o.city}</span>`).join("");
+  }
+}
+
 function renderSubsidiaries() {
   const el = document.getElementById("subsidiariesList");
   if (!el) return;
@@ -179,6 +196,7 @@ function renderAll() {
   if (document.getElementById("officesGrid")) renderOffices();
   if (document.getElementById("industriesGrid")) renderIndustries();
   if (document.getElementById("whyGrid")) renderWhy();
+  renderAbout();
   renderSubsidiaries();
   setActiveNav();
   observeReveal();
