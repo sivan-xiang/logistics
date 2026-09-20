@@ -12,7 +12,7 @@ const COPY = {
   en: {
     "nav.services": "Services",
     "nav.solutions": "Solutions",
-    "nav.network": "Global Network",
+    "nav.network": "Network",
     "nav.about": "About",
     "nav.contact": "Contact",
 
@@ -77,7 +77,7 @@ const COPY = {
   zh: {
     "nav.services": "服务项目",
     "nav.solutions": "解决方案",
-    "nav.network": "全球网络",
+    "nav.network": "网络",
     "nav.about": "关于我们",
     "nav.contact": "联系我们",
 
@@ -217,19 +217,27 @@ const DATA = {
       { icon: "local", title: "Localized + global", desc: "Local compliance and agile response in every key market we serve." }
     ],
     subsidiaries: [
-      "GIRAFSAIL LOGISTICS GMBH",
-      "GIRAFSAIL LOGISTICS VIETNAM CO., LTD.",
-      "GIRAFSAIL LOGISTICS (THAILAND) CO., LTD.",
-      "GIRAF LOGISTICS (UK) LTD",
-      "GIRAFSAIL LOGISTICS DE MEXICO S.A. DE C.V.",
-      "FUTURE SAIL LOGISTICS SERVICES COMPANY",
-      "LONGSAIL USA CORPORATION",
-      "LONGSAIL INTERNATIONAL LOGISTICS CO., LTD.",
-      "LONGSAIL SUPPLY CHAIN CO., LTD.",
-      "REXPRESS TECHNOLOGY CO., LTD.",
-      "ESAN INTERNATIONAL LOGISTICS CO., LTD.",
-      "SAFESAIL SUPPLY CHAIN CO., LTD.",
-      "SOWOLL NETWORK TECHNOLOGY CO., LTD."
+      { region: "Europe", items: [
+        "GIRAFSAIL LOGISTICS GMBH",
+        "GIRAF LOGISTICS (UK) LTD"
+      ] },
+      { region: "Asia Pacific", items: [
+        "GIRAFSAIL LOGISTICS VIETNAM CO., LTD.",
+        "GIRAFSAIL LOGISTICS (THAILAND) CO., LTD."
+      ] },
+      { region: "Americas", items: [
+        "GIRAFSAIL LOGISTICS DE MEXICO S.A. DE C.V.",
+        "LONGSAIL USA CORPORATION"
+      ] },
+      { region: "Greater China", items: [
+        "FUTURE SAIL LOGISTICS SERVICES COMPANY",
+        "LONGSAIL INTERNATIONAL LOGISTICS CO., LTD.",
+        "LONGSAIL SUPPLY CHAIN CO., LTD.",
+        "REXPRESS TECHNOLOGY CO., LTD.",
+        "ESAN INTERNATIONAL LOGISTICS CO., LTD.",
+        "SAFESAIL SUPPLY CHAIN CO., LTD.",
+        "SOWOLL NETWORK TECHNOLOGY CO., LTD."
+      ] }
     ]
   },
 
@@ -305,20 +313,28 @@ const DATA = {
       { icon: "experience", title: "20 余年专业经验", desc: "资深团队将复杂贸易转化为简单可靠的方案。" },
       { icon: "local", title: "本地化 + 全球化", desc: "在每一个重点市场提供本地合规与敏捷响应。" }
     ],
-    subsidiaries: [
-      "GIRAFSAIL LOGISTICS GMBH",
-      "GIRAFSAIL LOGISTICS VIETNAM CO., LTD.",
-      "GIRAFSAIL LOGISTICS (THAILAND) CO., LTD.",
-      "GIRAF LOGISTICS (UK) LTD",
-      "GIRAFSAIL LOGISTICS DE MEXICO S.A. DE C.V.",
-      "FUTURE SAIL LOGISTICS SERVICES COMPANY",
-      "LONGSAIL USA CORPORATION",
-      "LONGSAIL INTERNATIONAL LOGISTICS CO., LTD.",
-      "LONGSAIL SUPPLY CHAIN CO., LTD.",
-      "REXPRESS TECHNOLOGY CO., LTD.",
-      "ESAN INTERNATIONAL LOGISTICS CO., LTD.",
-      "SAFESAIL SUPPLY CHAIN CO., LTD.",
-      "SOWOLL NETWORK TECHNOLOGY CO., LTD."
-    ]
+      subsidiaries: [
+        { region: "欧洲", items: [
+          "GIRAFSAIL LOGISTICS GMBH",
+          "GIRAF LOGISTICS (UK) LTD"
+        ] },
+        { region: "亚太", items: [
+          "GIRAFSAIL LOGISTICS VIETNAM CO., LTD.",
+          "GIRAFSAIL LOGISTICS (THAILAND) CO., LTD."
+        ] },
+        { region: "美洲", items: [
+          "GIRAFSAIL LOGISTICS DE MEXICO S.A. DE C.V.",
+          "LONGSAIL USA CORPORATION"
+        ] },
+        { region: "大中华区", items: [
+          "FUTURE SAIL LOGISTICS SERVICES COMPANY",
+          "LONGSAIL INTERNATIONAL LOGISTICS CO., LTD.",
+          "LONGSAIL SUPPLY CHAIN CO., LTD.",
+          "REXPRESS TECHNOLOGY CO., LTD.",
+          "ESAN INTERNATIONAL LOGISTICS CO., LTD.",
+          "SAFESAIL SUPPLY CHAIN CO., LTD.",
+          "SOWOLL NETWORK TECHNOLOGY CO., LTD."
+        ] }
+      ]
   }
 };

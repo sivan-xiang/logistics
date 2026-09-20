@@ -146,8 +146,22 @@ function renderWhy() {
 function renderSubsidiaries() {
   const el = document.getElementById("subsidiariesList");
   if (!el) return;
-  el.innerHTML = DATA[current].subsidiaries.map((s) =>
-    `<li class="reveal">${s}</li>`).join("");
+  const groups = DATA[current].subsidiaries;
+  el.innerHTML = groups.map((g) => `
+    <div class="subs__group reveal">
+      <div class="subs__group-head">
+        <span class="subs__group-name">${g.region}</span>
+        <span class="subs__group-count">${g.items.length}</span>
+        <span class="subs__group-rule"></span>
+      </div>
+      <div class="subs__grid">
+        ${g.items.map((name, i) => `
+          <div class="subs__tile reveal">
+            <span class="subs__idx">${String(i + 1).padStart(2, "0")}</span>
+            <span class="subs__name">${name}</span>
+          </div>`).join("")}
+      </div>
+    </div>`).join("");
 }
 
 function setActiveNav() {
