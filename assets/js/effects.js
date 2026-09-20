@@ -2,7 +2,8 @@
  * GIRAF Logistics — effects.js
  * vue-bits-inspired interactions, implemented in vanilla JS/Canvas/CSS.
  * Effects: Aurora hero canvas, Glow Cursor, Card spotlight + animated
- * border-glow, flowing hero routes, dark-section dot field.
+ * border-glow, flowing hero routes, dark-section dot field, and the
+ * animated logistics-network backdrop on every second-level page banner.
  * All effects respect prefers-reduced-motion and pause when off-screen.
  * ===================================================================== */
 (function () {
@@ -194,10 +195,135 @@
    *     exists. Kept for symmetry / future hooks.)
    * ----------------------------------------------------------------- */
 
+  /* -------------------------------------------------------------------
+   * 6. HERO NETWORK — animated logistics-network backdrop on every
+   *    second-level page banner (.page-hero__canvas[data-hero-network]).
+   *    Nodes pulse, near pairs are linked, gold "packets" flow along
+   *    links, and particles drift upward. Honors reduced-motion + pauses
+   *    off-screen.
+   * ----------------------------------------------------------------- */
+  function initHeroNetwork() {
+    var canvases = document.querySelectorAll('[data-hero-network]');
+    if (!canvases.length) return;
+    Array.prototype.forEach.call(canvases, function (c) {
+      var ctx = c.getContext('2d');
+      var w = 0, h = 0, dpr = 1, raf = 0, running = true, t = 0;
+      var nodes = [], links = [], packets = [], parts = [];
+      var blue = [96, 156, 255], gold = [232, 163, 61];
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 1.4);
+        var r = c.getBoundingClientRect();
+        w = r.width; h = r.height;
+        c.width = Math.max(1, w * dpr);
+        c.height = Math.max(1, h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        seed();
+      }
+      function seed() {
+        nodes = []; links = []; packets = []; parts = [];
+        var n = Math.max(14, Math.min(34, Math.round(w / 42)));
+        for (var i = 0; i < n; i++) {
+          nodes.push({
+            x: Math.random() * w, y: Math.random() * h,
+            ph: Math.random() * Math.PI * 2, sp: 0.4 + Math.random() * 0.9,
+            gold: Math.random() < 0.22, r: 1.5 + Math.random() * 1.8
+          });
+        }
+        var maxD = Math.min(w, h) * 0.44;
+        for (var a = 0; a < nodes.length; a++) {
+          for (var b = a + 1; b < nodes.length; b++) {
+            var dx = nodes[a].x - nodes[b].x, dy = nodes[a].y - nodes[b].y;
+            var d = Math.sqrt(dx * dx + dy * dy);
+            if (d < maxD && Math.random() < 0.5) {
+              links.push({ a: a, b: b });
+              if (Math.random() < 0.45) {
+                packets.push({ a: a, b: b, p: Math.random(), sp: 0.004 + Math.random() * 0.006 });
+              }
+            }
+          }
+        }
+        var pn = Math.max(10, Math.round(w / 55));
+        for (var k = 0; k < pn; k++) {
+          parts.push({ x: Math.random() * w, y: Math.random() * h, vy: -(0.15 + Math.random() * 0.35), r: 0.6 + Math.random() * 1.1, ph: Math.random() * Math.PI * 2 });
+        }
+      }
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        // base links
+        ctx.lineWidth = 1;
+        for (var i = 0; i < links.length; i++) {
+          var l = links[i], A = nodes[l.a], B = nodes[l.b];
+          var g = ctx.createLinearGradient(A.x, A.y, B.x, B.y);
+          g.addColorStop(0, 'rgba(96,156,255,0.10)');
+          g.addColorStop(1, 'rgba(120,170,255,0.05)');
+          ctx.strokeStyle = g;
+          ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+        }
+        // flowing dashed overlay
+        if (!reduce) {
+          ctx.setLineDash([3, 7]);
+          ctx.lineDashOffset = -(t * 6) % 14;
+          ctx.strokeStyle = 'rgba(150,190,255,0.22)';
+          for (var j = 0; j < links.length; j++) {
+            var L = links[j], X = nodes[L.a], Y = nodes[L.b];
+            ctx.beginPath(); ctx.moveTo(X.x, X.y); ctx.lineTo(Y.x, Y.y); ctx.stroke();
+          }
+          ctx.setLineDash([]);
+        }
+        // flowing packets
+        if (!reduce) {
+          for (var p = 0; p < packets.length; p++) {
+            var pk = packets[p], Pa = nodes[pk.a], Pb = nodes[pk.b];
+            pk.p += pk.sp; if (pk.p > 1) pk.p -= 1;
+            var px = Pa.x + (Pb.x - Pa.x) * pk.p, py = Pa.y + (Pb.y - Pa.y) * pk.p;
+            ctx.fillStyle = 'rgba(232,163,61,0.18)';
+            ctx.beginPath(); ctx.arc(px, py, 4, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = 'rgba(232,163,61,0.95)';
+            ctx.beginPath(); ctx.arc(px, py, 1.8, 0, Math.PI * 2); ctx.fill();
+          }
+        }
+        // nodes (pulsing glow + core)
+        for (var m = 0; m < nodes.length; m++) {
+          var nd = nodes[m];
+          var pulse = reduce ? 0.6 : (0.55 + 0.45 * Math.sin(t * nd.sp + nd.ph));
+          var col = nd.gold ? gold : blue;
+          var rr = nd.r * (0.8 + 0.4 * pulse);
+          var gl = ctx.createRadialGradient(nd.x, nd.y, 0, nd.x, nd.y, rr * 3.2);
+          gl.addColorStop(0, 'rgba(' + col[0] + ',' + col[1] + ',' + col[2] + ',' + (0.5 * pulse).toFixed(3) + ')');
+          gl.addColorStop(1, 'rgba(' + col[0] + ',' + col[1] + ',' + col[2] + ',0)');
+          ctx.fillStyle = gl;
+          ctx.beginPath(); ctx.arc(nd.x, nd.y, rr * 3.2, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = 'rgba(' + col[0] + ',' + col[1] + ',' + col[2] + ',' + pulse.toFixed(3) + ')';
+          ctx.beginPath(); ctx.arc(nd.x, nd.y, rr, 0, Math.PI * 2); ctx.fill();
+        }
+        // drifting particles
+        for (var q = 0; q < parts.length; q++) {
+          var pt = parts[q];
+          if (!reduce) { pt.y += pt.vy; if (pt.y < -4) { pt.y = h + 4; pt.x = Math.random() * w; } }
+          var pa = 0.25 + 0.25 * Math.sin(t * 0.5 + pt.ph);
+          ctx.fillStyle = 'rgba(255,255,255,' + pa.toFixed(3) + ')';
+          ctx.beginPath(); ctx.arc(pt.x, pt.y, pt.r, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+      function loop() { t += 0.016; draw(); if (running && !reduce) raf = requestAnimationFrame(loop); }
+
+      resize();
+      if (reduce) draw(); else loop();
+      var rt;
+      window.addEventListener('resize', function () {
+        clearTimeout(rt); rt = setTimeout(function () { resize(); if (reduce) draw(); }, 150);
+      });
+      visibilityPause(c, function () { running = true; if (!reduce) loop(); },
+        function () { running = false; cancelAnimationFrame(raf); });
+    });
+  }
+
   ready(function () {
     initAurora();
     initGlowCursor();
     initSpotlight();
     initDotField();
+    initHeroNetwork();
   });
 })();
