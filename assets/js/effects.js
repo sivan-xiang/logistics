@@ -437,6 +437,7 @@
     var w = 0, h = 0, dpr = 1, raf = 0, running = true, t = 0;
     var nodes = [], arcs = [], hoverIdx = -1;
     var LAND = (typeof WORLDMAP !== "undefined") ? WORLDMAP : [];
+    var landCanvas = null;
 
     // Continent & ocean labels (bilingual). Positioned in lon/lat so they
     // reproject on resize. type controls font treatment.
@@ -486,6 +487,7 @@
       c.height = Math.max(1, Math.floor(h * dpr));
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       nodes.forEach(function (n) { var p = project(n.lat, n.lon); n.x = p.x; n.y = p.y; });
+      renderLandBuffer();
     }
     function drawGraticule() {
       ctx.strokeStyle = 'rgba(255,255,255,0.05)';
@@ -504,21 +506,29 @@
       var eq = (LAT_MAX - 0) / (LAT_MAX - LAT_MIN) * h;
       ctx.beginPath(); ctx.moveTo(0, eq); ctx.lineTo(w, eq); ctx.stroke();
     }
-    function drawLand() {
+    function renderLandBuffer() {
+      if (!LAND.length) { landCanvas = null; return; }
+      landCanvas = document.createElement('canvas');
+      landCanvas.width = c.width; landCanvas.height = c.height;
+      var lc = landCanvas.getContext('2d');
+      lc.setTransform(dpr, 0, 0, dpr, 0, 0);
       for (var k = 0; k < LAND.length; k++) {
         var poly = LAND[k]; if (!poly || !poly.length) continue;
-        ctx.beginPath();
+        lc.beginPath();
         for (var j = 0; j < poly.length; j++) {
           var p = project(poly[j][1], poly[j][0]);
-          if (j === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+          if (j === 0) lc.moveTo(p.x, p.y); else lc.lineTo(p.x, p.y);
         }
-        ctx.closePath();
-        ctx.fillStyle = 'rgba(30,52,84,0.62)';
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(120,160,210,0.40)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
+        lc.closePath();
+        lc.fillStyle = 'rgba(30,52,84,0.62)';
+        lc.fill();
+        lc.strokeStyle = 'rgba(120,160,210,0.40)';
+        lc.lineWidth = 1;
+        lc.stroke();
       }
+    }
+    function drawLand() {
+      if (landCanvas) ctx.drawImage(landCanvas, 0, 0, w, h);
     }
     function drawArcs() {
       for (var i = 0; i < arcs.length; i++) {
