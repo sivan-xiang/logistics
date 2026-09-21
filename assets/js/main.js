@@ -182,11 +182,27 @@ function renderAbout() {
         <p class="about-found__desc">${x.desc}</p>
       </article>`).join("");
   }
-  const c = document.getElementById("aboutCities");
-  if (c) {
-    c.innerHTML = DATA[current].offices.map((o) =>
-      `<span class="about-presence__city">${o.city}</span>`).join("");
-  }
+}
+
+function renderHistory() {
+  const el = document.getElementById("aboutHistory");
+  if (!el) return;
+  const items = (COPY[current] && COPY[current]["about.history"]) || COPY.en["about.history"];
+  el.innerHTML = items.map((h) => `
+    <li class="timeline__item reveal">
+      <span class="timeline__year">${h.year}</span>
+      <div class="timeline__body">
+        <h3 class="timeline__title">${h.title}</h3>
+        <p class="timeline__text">${h.text}</p>
+      </div>
+    </li>`).join("");
+}
+
+function renderContactOffices() {
+  const el = document.getElementById("contactOffices");
+  if (!el) return;
+  el.innerHTML = DATA[current].offices.map((o) =>
+    `<span class="chip reveal">${o.city}</span>`).join("");
 }
 
 function renderSubsidiaries() {
@@ -230,6 +246,8 @@ function renderAll() {
   if (document.getElementById("industriesGrid")) renderIndustries();
   if (document.getElementById("whyGrid")) renderWhy();
   renderAbout();
+  renderHistory();
+  renderContactOffices();
   renderSubsidiaries();
   setActiveNav();
   applyRevealStagger();

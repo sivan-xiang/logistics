@@ -44,9 +44,16 @@
       </div>
     </section>
 
-    <section class="section section--dark">
+    <section class="section netmap-section">
       <div class="wrap">
-        <div class="offices" id="officesGrid"><!-- rendered by JS --></div>
+        <header class="section__head reveal">
+          <p class="section__eyebrow" data-i18n="network.mapEyebrow">Our global presence</p>
+          <h2 class="section__title" data-i18n="network.mapTitle">A network that reaches every market</h2>
+        </header>
+        <div class="netmap">
+          <canvas id="netmap" class="netmap__canvas" aria-hidden="true"></canvas>
+          <div class="netmap__tip" id="netmapTip" role="status" aria-live="polite"></div>
+        </div>
       </div>
     </section>
 

@@ -83,6 +83,28 @@ const COPY = {
     "about.promiseBadge": "28+ years",
     "network.subsTitle": "The Longsail network",
     "network.subsLead": "GIRAFSAIL is part of the Longsail group — 33 branches worldwide.",
+    "about.historyEyebrow": "Our journey",
+    "about.historyTitle": "Three decades of sailing forward",
+    "network.mapEyebrow": "Our global presence",
+    "network.mapTitle": "A network that reaches every market",
+    "about.history": [
+      { year: "2025", title: "New milestones", text: "Launched Sowoll & Xiaofan overseas editions; annual price checks exceeded 3 million; Shenzhen HQ moved to Runhong Building; established Beijing & Malaysia branches; shipped 600,000 TEUs in 2025." },
+      { year: "2024", title: "Global recognition", text: "Ranked among the Global Top 50 Ocean Freight Forwarders; recognised as a key enterprise in China's International Freight Forwarding Industry; SOWOLL platform inquiries approached 1 million; opened Changsha (domestic) and Saudi Arabia (overseas) branches." },
+      { year: "2023", title: "Top-tier certification", text: "Awarded 5A Logistics Enterprise by the China Federation of Logistics and Purchasing; the Dayu system rolled out globally." },
+      { year: "2022", title: "Worldwide expansion", text: "Established SAFESAIL Supply Chain, SOWOLL Chengdu branch, GIRAF Bangkok & London branches, GIRAFSAIL Hanoi branch, and the U.S. overseas warehouse." },
+      { year: "2021", title: "New subsidiaries", text: "Established LONGSAIL Supply Chain, REXPRESS and ESAN International Logistics; opened Wuhan and Nanjing branches." },
+      { year: "2020", title: "Global supply chain", text: "Established the Mexico branch; reached 25 global branches and 360,000 TEUs; annual turnover exceeded RMB 3.3 billion; refreshed our Vision & Values." },
+      { year: "2019", title: "Brand & credit", text: "Opened the Chengdu branch; launched the Xiaofan mascot; awarded AAA, the highest credit rating; established the Party branch." },
+      { year: "2018", title: "20th anniversary", text: "Celebrated 20 years in Shenzhen; launched a new logo; employees surpassed 900; founded the Employee Growth Institute." },
+      { year: "2016", title: "Going global", text: "Opened the first overseas branch in the USA; passed national ISO9001 certification." },
+      { year: "2015", title: "International strategy", text: "Adopted the international development strategy; served multiple Fortune Global 500 companies, listed firms and well-known enterprises." },
+      { year: "2011", title: "North China", text: "Opened Tianjin and Qingdao branches, entering the North China market." },
+      { year: "2010", title: "Industry recognition", text: "First listed among China's Top 50 International Freight Forwarders in Ocean Shipping, and remained on the list for twelve consecutive years." },
+      { year: "2007", title: "Leapfrog growth", text: "Opened Foshan and Shanghai branches; employees surpassed 100, beginning a leapfrog growth path." },
+      { year: "Explore", title: "The beginning", text: "Opened the first Guangzhou branch and began the journey of national business development." },
+      { year: "2000", title: "First-class forwarder", text: "Approved by China's Ministry of Commerce as a National First-Class Freight Forwarding Enterprise; joined WCA, CGLN, WFN and X2; Vice Chairman of the Shenzhen Freight Forwarding Association; among the first NVOCCs." },
+      { year: "1997", title: "Founded", text: "Established in Shenzhen with a team of four. The name LONGSAIL comes from Li Bai's poem: 'A time will come to ride the wind and cleave the waves; I'll set my cloud-like sail to cross the sea which raves.'" }
+    ],
     "contact.eyebrow": "Get in touch",
     "contact.title": "Let's move your cargo",
     "contact.lead": "Tell us about your shipment. One email, one call — we build the plan.",
@@ -163,13 +185,35 @@ const COPY = {
     "about.eyebrow": "我们的故事",
     "about.title": "长帆国际物流旗下全球子品牌",
     "about.lead": "GIRAFSAIL 是长帆国际物流股份有限公司旗下的国际物流子品牌——致力于让跨境贸易更简单、透明、高效。",
-    "about.story": "依托长帆 AAAAA 级资质、覆盖全球 39 家分支机构的网络，以及自主研发的索威尔（Sowoll）IT 平台，GIRAFSAIL 将复杂的跨境贸易化为简单可靠的方案——在各大核心枢纽均设有本地团队。",
+    "about.story": "依托长帆 AAAAA 级资质、覆盖全球 33 家分支机构的网络，以及自主研发的索威尔（Sowoll）IT 平台，GIRAFSAIL 将复杂的跨境贸易化为简单可靠的方案——在各大核心枢纽均设有本地团队。",
     "about.presenceLabel": "本地团队已设立于",
     "about.promiseTitle": "专业高效的服务",
     "about.promise": "一个电话或一封邮件，我们的团队便凭借 28 年专业经验，为您量身定制最合适的物流方案，提供高效、稳定、专业的服务。",
     "about.promiseBadge": "28 年专业经验",
     "network.subsTitle": "长帆集团网络",
     "network.subsLead": "GIRAFSAIL 隶属长帆集团，全球拥有 33 家分支机构。",
+    "about.historyEyebrow": "发展历程",
+    "about.historyTitle": "三十载乘风破浪",
+    "network.mapEyebrow": "全球布局",
+    "network.mapTitle": "连接每一个市场的服务网络",
+    "about.history": [
+      { year: "2025", title: "新的里程碑", text: "上线索威尔（Sowoll）与“小帆”海外版；年度询价超 300 万次；深圳总部乔迁润弘大厦；设立北京与马来西亚分公司；2025 年集装箱运量达 60 万 TEU。" },
+      { year: "2024", title: "走向全球前列", text: "跻身全球海运货代 50 强；入选中国国际货代行业重点企业；索威尔平台年查询量近 100 万次；设立长沙（国内）与沙特（海外）分公司。" },
+      { year: "2023", title: "顶级资质认证", text: "获中国物流与采购联合会授予 5A 级物流企业；“大禹”系统全球上线。" },
+      { year: "2022", title: "全球版图扩张", text: "成立赛孚供应链、索威尔成都分公司、GIRAF 曼谷与伦敦分公司、GIRAFSAIL 河内分公司，美国海外仓正式投用。" },
+      { year: "2021", title: "新设多家子公司", text: "成立长帆供应链、睿速（REXPRESS）与易三（ESAN）国际物流；设立武汉、南京分公司。" },
+      { year: "2020", title: "全球供应链成型", text: "设立墨西哥分公司；全球分支机构达 25 家、年集装箱运量 36 万 TEU、年营收超 33 亿元；升级企业愿景与价值观。" },
+      { year: "2019", title: "品牌与信用", text: "设立成都分公司；诞生长帆吉祥物“小帆”；获评全信联最高信用等级 AAA；成立长帆党支部。" },
+      { year: "2018", title: "成立二十周年", text: "在深圳隆重庆祝成立 20 周年；发布全新品牌标识；员工数突破 900 人；成立长帆员工成长学院。" },
+      { year: "2016", title: "扬帆出海", text: "设立首个海外（美国）分公司；通过国家 ISO9001 体系认证。" },
+      { year: "2015", title: "国际化战略", text: "提出国际化发展战略；为多家世界 500 强、上市公司及知名企业提供物流服务。" },
+      { year: "2011", title: "布局华北", text: "设立天津、青岛分公司，打开华北市场。" },
+      { year: "2010", title: "行业认可", text: "首次跻身中国海运货代 50 强，并连续十二年上榜。" },
+      { year: "2007", title: "跨越式增长", text: "设立佛山、上海分公司，完成华南与华东布局；员工数突破 100 人。" },
+      { year: "探索期", title: "创业之初", text: "设立首个广州分公司，积极拓展业务版图，开启全国化发展的征程。" },
+      { year: "2000", title: "一级货代资质", text: "获原外经贸部批准为国家一级货运代理企业；加入 WCA、CGLN、WFN、X2 等全球物流联盟；任深圳市货代协会副会长单位，并跻身首批无船承运人（NVOCC）。" },
+      { year: "1997", title: "扬帆起航", text: "在深圳正式成立，专注综合第三方物流。公司名“LONGSAIL”取自李白诗句“长风破浪会有时，直挂云帆济沧海”。四人的小团队由此启航。" }
+    ],
     "contact.eyebrow": "联系我们",
     "contact.title": "让您的货物动起来",
     "contact.lead": "告诉我们您的运输需求，一封邮件、一个电话，方案由我们构建。",
@@ -254,13 +298,17 @@ const DATA = {
       { num: "04", title: "Deliver & Support", desc: "Local teams clear, deliver and stay on for after-sales support." }
     ],
     offices: [
-      { city: "Mexico City", country: "Mexico" },
+      { city: "Bangkok", country: "Thailand" },
+      { city: "Hanoi", country: "Vietnam" },
+      { city: "Ho Chi Minh City", country: "Vietnam" },
+      { city: "Klang (Malaysia)", country: "Malaysia" },
+      { city: "Singapore", country: "Singapore" },
       { city: "London", country: "United Kingdom" },
       { city: "Hamburg", country: "Germany" },
-      { city: "Ho Chi Minh City", country: "Vietnam" },
-      { city: "Hanoi", country: "Vietnam" },
-      { city: "Bangkok", country: "Thailand" },
-      { city: "Riyadh", country: "Saudi Arabia" }
+      { city: "Los Angeles", country: "United States" },
+      { city: "Mexico City", country: "Mexico" },
+      { city: "Riyadh", country: "Saudi Arabia" },
+      { city: "Casablanca", country: "Morocco" }
     ],
     industries: [
       "New Energy", "Telecom Equipment", "Automotive Parts",
@@ -274,52 +322,52 @@ const DATA = {
     ],
     aboutFoundations: [
       { icon: "grade", title: "AAAAA-level qualification", desc: "Top-tier national logistics certification behind every shipment." },
-      { icon: "local", title: "39 global branches", desc: "Owned offices and local teams across the world's key markets." },
+      { icon: "local", title: "33 global branches", desc: "Owned offices and local teams across the world's key markets." },
       { icon: "platform", title: "Self-developed IT platform", desc: "A proprietary system connects every node for full visibility." }
     ],
     subsidiaries: [
-      { region: "Greater China", items: [
-        { city: "Shenzhen", address: "6th Floor, T2, Runhong Building, No. 75 Meiyuan Road, Sunxi Community, Sungang Sub-district, Luohu District, Shenzhen City, P.R. China", phone: "0755-25916717", email: "info@giraf-logistics.com" },
-        { city: "Shanghai", address: "Room 1001-1002, Floor 10, WanShuo Building, No. 198 JingZhou Road, Yangpu District, Shanghai, China.", phone: "021-36035663", email: "info@giraf-logistics.com" },
-        { city: "Ningbo", address: "Rm 10-1, Yin Yi Times Square, #8 Lengjing Street, Haishu District, Ningbo", phone: "0574-87322632", email: "info@giraf-logistics.com" },
-        { city: "Tianjin", address: "Furun Center, Unit 1-2807, Southwest corner of the intersection of Jiangxi Road and Hefei Road, Hesi District, Tianjin", phone: "022-58922320-817", email: "info@giraf-logistics.com" },
-        { city: "Qingdao", address: "601, Noble Plaza Building, No. 328, Dunhua Road, Shibei District, Qingdao", phone: "0532-66006285", email: "info@giraf-logistics.com" },
-        { city: "Hefei", address: "Rm 1821, Block B, WEILAN BUSINESS PORT, No. 188 South Qianshan Road, Hefei, China", phone: "0551-65952871", email: "info@giraf-logistics.com" },
-        { city: "Xiamen", address: "Unit 304-305, Building 1, 22 Huli Avenue, Huli District, Xiamen, China.", phone: "0592-2639079", email: "info@giraf-logistics.com" },
-        { city: "Foshan", address: "Room 3303, Block 2, No. 57, Jihua 5th Road, Zumiao Street, Chancheng District, Foshan, China", phone: "0757-82902043", email: "info@giraf-logistics.com" },
-        { city: "Shunde", address: "Room E9, 5th Floor, XinJi Times Square, QingHui Road, ShunDe District, Foshan, Guangdong", phone: "0757-22225990", email: "info@giraf-logistics.com" },
-        { city: "Guangzhou", address: "Unit 1509, Nanfeng Hui, No. 620 Xingang East Road, Haizhu District, Guangzhou, China", phone: "020-87681663", email: "info@giraf-logistics.com" },
-        { city: "Zhongshan", address: "2503 Lihe Commercial Center, Dongqu Street, Zhongshan City, Guangdong Province, China", phone: "0760-88366212", email: "info@giraf-logistics.com" },
-        { city: "Dongguan", address: "Unit 1313, Building 18, Dongguan Vanke Star of East River, Wanjiang District, Dongguan, China.", phone: "0769-22881989", email: "info@giraf-logistics.com" },
-        { city: "Jiangmen", address: "Room 2019-2020, Building B, Wanda Plaza, Pengjiang District, Jiangmen, Guangdong", phone: "0750-3850105", email: "info@giraf-logistics.com" },
-        { city: "Huizhou", address: "Room 1408, Jiangbei Dewei Building, No. 4 Jiangbei Yunshan West Road, Huicheng District, Huizhou, Guangdong", phone: "0752-2029699", email: "info@giraf-logistics.com" },
-        { city: "Shantou", address: "Rm. 1320, North Tower, Bainaohui Plaza, Changping Rd., Shantou, China.", phone: "0754-81880611", email: "info@giraf-logistics.com" },
-        { city: "Zhuhai", address: "Room 509, JianAn Building, No. 113, First Street of Cui Qian Bei Road, Xiangzhou District, Zhuhai, China", phone: "0756-8532612", email: "info@giraf-logistics.com" },
-        { city: "Wuhan", address: "2203-2204, Block F, Modern Optics Valley World Trade Center, Wuhan City, Hubei Province", phone: "027-87003602", email: "info@giraf-logistics.com" },
-        { city: "Nanjing", address: "Room 1603, 16F, Friendship Square, 27 Hanzhong Road, Qinhuai District, Nanjing, Jiangsu Province", phone: "025-88802510", email: "info@giraf-logistics.com" },
-        { city: "Chengdu", address: "1018, 10th Floor, Building E3, Global Center, No. 1700 North Tianfu Avenue, High-tech Zone, Chengdu, Sichuan", phone: "028-83368208", email: "info@giraf-logistics.com" },
-        { city: "Changsha", address: "Room 2106, 21st Floor, Building 1, Meixi Yuezhang, No. 1067 Fenglin 3rd Road, Lugu Street, Yuelu District, Changsha", phone: "+86 15813592080", email: "info@giraf-logistics.com" },
-        { city: "Beijing", address: "Room 1505, Tower A, Rongke Wangjing Center, Wangjing Subdistrict, Chaoyang District, Beijing, China", phone: "", email: "info@giraf-logistics.com" },
-        { city: "Chongqing", address: "Room 2509, T2, Jianguo Center, Jiangbeizui, Jiangbei District, Chongqing", phone: "", email: "info@giraf-logistics.com" }
-      ] },
       { region: "Southeast Asia", items: [
-        { city: "Bangkok", address: "Room No. 32/37 15th Floor Zone A Unit B Sino-Thai Tower, Sukhumvit 21 Rd (Asok), Klongtoey, Nua, Wattana, Bangkok 10110", phone: "+66 2 163 4397", email: "info@giraf-logistics.com" },
-        { city: "Hanoi", address: "9th Fl, No. 1, Lane 19, Duy Tan Street, Dich Vong Hau Ward, Cau Giay District, Ha Noi", phone: "+84 778284888", email: "info@giraf-logistics.com" },
-        { city: "Ho Chi Minh City", address: "4th Floor, 2-2B Lam Son, Tan Son Hoa Ward, Ho Chi Minh City, Vietnam", phone: "+84 28 36228118", email: "info@giraf-logistics.com" },
-        { city: "Klang (Malaysia)", address: "Unit 12-G, Level 12, Top Glove Tower, No. 16, Persiaran Setia Dagang, Bandar Setia Alam, 40170 Shah Alam, Selangor.", phone: "", email: "info@giraf-logistics.com" },
-        { city: "Singapore", address: "60 Paya Lebar Road #11-53 Paya Lebar Square, Singapore 409051", phone: "", email: "info@giraf-logistics.com" }
+        { city: "Bangkok", address: "Room No. 32/37 15th Floor Zone A Unit B Sino-Thai Tower, Sukhumvit 21 Rd (Asok), Klongtoey, Nua, Wattana, Bangkok 10110", phone: "+66 2 163 4397", email: "" , lat: 13.756, lon: 100.502 },
+        { city: "Hanoi", address: "9th Fl, No. 1, Lane 19, Duy Tan Street, Dich Vong Hau Ward, Cau Giay District, Ha Noi", phone: "+84 778284888", email: "" , lat: 21.028, lon: 105.834 },
+        { city: "Ho Chi Minh City", address: "4th Floor, 2-2B Lam Son, Tan Son Hoa Ward, Ho Chi Minh City, Vietnam", phone: "+84 28 36228118", email: "" , lat: 10.823, lon: 106.63 },
+        { city: "Klang (Malaysia)", address: "Unit 12-G, Level 12, Top Glove Tower, No. 16, Persiaran Setia Dagang, Bandar Setia Alam, 40170 Shah Alam, Selangor.", phone: "", email: "" , lat: 3.044, lon: 101.447 },
+        { city: "Singapore", address: "60 Paya Lebar Road #11-53 Paya Lebar Square, Singapore 409051", phone: "", email: "" , lat: 1.352, lon: 103.82 }
       ] },
       { region: "Europe", items: [
-        { city: "London", address: "Airivo Chiswick Gable House, 18-24 Turnham Green Terrace, Chiswick, London W4 1QP", phone: "+44 790 4077141", email: "info@giraf-logistics.com" },
-        { city: "Hamburg", address: "Hamburger Str. 11, 22083 Hamburg, Germany", phone: "+49 40 822178905", email: "info@giraf-logistics.com" }
+        { city: "London", address: "Airivo Chiswick Gable House, 18-24 Turnham Green Terrace, Chiswick, London W4 1QP", phone: "+44 790 4077141", email: "" , lat: 51.507, lon: -0.128 },
+        { city: "Hamburg", address: "Hamburger Str. 11, 22083 Hamburg, Germany", phone: "+49 40 822178905", email: "" , lat: 53.551, lon: 9.994 }
       ] },
       { region: "Americas", items: [
-        { city: "Los Angeles", address: "14750 Nelson Ave, Unit H, City of Industry, CA 91744", phone: "+1 626-386-8828", email: "info@giraf-logistics.com" },
-        { city: "Mexico City", address: "Hamburgo 206 piso 3 oficina 301, Colonia Juarez, alcaldia Cuauhtemoc, CP 06600, Ciudad de Mexico", phone: "+52 5524865705", email: "info@giraf-logistics.com" }
+        { city: "Los Angeles", address: "14750 Nelson Ave, Unit H, City of Industry, CA 91744", phone: "+1 626-386-8828", email: "" , lat: 34.052, lon: -118.244 },
+        { city: "Mexico City", address: "Hamburgo 206 piso 3 oficina 301, Colonia Juarez, alcaldia Cuauhtemoc, CP 06600, Ciudad de Mexico", phone: "+52 5524865705", email: "" , lat: 19.433, lon: -99.133 }
       ] },
       { region: "Middle East & Africa", items: [
-        { city: "Riyadh", address: "6719 Wadi Al Thumamah, Sahafah, Riyadh City, Saudi Arabia", phone: "", email: "info@giraf-logistics.com" },
-        { city: "Casablanca", address: "Angle Boulevard Moulay Ismail et Boulevard Balti Mohamed ben Mekki, Ain Sebaa, Casablanca, Morocco", phone: "", email: "info@giraf-logistics.com" }
+        { city: "Riyadh", address: "6719 Wadi Al Thumamah, Sahafah, Riyadh City, Saudi Arabia", phone: "", email: "" , lat: 24.714, lon: 46.675 },
+        { city: "Casablanca", address: "Angle Boulevard Moulay Ismail et Boulevard Balti Mohamed ben Mekki, Ain Sebaa, Casablanca, Morocco", phone: "", email: "" , lat: 33.573, lon: -7.59 }
+      ] },
+      { region: "Greater China", items: [
+        { city: "Shenzhen", address: "6th Floor, T2, Runhong Building, No. 75 Meiyuan Road, Sunxi Community, Sungang Sub-district, Luohu District, Shenzhen City, P.R. China", phone: "0755-25916717", email: "" , lat: 22.543, lon: 114.058 },
+        { city: "Shanghai", address: "Room 1001-1002, Floor 10, WanShuo Building, No. 198 JingZhou Road, Yangpu District, Shanghai, China.", phone: "021-36035663", email: "" , lat: 31.23, lon: 121.474 },
+        { city: "Ningbo", address: "Rm 10-1, Yin Yi Times Square, #8 Lengjing Street, Haishu District, Ningbo", phone: "0574-87322632", email: "" , lat: 29.868, lon: 121.544 },
+        { city: "Tianjin", address: "Furun Center, Unit 1-2807, Southwest corner of the intersection of Jiangxi Road and Hefei Road, Hesi District, Tianjin", phone: "022-58922320-817", email: "" , lat: 39.343, lon: 117.362 },
+        { city: "Qingdao", address: "601, Noble Plaza Building, No. 328, Dunhua Road, Shibei District, Qingdao", phone: "0532-66006285", email: "" , lat: 36.067, lon: 120.383 },
+        { city: "Hefei", address: "Rm 1821, Block B, WEILAN BUSINESS PORT, No. 188 South Qianshan Road, Hefei, China", phone: "0551-65952871", email: "" , lat: 31.821, lon: 117.227 },
+        { city: "Xiamen", address: "Unit 304-305, Building 1, 22 Huli Avenue, Huli District, Xiamen, China.", phone: "0592-2639079", email: "" , lat: 24.48, lon: 118.089 },
+        { city: "Foshan", address: "Room 3303, Block 2, No. 57, Jihua 5th Road, Zumiao Street, Chancheng District, Foshan, China", phone: "0757-82902043", email: "" , lat: 23.022, lon: 113.122 },
+        { city: "Shunde", address: "Room E9, 5th Floor, XinJi Times Square, QingHui Road, ShunDe District, Foshan, Guangdong", phone: "0757-22225990", email: "" , lat: 22.84, lon: 113.25 },
+        { city: "Guangzhou", address: "Unit 1509, Nanfeng Hui, No. 620 Xingang East Road, Haizhu District, Guangzhou, China", phone: "020-87681663", email: "" , lat: 23.129, lon: 113.264 },
+        { city: "Zhongshan", address: "2503 Lihe Commercial Center, Dongqu Street, Zhongshan City, Guangdong Province, China", phone: "0760-88366212", email: "" , lat: 22.517, lon: 113.393 },
+        { city: "Dongguan", address: "Unit 1313, Building 18, Dongguan Vanke Star of East River, Wanjiang District, Dongguan, China.", phone: "0769-22881989", email: "" , lat: 23.021, lon: 113.752 },
+        { city: "Jiangmen", address: "Room 2019-2020, Building B, Wanda Plaza, Pengjiang District, Jiangmen, Guangdong", phone: "0750-3850105", email: "" , lat: 22.579, lon: 113.082 },
+        { city: "Huizhou", address: "Room 1408, Jiangbei Dewei Building, No. 4 Jiangbei Yunshan West Road, Huicheng District, Huizhou, Guangdong", phone: "0752-2029699", email: "" , lat: 23.112, lon: 114.415 },
+        { city: "Shantou", address: "Rm. 1320, North Tower, Bainaohui Plaza, Changping Rd., Shantou, China.", phone: "0754-81880611", email: "" , lat: 23.355, lon: 116.682 },
+        { city: "Zhuhai", address: "Room 509, JianAn Building, No. 113, First Street of Cui Qian Bei Road, Xiangzhou District, Zhuhai, China", phone: "0756-8532612", email: "" , lat: 22.271, lon: 113.577 },
+        { city: "Wuhan", address: "2203-2204, Block F, Modern Optics Valley World Trade Center, Wuhan City, Hubei Province", phone: "027-87003602", email: "" , lat: 30.593, lon: 114.306 },
+        { city: "Nanjing", address: "Room 1603, 16F, Friendship Square, 27 Hanzhong Road, Qinhuai District, Nanjing, Jiangsu Province", phone: "025-88802510", email: "" , lat: 32.06, lon: 118.797 },
+        { city: "Chengdu", address: "1018, 10th Floor, Building E3, Global Center, No. 1700 North Tianfu Avenue, High-tech Zone, Chengdu, Sichuan", phone: "028-83368208", email: "" , lat: 30.573, lon: 104.067 },
+        { city: "Changsha", address: "Room 2106, 21st Floor, Building 1, Meixi Yuezhang, No. 1067 Fenglin 3rd Road, Lugu Street, Yuelu District, Changsha", phone: "+86 15813592080", email: "" , lat: 28.228, lon: 112.939 },
+        { city: "Beijing", address: "Room 1505, Tower A, Rongke Wangjing Center, Wangjing Subdistrict, Chaoyang District, Beijing, China", phone: "", email: "" , lat: 39.904, lon: 116.407 },
+        { city: "Chongqing", address: "Room 2509, T2, Jianguo Center, Jiangbeizui, Jiangbei District, Chongqing", phone: "", email: "" , lat: 29.563, lon: 106.551 }
       ] }
     ]
   },
@@ -390,20 +438,24 @@ const DATA = {
       { num: "04", title: "交付与支持", desc: "本地团队负责清关、派送，并提供售后支持。" }
     ],
     offices: [
-      { city: "墨西哥城", country: "墨西哥" },
+      { city: "曼谷", country: "泰国" },
+      { city: "河内", country: "越南" },
+      { city: "胡志明市", country: "越南" },
+      { city: "巴生港（马来西亚）", country: "马来西亚" },
+      { city: "新加坡", country: "新加坡" },
       { city: "伦敦", country: "英国" },
       { city: "汉堡", country: "德国" },
-      { city: "胡志明市", country: "越南" },
-      { city: "河内", country: "越南" },
-      { city: "曼谷", country: "泰国" },
-      { city: "利雅得", country: "沙特阿拉伯" }
+      { city: "洛杉矶", country: "美国" },
+      { city: "墨西哥城", country: "墨西哥" },
+      { city: "利雅得", country: "沙特阿拉伯" },
+      { city: "卡萨布兰卡", country: "摩洛哥" }
     ],
     industries: [
       "新能源", "通讯设备", "汽车汽配",
       "智能家居", "工程机械", "化工", "EPC"
     ],
     why: [
-      { icon: "grade", title: "AAAAA 级网络", desc: "依托长帆顶级资质与全球 39 家分支机构的实力。" },
+      { icon: "grade", title: "AAAAA 级网络", desc: "依托长帆顶级资质与全球 33 家分支机构的实力。" },
       { icon: "platform", title: "自主研发 IT 平台", desc: "自研系统连接每个节点，服务透明高效。" },
       { icon: "experience", title: "28 年专业经验", desc: "资深团队将复杂贸易转化为简单可靠的方案。" },
       { icon: "local", title: "本地化 + 全球化", desc: "在每一个重点市场提供本地合规与敏捷响应。" }
@@ -414,49 +466,49 @@ const DATA = {
       { icon: "platform", title: "自主研发 IT 平台", desc: "自研系统连接每个节点，全程可视透明。" }
     ],
       subsidiaries: [
-        { region: "大中华区", items: [
-          { city: "深圳", address: "6th Floor, T2, Runhong Building, No. 75 Meiyuan Road, Sunxi Community, Sungang Sub-district, Luohu District, Shenzhen City, P.R. China", phone: "0755-25916717", email: "info@giraf-logistics.com" },
-          { city: "上海", address: "Room 1001-1002, Floor 10, WanShuo Building, No. 198 JingZhou Road, Yangpu District, Shanghai, China.", phone: "021-36035663", email: "info@giraf-logistics.com" },
-          { city: "宁波", address: "Rm 10-1, Yin Yi Times Square, #8 Lengjing Street, Haishu District, Ningbo", phone: "0574-87322632", email: "info@giraf-logistics.com" },
-          { city: "天津", address: "Furun Center, Unit 1-2807, Southwest corner of the intersection of Jiangxi Road and Hefei Road, Hesi District, Tianjin", phone: "022-58922320-817", email: "info@giraf-logistics.com" },
-          { city: "青岛", address: "601, Noble Plaza Building, No. 328, Dunhua Road, Shibei District, Qingdao", phone: "0532-66006285", email: "info@giraf-logistics.com" },
-          { city: "合肥", address: "Rm 1821, Block B, WEILAN BUSINESS PORT, No. 188 South Qianshan Road, Hefei, China", phone: "0551-65952871", email: "info@giraf-logistics.com" },
-          { city: "厦门", address: "Unit 304-305, Building 1, 22 Huli Avenue, Huli District, Xiamen, China.", phone: "0592-2639079", email: "info@giraf-logistics.com" },
-          { city: "佛山", address: "Room 3303, Block 2, No. 57, Jihua 5th Road, Zumiao Street, Chancheng District, Foshan, China", phone: "0757-82902043", email: "info@giraf-logistics.com" },
-          { city: "顺德", address: "Room E9, 5th Floor, XinJi Times Square, QingHui Road, ShunDe District, Foshan, Guangdong", phone: "0757-22225990", email: "info@giraf-logistics.com" },
-          { city: "广州", address: "Unit 1509, Nanfeng Hui, No. 620 Xingang East Road, Haizhu District, Guangzhou, China", phone: "020-87681663", email: "info@giraf-logistics.com" },
-          { city: "中山", address: "2503 Lihe Commercial Center, Dongqu Street, Zhongshan City, Guangdong Province, China", phone: "0760-88366212", email: "info@giraf-logistics.com" },
-          { city: "东莞", address: "Unit 1313, Building 18, Dongguan Vanke Star of East River, Wanjiang District, Dongguan, China.", phone: "0769-22881989", email: "info@giraf-logistics.com" },
-          { city: "江门", address: "Room 2019-2020, Building B, Wanda Plaza, Pengjiang District, Jiangmen, Guangdong", phone: "0750-3850105", email: "info@giraf-logistics.com" },
-          { city: "惠州", address: "Room 1408, Jiangbei Dewei Building, No. 4 Jiangbei Yunshan West Road, Huicheng District, Huizhou, Guangdong", phone: "0752-2029699", email: "info@giraf-logistics.com" },
-          { city: "汕头", address: "Rm. 1320, North Tower, Bainaohui Plaza, Changping Rd., Shantou, China.", phone: "0754-81880611", email: "info@giraf-logistics.com" },
-          { city: "珠海", address: "Room 509, JianAn Building, No. 113, First Street of Cui Qian Bei Road, Xiangzhou District, Zhuhai, China", phone: "0756-8532612", email: "info@giraf-logistics.com" },
-          { city: "武汉", address: "2203-2204, Block F, Modern Optics Valley World Trade Center, Wuhan City, Hubei Province", phone: "027-87003602", email: "info@giraf-logistics.com" },
-          { city: "南京", address: "Room 1603, 16F, Friendship Square, 27 Hanzhong Road, Qinhuai District, Nanjing, Jiangsu Province", phone: "025-88802510", email: "info@giraf-logistics.com" },
-          { city: "成都", address: "1018, 10th Floor, Building E3, Global Center, No. 1700 North Tianfu Avenue, High-tech Zone, Chengdu, Sichuan", phone: "028-83368208", email: "info@giraf-logistics.com" },
-          { city: "长沙", address: "Room 2106, 21st Floor, Building 1, Meixi Yuezhang, No. 1067 Fenglin 3rd Road, Lugu Street, Yuelu District, Changsha", phone: "+86 15813592080", email: "info@giraf-logistics.com" },
-          { city: "北京", address: "Room 1505, Tower A, Rongke Wangjing Center, Wangjing Subdistrict, Chaoyang District, Beijing, China", phone: "", email: "info@giraf-logistics.com" },
-          { city: "重庆", address: "Room 2509, T2, Jianguo Center, Jiangbeizui, Jiangbei District, Chongqing", phone: "", email: "info@giraf-logistics.com" }
-        ] },
         { region: "东南亚", items: [
-          { city: "曼谷", address: "Room No. 32/37 15th Floor Zone A Unit B Sino-Thai Tower, Sukhumvit 21 Rd (Asok), Klongtoey, Nua, Wattana, Bangkok 10110", phone: "+66 2 163 4397", email: "info@giraf-logistics.com" },
-          { city: "河内", address: "9th Fl, No. 1, Lane 19, Duy Tan Street, Dich Vong Hau Ward, Cau Giay District, Ha Noi", phone: "+84 778284888", email: "info@giraf-logistics.com" },
-          { city: "胡志明市", address: "4th Floor, 2-2B Lam Son, Tan Son Hoa Ward, Ho Chi Minh City, Vietnam", phone: "+84 28 36228118", email: "info@giraf-logistics.com" },
-          { city: "巴生港（马来西亚）", address: "Unit 12-G, Level 12, Top Glove Tower, No. 16, Persiaran Setia Dagang, Bandar Setia Alam, 40170 Shah Alam, Selangor.", phone: "", email: "info@giraf-logistics.com" },
-          { city: "新加坡", address: "60 Paya Lebar Road #11-53 Paya Lebar Square, Singapore 409051", phone: "", email: "info@giraf-logistics.com" }
+          { city: "曼谷", address: "Room No. 32/37 15th Floor Zone A Unit B Sino-Thai Tower, Sukhumvit 21 Rd (Asok), Klongtoey, Nua, Wattana, Bangkok 10110", phone: "+66 2 163 4397", email: "" , lat: 13.756, lon: 100.502 },
+          { city: "河内", address: "9th Fl, No. 1, Lane 19, Duy Tan Street, Dich Vong Hau Ward, Cau Giay District, Ha Noi", phone: "+84 778284888", email: "" , lat: 21.028, lon: 105.834 },
+          { city: "胡志明市", address: "4th Floor, 2-2B Lam Son, Tan Son Hoa Ward, Ho Chi Minh City, Vietnam", phone: "+84 28 36228118", email: "" , lat: 10.823, lon: 106.63 },
+          { city: "巴生港（马来西亚）", address: "Unit 12-G, Level 12, Top Glove Tower, No. 16, Persiaran Setia Dagang, Bandar Setia Alam, 40170 Shah Alam, Selangor.", phone: "", email: "" , lat: 3.044, lon: 101.447 },
+          { city: "新加坡", address: "60 Paya Lebar Road #11-53 Paya Lebar Square, Singapore 409051", phone: "", email: "" , lat: 1.352, lon: 103.82 }
         ] },
         { region: "欧洲", items: [
-          { city: "伦敦", address: "Airivo Chiswick Gable House, 18-24 Turnham Green Terrace, Chiswick, London W4 1QP", phone: "+44 790 4077141", email: "info@giraf-logistics.com" },
-          { city: "汉堡", address: "Hamburger Str. 11, 22083 Hamburg, Germany", phone: "+49 40 822178905", email: "info@giraf-logistics.com" }
+          { city: "伦敦", address: "Airivo Chiswick Gable House, 18-24 Turnham Green Terrace, Chiswick, London W4 1QP", phone: "+44 790 4077141", email: "" , lat: 51.507, lon: -0.128 },
+          { city: "汉堡", address: "Hamburger Str. 11, 22083 Hamburg, Germany", phone: "+49 40 822178905", email: "" , lat: 53.551, lon: 9.994 }
         ] },
         { region: "美洲", items: [
-          { city: "洛杉矶", address: "14750 Nelson Ave, Unit H, City of Industry, CA 91744", phone: "+1 626-386-8828", email: "info@giraf-logistics.com" },
-          { city: "墨西哥城", address: "Hamburgo 206 piso 3 oficina 301, Colonia Juarez, alcaldia Cuauhtemoc, CP 06600, Ciudad de Mexico", phone: "+52 5524865705", email: "info@giraf-logistics.com" }
+          { city: "洛杉矶", address: "14750 Nelson Ave, Unit H, City of Industry, CA 91744", phone: "+1 626-386-8828", email: "" , lat: 34.052, lon: -118.244 },
+          { city: "墨西哥城", address: "Hamburgo 206 piso 3 oficina 301, Colonia Juarez, alcaldia Cuauhtemoc, CP 06600, Ciudad de Mexico", phone: "+52 5524865705", email: "" , lat: 19.433, lon: -99.133 }
         ] },
         { region: "中东与非洲", items: [
-          { city: "利雅得", address: "6719 Wadi Al Thumamah, Sahafah, Riyadh City, Saudi Arabia", phone: "", email: "info@giraf-logistics.com" },
-          { city: "卡萨布兰卡", address: "Angle Boulevard Moulay Ismail et Boulevard Balti Mohamed ben Mekki, Ain Sebaa, Casablanca, Morocco", phone: "", email: "info@giraf-logistics.com" }
+          { city: "利雅得", address: "6719 Wadi Al Thumamah, Sahafah, Riyadh City, Saudi Arabia", phone: "", email: "" , lat: 24.714, lon: 46.675 },
+          { city: "卡萨布兰卡", address: "Angle Boulevard Moulay Ismail et Boulevard Balti Mohamed ben Mekki, Ain Sebaa, Casablanca, Morocco", phone: "", email: "" , lat: 33.573, lon: -7.59 }
+        ] },
+        { region: "大中华区", items: [
+          { city: "深圳", address: "6th Floor, T2, Runhong Building, No. 75 Meiyuan Road, Sunxi Community, Sungang Sub-district, Luohu District, Shenzhen City, P.R. China", phone: "0755-25916717", email: "" , lat: 22.543, lon: 114.058 },
+          { city: "上海", address: "Room 1001-1002, Floor 10, WanShuo Building, No. 198 JingZhou Road, Yangpu District, Shanghai, China.", phone: "021-36035663", email: "" , lat: 31.23, lon: 121.474 },
+          { city: "宁波", address: "Rm 10-1, Yin Yi Times Square, #8 Lengjing Street, Haishu District, Ningbo", phone: "0574-87322632", email: "" , lat: 29.868, lon: 121.544 },
+          { city: "天津", address: "Furun Center, Unit 1-2807, Southwest corner of the intersection of Jiangxi Road and Hefei Road, Hesi District, Tianjin", phone: "022-58922320-817", email: "" , lat: 39.343, lon: 117.362 },
+          { city: "青岛", address: "601, Noble Plaza Building, No. 328, Dunhua Road, Shibei District, Qingdao", phone: "0532-66006285", email: "" , lat: 36.067, lon: 120.383 },
+          { city: "合肥", address: "Rm 1821, Block B, WEILAN BUSINESS PORT, No. 188 South Qianshan Road, Hefei, China", phone: "0551-65952871", email: "" , lat: 31.821, lon: 117.227 },
+          { city: "厦门", address: "Unit 304-305, Building 1, 22 Huli Avenue, Huli District, Xiamen, China.", phone: "0592-2639079", email: "" , lat: 24.48, lon: 118.089 },
+          { city: "佛山", address: "Room 3303, Block 2, No. 57, Jihua 5th Road, Zumiao Street, Chancheng District, Foshan, China", phone: "0757-82902043", email: "" , lat: 23.022, lon: 113.122 },
+          { city: "顺德", address: "Room E9, 5th Floor, XinJi Times Square, QingHui Road, ShunDe District, Foshan, Guangdong", phone: "0757-22225990", email: "" , lat: 22.84, lon: 113.25 },
+          { city: "广州", address: "Unit 1509, Nanfeng Hui, No. 620 Xingang East Road, Haizhu District, Guangzhou, China", phone: "020-87681663", email: "" , lat: 23.129, lon: 113.264 },
+          { city: "中山", address: "2503 Lihe Commercial Center, Dongqu Street, Zhongshan City, Guangdong Province, China", phone: "0760-88366212", email: "" , lat: 22.517, lon: 113.393 },
+          { city: "东莞", address: "Unit 1313, Building 18, Dongguan Vanke Star of East River, Wanjiang District, Dongguan, China.", phone: "0769-22881989", email: "" , lat: 23.021, lon: 113.752 },
+          { city: "江门", address: "Room 2019-2020, Building B, Wanda Plaza, Pengjiang District, Jiangmen, Guangdong", phone: "0750-3850105", email: "" , lat: 22.579, lon: 113.082 },
+          { city: "惠州", address: "Room 1408, Jiangbei Dewei Building, No. 4 Jiangbei Yunshan West Road, Huicheng District, Huizhou, Guangdong", phone: "0752-2029699", email: "" , lat: 23.112, lon: 114.415 },
+          { city: "汕头", address: "Rm. 1320, North Tower, Bainaohui Plaza, Changping Rd., Shantou, China.", phone: "0754-81880611", email: "" , lat: 23.355, lon: 116.682 },
+          { city: "珠海", address: "Room 509, JianAn Building, No. 113, First Street of Cui Qian Bei Road, Xiangzhou District, Zhuhai, China", phone: "0756-8532612", email: "" , lat: 22.271, lon: 113.577 },
+          { city: "武汉", address: "2203-2204, Block F, Modern Optics Valley World Trade Center, Wuhan City, Hubei Province", phone: "027-87003602", email: "" , lat: 30.593, lon: 114.306 },
+          { city: "南京", address: "Room 1603, 16F, Friendship Square, 27 Hanzhong Road, Qinhuai District, Nanjing, Jiangsu Province", phone: "025-88802510", email: "" , lat: 32.06, lon: 118.797 },
+          { city: "成都", address: "1018, 10th Floor, Building E3, Global Center, No. 1700 North Tianfu Avenue, High-tech Zone, Chengdu, Sichuan", phone: "028-83368208", email: "" , lat: 30.573, lon: 104.067 },
+          { city: "长沙", address: "Room 2106, 21st Floor, Building 1, Meixi Yuezhang, No. 1067 Fenglin 3rd Road, Lugu Street, Yuelu District, Changsha", phone: "+86 15813592080", email: "" , lat: 28.228, lon: 112.939 },
+          { city: "北京", address: "Room 1505, Tower A, Rongke Wangjing Center, Wangjing Subdistrict, Chaoyang District, Beijing, China", phone: "", email: "" , lat: 39.904, lon: 116.407 },
+          { city: "重庆", address: "Room 2509, T2, Jianguo Center, Jiangbeizui, Jiangbei District, Chongqing", phone: "", email: "" , lat: 29.563, lon: 106.551 }
         ] }
-      ]
+    ]
   }
 };

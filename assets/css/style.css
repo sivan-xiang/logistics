@@ -626,3 +626,57 @@ a { color: inherit; text-decoration: none; }
   .process { grid-template-columns: 1fr; }
   .svc-groups { gap: 44px; }
 }
+
+/* ---- About: history timeline ---- */
+.timeline { position: relative; margin: 10px 0 0; padding: 0; list-style: none; }
+.timeline::before {
+  content: ""; position: absolute; left: 7px; top: 6px; bottom: 0; width: 2px;
+  background: linear-gradient(180deg, var(--blue), var(--gold)); opacity: .35;
+}
+.timeline__item { position: relative; padding: 0 0 30px 42px; }
+.timeline__item:last-child { padding-bottom: 0; }
+.timeline__marker {
+  position: absolute; left: 0; top: 2px; width: 16px; height: 16px; border-radius: 50%;
+  background: #fff; border: 3px solid var(--gold); box-shadow: 0 0 0 4px rgba(232,163,61,.16);
+}
+.timeline__year {
+  display: inline-block; font-family: var(--font-display); font-size: 13px; font-weight: 700;
+  color: var(--blue); background: rgba(0,113,227,.10); padding: 2px 11px; border-radius: 999px;
+  margin-bottom: 10px; letter-spacing: .02em;
+}
+.timeline__title { font-size: 17px; font-weight: 700; color: var(--navy); margin: 0 0 6px; letter-spacing: -.01em; }
+.timeline__text { font-size: 14.5px; line-height: 1.65; color: var(--ink-soft); margin: 0; }
+
+/* ---- Network: pulse-radiation map ---- */
+.netmap-section { background: var(--navy); color: #fff; }
+.netmap-section .section__eyebrow { color: var(--gold); }
+.netmap-section .section__title { color: #fff; }
+.netmap {
+  position: relative; margin-top: 30px; border-radius: var(--radius); overflow: hidden;
+  background: radial-gradient(120% 130% at 50% 0%, #11294f 0%, #0b1e3a 55%, #08162c 100%);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.netmap__canvas { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; }
+.netmap__tip {
+  position: absolute; z-index: 5; pointer-events: none; max-width: 240px;
+  padding: 9px 13px; border-radius: 12px; background: rgba(11,30,58,.94);
+  border: 1px solid rgba(232,163,61,.5); box-shadow: 0 12px 30px rgba(0,0,0,.35);
+  color: #fff; font-size: 13px; line-height: 1.5; opacity: 0; transition: opacity .15s;
+  transform: translate(-50%, calc(-100% - 14px));
+}
+.netmap__tip.is-on { opacity: 1; }
+.netmap__tip b { color: var(--gold); font-weight: 700; }
+.netmap__tip span { color: rgba(255,255,255,.72); }
+
+/* ---- Contact: office chips ---- */
+.contact-offices { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.contact-offices .chip {
+  background: rgba(0,113,227,.08); color: var(--blue); border: 1px solid rgba(0,113,227,.18);
+  border-radius: 999px; padding: 4px 13px; font-size: 13px; font-weight: 600;
+}
+.contact-offices .chip:hover { background: var(--blue); color: #fff; transform: translateY(-2px); }
+
+@media (max-width: 640px) {
+  .timeline__item { padding-left: 36px; }
+  .netmap__canvas { aspect-ratio: 1 / 1; }
+}

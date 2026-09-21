@@ -421,6 +421,150 @@
     });
   }
 
+  /* -------------------------------------------------------------------
+   * 8. NETWORK MAP — self-contained canvas world map (equirectangular
+   *    graticule + glowing branch nodes with pulsing radiation rings and
+   *    hub-and-spoke cargo arcs). No third-party tiles / API keys; no
+   *    borders drawn (compliance). Honors reduced-motion + pauses
+   *    off-screen. Hover a node for city / phone.
+   * ----------------------------------------------------------------- */
+  function initNetMap() {
+    var c = document.getElementById('netmap');
+    if (!c) return;
+    var wrap = c.parentElement;            // .netmap
+    var tip = document.getElementById('netmapTip');
+    var ctx = c.getContext('2d');
+    var w = 0, h = 0, dpr = 1, raf = 0, running = true, t = 0;
+    var nodes = [], arcs = [], hoverIdx = -1;
+
+    var LON_MIN = -140, LON_MAX = 155, LAT_MIN = -15, LAT_MAX = 75;
+    function project(lat, lon) {
+      return {
+        x: (lon - LON_MIN) / (LON_MAX - LON_MIN) * w,
+        y: (LAT_MAX - lat) / (LAT_MAX - LAT_MIN) * h
+      };
+    }
+    function build() {
+      nodes = [];
+      var subs = (typeof DATA !== 'undefined' && DATA[current] && DATA[current].subsidiaries) || [];
+      subs.forEach(function (g) {
+        (g.items || []).forEach(function (b) {
+          if (typeof b.lat === 'number' && typeof b.lon === 'number') {
+            nodes.push({ lat: b.lat, lon: b.lon, city: b.city || '', phone: b.phone || '' });
+          }
+        });
+      });
+      // hub = node nearest to Shenzhen (~114.05, 22.55)
+      var hub = 0, best = Infinity;
+      nodes.forEach(function (n, i) {
+        var d = (n.lat - 22.55) * (n.lat - 22.55) + (n.lon - 114.05) * (n.lon - 114.05);
+        if (d < best) { best = d; hub = i; }
+      });
+      arcs = [];
+      for (var i = 0; i < nodes.length; i++) if (i !== hub) arcs.push({ a: hub, b: i });
+    }
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 1.4);
+      w = c.clientWidth || wrap.clientWidth;
+      h = c.clientHeight || Math.round(w / 2);
+      c.width = Math.max(1, Math.floor(w * dpr));
+      c.height = Math.max(1, Math.floor(h * dpr));
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      nodes.forEach(function (n) { var p = project(n.lat, n.lon); n.x = p.x; n.y = p.y; });
+    }
+    function drawGraticule() {
+      ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+      ctx.lineWidth = 1;
+      for (var lon = -120; lon <= 150; lon += 30) {
+        if (lon < LON_MIN || lon > LON_MAX) continue;
+        var x = (lon - LON_MIN) / (LON_MAX - LON_MIN) * w;
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (var lat = -30; lat <= 60; lat += 30) {
+        if (lat < LAT_MIN || lat > LAT_MAX) continue;
+        var y = (LAT_MAX - lat) / (LAT_MAX - LAT_MIN) * h;
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+      ctx.strokeStyle = 'rgba(232,163,61,0.18)';
+      var eq = (LAT_MAX - 0) / (LAT_MAX - LAT_MIN) * h;
+      ctx.beginPath(); ctx.moveTo(0, eq); ctx.lineTo(w, eq); ctx.stroke();
+    }
+    function drawArcs() {
+      for (var i = 0; i < arcs.length; i++) {
+        var A = nodes[arcs[i].a], B = nodes[arcs[i].b];
+        var mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
+        var dx = B.x - A.x, dy = B.y - A.y, dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        var off = Math.min(dist * 0.16, 70);
+        var cx = mx - dy / dist * off, cy = my + dx / dist * off;
+        ctx.strokeStyle = 'rgba(120,180,255,0.10)';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.quadraticCurveTo(cx, cy, B.x, B.y); ctx.stroke();
+        if (!reduce) {
+          var p = (t * 0.12 + i * 0.13) % 1;
+          var qx = (1 - p) * (1 - p) * A.x + 2 * (1 - p) * p * cx + p * p * B.x;
+          var qy = (1 - p) * (1 - p) * A.y + 2 * (1 - p) * p * cy + p * p * B.y;
+          ctx.fillStyle = 'rgba(232,163,61,0.95)';
+          ctx.beginPath(); ctx.arc(qx, qy, 1.8, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+    }
+    function drawNodes() {
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        if (!reduce) {
+          var phase = (t * 0.6 + i * 0.7) % 1;
+          var rr = phase * 22;
+          var g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, rr);
+          g.addColorStop(0, 'rgba(232,163,61,' + (0.32 * (1 - phase)).toFixed(3) + ')');
+          g.addColorStop(1, 'rgba(232,163,61,0)');
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.arc(n.x, n.y, rr, 0, Math.PI * 2); ctx.fill();
+        }
+        var col = (i === hoverIdx) ? '255,255,255' : '232,163,61';
+        ctx.fillStyle = 'rgba(' + col + ',0.25)';
+        ctx.beginPath(); ctx.arc(n.x, n.y, 6, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = 'rgba(' + col + ',0.95)';
+        ctx.beginPath(); ctx.arc(n.x, n.y, (i === hoverIdx) ? 4.2 : 2.6, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    function draw() { ctx.clearRect(0, 0, w, h); drawGraticule(); drawArcs(); drawNodes(); }
+    function loop() { t += 0.016; draw(); if (running && !reduce) raf = requestAnimationFrame(loop); }
+
+    function showTip(i) {
+      if (!tip) return;
+      var n = nodes[i]; if (!n) return;
+      var html = '<b>' + n.city + '</b>';
+      if (n.phone) html += '<br><span>' + n.phone + '</span>';
+      tip.innerHTML = html;
+      tip.style.left = n.x + 'px';
+      tip.style.top = n.y + 'px';
+      tip.classList.add('is-on');
+    }
+    function hideTip() { if (tip) tip.classList.remove('is-on'); }
+
+    c.addEventListener('pointermove', function (e) {
+      if (!fine) return;
+      var r = c.getBoundingClientRect();
+      var mx = e.clientX - r.left, my = e.clientY - r.top;
+      var found = -1, fd = 256;
+      for (var i = 0; i < nodes.length; i++) {
+        var dx = nodes[i].x - mx, dy = nodes[i].y - my, d2 = dx * dx + dy * dy;
+        if (d2 < fd) { fd = d2; found = i; }
+      }
+      if (found !== hoverIdx) { hoverIdx = found; if (found >= 0) showTip(found); else hideTip(); }
+    });
+    c.addEventListener('pointerleave', function () { hoverIdx = -1; hideTip(); });
+
+    build(); resize();
+    if (reduce) draw(); else loop();
+    var rt;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt); rt = setTimeout(function () { resize(); if (reduce) draw(); }, 150);
+    });
+    visibilityPause(wrap, function () { running = true; if (!reduce) loop(); },
+      function () { running = false; cancelAnimationFrame(raf); });
+  }
+
   ready(function () {
     initAurora();
     initGlowCursor();
@@ -428,5 +572,6 @@
     initDotField();
     initHeroNetwork();
     initParticleText();
+    initNetMap();
   });
 })();
