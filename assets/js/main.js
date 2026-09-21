@@ -202,6 +202,66 @@ function renderAll() {
   applyRevealStagger();
   observeReveal();
   observeCounters();
+  initHeroTypewriter();
+}
+
+
+/* --------------------------- hero typewriter --------------------------- */
+let heroTypeTimer = null;
+function initHeroTypewriter() {
+  const wrap = document.getElementById("heroRotate");
+  if (!wrap) return;
+  const textEl = wrap.querySelector(".hero__rotate-text");
+  const caret = wrap.querySelector(".hero__caret");
+  if (!textEl) return;
+  if (heroTypeTimer) { clearTimeout(heroTypeTimer); heroTypeTimer = null; }
+  const slogans = (COPY[current] && COPY[current].heroSlogans) || [];
+  if (!slogans.length) { textEl.innerHTML = t("hero.title") || ""; return; }
+  wrap.setAttribute("aria-label", slogans[0].text);
+
+  function applyAccent(text, accent) {
+    if (!accent || text.indexOf(accent) === -1) return text;
+    const i = text.indexOf(accent);
+    return text.slice(0, i) + '<span class="stroke">' + accent + '</span>' + text.slice(i + accent.length);
+  }
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    textEl.innerHTML = applyAccent(slogans[0].text, slogans[0].accent);
+    if (caret) caret.style.display = "none";
+    return;
+  }
+  if (caret) caret.style.display = "";
+
+  let idx = 0, phase = "typing", currentText = "";
+  function step() {
+    if (document.hidden) { heroTypeTimer = setTimeout(step, 400); return; }
+    const s = slogans[idx];
+    if (phase === "typing") {
+      currentText = s.text.slice(0, currentText.length + 1);
+      textEl.textContent = currentText;
+      if (currentText.length === s.text.length) {
+        textEl.innerHTML = applyAccent(s.text, s.accent);
+        phase = "holding";
+        heroTypeTimer = setTimeout(step, 2200);
+      } else {
+        heroTypeTimer = setTimeout(step, 55 + Math.random() * 45);
+      }
+    } else if (phase === "holding") {
+      phase = "deleting";
+      heroTypeTimer = setTimeout(step, 60);
+    } else {
+      currentText = currentText.slice(0, -1);
+      textEl.textContent = currentText;
+      if (currentText.length === 0) {
+        idx = (idx + 1) % slogans.length;
+        phase = "typing";
+        heroTypeTimer = setTimeout(step, 380);
+      } else {
+        heroTypeTimer = setTimeout(step, 30 + Math.random() * 30);
+      }
+    }
+  }
+  step();
 }
 
 /* --------------------------- language switch --------------------------- */
