@@ -213,8 +213,28 @@ function renderHistory() {
 function renderContactOffices() {
   const el = document.getElementById("contactOffices");
   if (!el) return;
-  el.innerHTML = DATA[current].offices.map((o) =>
-    `<span class="chip reveal">${o.city}</span>`).join("");
+  const subs = {};
+  DATA[current].subsidiaries.forEach((g) => g.items.forEach((b) => {
+    subs[b.city.toLowerCase().split(" (")[0]] = b;
+  }));
+  const esc = (v) => String(v == null ? "" : v)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  el.innerHTML = DATA[current].offices.map((o) => {
+    const b = subs[o.city.toLowerCase().split(" (")[0]] || {};
+    const phone = b.phone ? `<a class="office-card__phone" href="tel:${esc(b.phone.replace(/\s+/g, ""))}">${esc(b.phone)}</a>` : "";
+    const addr = b.address ? `<p class="office-card__addr">${esc(b.address)}</p>` : "";
+    return `
+      <div class="office-card reveal" tabindex="0">
+        <div class="office-card__top">
+          <span class="office-card__city">${esc(o.city)}</span>
+          <span class="office-card__country">${esc(o.country)}</span>
+        </div>
+        <div class="office-card__detail">
+          ${addr}
+          ${phone}
+        </div>
+      </div>`;
+  }).join("");
 }
 
 function renderSubsidiaries() {
