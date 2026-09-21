@@ -31,7 +31,7 @@ const COPY = {
 
     "services.eyebrow": "What we do",
     "services.title": "A full-spectrum logistics portfolio",
-    "services.lead": "From origin to destination, one call or one email is all it takes. Our team with 20+ years of experience designs the plan that fits you.",
+    "services.lead": "From origin to destination, one call or one email is all it takes. Our team with 28 years of experience designs the plan that fits you.",
     "detail.capLabel": "Key capabilities",
 
     "solutions.eyebrow": "Cargo solutions",
@@ -40,7 +40,7 @@ const COPY = {
 
     "network.eyebrow": "Where we are",
     "network.title": "Local teams, global reach",
-    "network.lead": "GIRAFSAIL runs its own teams in key markets, backed by 36 subsidiaries of Longsail International Logistics across the globe.",
+    "network.lead": "GIRAFSAIL runs its own teams in key markets, backed by 39 branches of Longsail International Logistics across the globe.",
 
     "industries.eyebrow": "Who we serve",
     "industries.title": "Trusted across industries",
@@ -64,11 +64,16 @@ const COPY = {
 
     "about.eyebrow": "Our story",
     "about.title": "A global sub-brand of Longsail",
-    "about.lead": "GIRAFSAIL is an international logistics sub-brand of Longsail International Logistics Co., Ltd.",
-    "about.story": "Backed by the AAAAA-level qualification, a global network spanning 30+ subsidiaries, and a self-developed IT platform, GIRAFSAIL turns complex cross-border trade into a simple, reliable plan — with local teams in the world’s key hubs.",
+    "about.lead": "GIRAFSAIL is an international logistics sub-brand of Longsail International Logistics Co., Ltd. — committed to making cross-border trade simple, transparent and efficient.",
+    "about.story": "Backed by Longsail’s AAAAA-level qualification, a global network of 39 branches, and the self-developed Sowoll IT platform, GIRAFSAIL turns complex cross-border trade into a simple, reliable plan — with local teams in the world’s key hubs.",
     "about.presenceLabel": "Local teams established in",
+    "about.missionTitle": "Our mission",
+    "about.mission": "We are committed to advancing the logistics service industry through advanced IT systems that fully integrate resources, providing customers with comprehensive logistics and value-added services.",
+    "about.promiseTitle": "Professional & efficient service",
+    "about.promise": "With one phone call or email, our team — drawing on 28 years of professional experience — tailors the most suitable logistics plan for you, delivering efficient, stable and professional service.",
+    "about.promiseBadge": "28+ years",
     "network.subsTitle": "The Longsail network",
-    "network.subsLead": "GIRAFSAIL is part of the Longsail group — 36 subsidiaries worldwide.",
+    "network.subsLead": "GIRAFSAIL is part of the Longsail group — 39 branches worldwide.",
     "contact.eyebrow": "Get in touch",
     "contact.title": "Let's move your cargo",
     "contact.lead": "Tell us about your shipment. One email, one call — we build the plan.",
@@ -104,7 +109,7 @@ const COPY = {
 
     "services.eyebrow": "我们做什么",
     "services.title": "全谱系物流服务组合",
-    "services.lead": "从起运地到目的港，一个电话或一封邮件即可。拥有 20 余年专业经验的团队为您量身定制方案。",
+    "services.lead": "从起运地到目的港，一个电话或一封邮件即可。拥有 28 年专业经验的团队为您量身定制方案。",
     "detail.capLabel": "核心能力",
 
     "solutions.eyebrow": "货物解决方案",
@@ -113,7 +118,7 @@ const COPY = {
 
     "network.eyebrow": "我们在哪里",
     "network.title": "本地团队，全球触达",
-    "network.lead": "GIRAFSAIL 在重点市场设有直属团队，背靠长帆国际物流全球 36 家分子公司。",
+    "network.lead": "GIRAFSAIL 在重点市场设有直属团队，背靠长帆国际物流全球 39 家分支机构。",
 
     "industries.eyebrow": "我们的客户",
     "industries.title": "深受各行业信赖",
@@ -137,11 +142,16 @@ const COPY = {
 
     "about.eyebrow": "我们的故事",
     "about.title": "长帆国际物流旗下全球子品牌",
-    "about.lead": "GIRAFSAIL 是长帆国际物流股份有限公司旗下的国际物流子品牌。",
-    "about.story": "依托长帆 AAAAA 级资质、覆盖 30 余家分子公司的全球网络，以及自主研发的 IT 平台，GIRAFSAIL 将复杂的跨境贸易化为简单可靠的方案——在各大核心枢纽均设有本地团队。",
+    "about.lead": "GIRAFSAIL 是长帆国际物流股份有限公司旗下的国际物流子品牌——致力于让跨境贸易更简单、透明、高效。",
+    "about.story": "依托长帆 AAAAA 级资质、覆盖全球 39 家分支机构的网络，以及自主研发的索威尔（Sowoll）IT 平台，GIRAFSAIL 将复杂的跨境贸易化为简单可靠的方案——在各大核心枢纽均设有本地团队。",
     "about.presenceLabel": "本地团队已设立于",
+    "about.missionTitle": "我们的使命",
+    "about.mission": "我们致力于以先进的物流 IT 系统充分整合资源，推动物流服务行业快速发展，为客户提供更全面的物流与增值服务。",
+    "about.promiseTitle": "专业高效的服务",
+    "about.promise": "一个电话或一封邮件，我们的团队便凭借 28 年专业经验，为您量身定制最合适的物流方案，提供高效、稳定、专业的服务。",
+    "about.promiseBadge": "28 年专业经验",
     "network.subsTitle": "长帆集团网络",
-    "network.subsLead": "GIRAFSAIL 隶属长帆集团，全球拥有 36 家分子公司。",
+    "network.subsLead": "GIRAFSAIL 隶属长帆集团，全球拥有 39 家分支机构。",
     "contact.eyebrow": "联系我们",
     "contact.title": "让您的货物动起来",
     "contact.lead": "告诉我们您的运输需求，一封邮件、一个电话，方案由我们构建。",
@@ -164,8 +174,8 @@ const DATA = {
     stats: [
       { value: 600000, suffix: "+", label: "Containers (2025)" },
       { value: 110000, suffix: "+", label: "Customers" },
-      { value: 37, suffix: "+", label: "Subsidiaries" },
-      { value: 20, suffix: "+", label: "Years of experience" }
+      { value: 39, suffix: "+", label: "Global branches" },
+      { value: 28, suffix: "+", label: "Years of experience" }
     ],
     services: [
       { icon: "ocean", title: "Ocean Freight", desc: "FCL & LCL services across major trade lanes with competitive space and schedule control.",
@@ -227,14 +237,14 @@ const DATA = {
       "Smart Home", "Engineering Machinery", "Chemicals", "EPC"
     ],
     why: [
-      { icon: "grade", title: "AAAAA-level network", desc: "Backed by Longsail's top-tier qualification and 36 global subsidiaries." },
+      { icon: "grade", title: "AAAAA-level network", desc: "Backed by Longsail's top-tier qualification and 39 global branches." },
       { icon: "platform", title: "Self-developed IT platform", desc: "A proprietary system connects every node for transparent, efficient service." },
-      { icon: "experience", title: "20+ years of expertise", desc: "A seasoned team turns complex trade into a simple, reliable plan." },
+      { icon: "experience", title: "28 years of expertise", desc: "A seasoned team turns complex trade into a simple, reliable plan." },
       { icon: "local", title: "Localized + global", desc: "Local compliance and agile response in every key market we serve." }
     ],
     aboutFoundations: [
       { icon: "grade", title: "AAAAA-level qualification", desc: "Top-tier national logistics certification behind every shipment." },
-      { icon: "local", title: "30+ global subsidiaries", desc: "Owned offices and local teams across the world's key markets." },
+      { icon: "local", title: "39 global branches", desc: "Owned offices and local teams across the world's key markets." },
       { icon: "platform", title: "Self-developed IT platform", desc: "A proprietary system connects every node for full visibility." }
     ],
     subsidiaries: [
@@ -244,11 +254,16 @@ const DATA = {
       ] },
       { region: "Asia Pacific", items: [
         "GIRAFSAIL LOGISTICS VIETNAM CO., LTD.",
-        "GIRAFSAIL LOGISTICS (THAILAND) CO., LTD."
+        "GIRAFSAIL LOGISTICS (THAILAND) CO., LTD.",
+        "GIRAFSAIL LOGISTICS SDN. BHD.",
+        "BESTSAIL INTERNATIONAL LOGISTICS PTE. LTD."
       ] },
       { region: "Americas", items: [
         "GIRAFSAIL LOGISTICS DE MEXICO S.A. DE C.V.",
         "LONGSAIL USA CORPORATION"
+      ] },
+      { region: "Middle East & Africa", items: [
+        "GIRAFSAIL LOGISTICS MOROCCO SARL"
       ] },
       { region: "Greater China", items: [
         "FUTURE SAIL LOGISTICS SERVICES COMPANY",
@@ -266,8 +281,8 @@ const DATA = {
     stats: [
       { value: 600000, suffix: "+", label: "集装箱运输量（2025）" },
       { value: 110000, suffix: "+", label: "累计服务客户" },
-      { value: 37, suffix: "+", label: "全球分子公司" },
-      { value: 20, suffix: "+", label: "年专业经验" }
+      { value: 39, suffix: "+", label: "全球分支机构" },
+      { value: 28, suffix: "+", label: "年专业经验" }
     ],
     services: [
       { icon: "ocean", title: "海运", desc: "覆盖主要贸易航线的整箱与拼箱服务，舱位与船期稳定可控。",
@@ -329,14 +344,14 @@ const DATA = {
       "智能家居", "工程机械", "化工", "EPC"
     ],
     why: [
-      { icon: "grade", title: "AAAAA 级网络", desc: "依托长帆顶级资质与全球 36 家分子公司的实力。" },
+      { icon: "grade", title: "AAAAA 级网络", desc: "依托长帆顶级资质与全球 39 家分支机构的实力。" },
       { icon: "platform", title: "自主研发 IT 平台", desc: "自研系统连接每个节点，服务透明高效。" },
-      { icon: "experience", title: "20 余年专业经验", desc: "资深团队将复杂贸易转化为简单可靠的方案。" },
+      { icon: "experience", title: "28 年专业经验", desc: "资深团队将复杂贸易转化为简单可靠的方案。" },
       { icon: "local", title: "本地化 + 全球化", desc: "在每一个重点市场提供本地合规与敏捷响应。" }
     ],
     aboutFoundations: [
       { icon: "grade", title: "AAAAA 级资质", desc: "每一票货物背后，都是国家级物流最高等级资质认证。" },
-      { icon: "local", title: "30+ 家全球分子公司", desc: "在各大重点市场拥有直属办公室与本地团队。" },
+      { icon: "local", title: "39 家全球分支机构", desc: "在各大重点市场拥有直属办公室与本地团队。" },
       { icon: "platform", title: "自主研发 IT 平台", desc: "自研系统连接每个节点，全程可视透明。" }
     ],
       subsidiaries: [
@@ -346,11 +361,16 @@ const DATA = {
         ] },
         { region: "亚太", items: [
           "GIRAFSAIL LOGISTICS VIETNAM CO., LTD.",
-          "GIRAFSAIL LOGISTICS (THAILAND) CO., LTD."
+          "GIRAFSAIL LOGISTICS (THAILAND) CO., LTD.",
+          "GIRAFSAIL LOGISTICS SDN. BHD.",
+          "BESTSAIL INTERNATIONAL LOGISTICS PTE. LTD."
         ] },
         { region: "美洲", items: [
           "GIRAFSAIL LOGISTICS DE MEXICO S.A. DE C.V.",
           "LONGSAIL USA CORPORATION"
+        ] },
+        { region: "中东与非洲", items: [
+          "GIRAFSAIL LOGISTICS MOROCCO SARL"
         ] },
         { region: "大中华区", items: [
           "FUTURE SAIL LOGISTICS SERVICES COMPANY",
