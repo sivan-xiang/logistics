@@ -286,6 +286,7 @@ function renderAll() {
   observeReveal();
   observeCounters();
   initHeroTypewriter();
+  applyThemeLabel();
 }
 
 
@@ -476,7 +477,47 @@ if (contactForm) {
   });
 }
 
+/* --------------------------- theme (开灯 / 关灯) --------------------------- */
+const THEME_KEY = "giraf_theme";
+const THEME_LABEL = {
+  en: { off: "Lights off", on: "Lights on", offTitle: "Switch to dark mode", onTitle: "Switch to light mode" },
+  zh: { off: "关灯", on: "开灯", offTitle: "切换到夜间模式", onTitle: "切换到日间模式" }
+};
+
+function isDark() {
+  return document.documentElement.getAttribute("data-theme") === "dark";
+}
+
+function applyThemeLabel() {
+  const btn = document.getElementById("themeToggle");
+  if (!btn) return;
+  const l = THEME_LABEL[current] || THEME_LABEL.en;
+  const dark = isDark();
+  btn.setAttribute("aria-pressed", dark ? "true" : "false");
+  btn.setAttribute("aria-label", dark ? l.onTitle : l.offTitle);
+  btn.setAttribute("title", dark ? l.on : l.off);
+}
+
+function setTheme(mode) {
+  const next = mode === "dark" ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", next);
+  try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+  applyThemeLabel();
+}
+
+function initTheme() {
+  let saved = null;
+  try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
+  document.documentElement.setAttribute("data-theme", saved === "dark" ? "dark" : "light");
+  const btn = document.getElementById("themeToggle");
+  if (btn) {
+    btn.addEventListener("click", () => setTheme(isDark() ? "light" : "dark"));
+  }
+  applyThemeLabel();
+}
+
 /* --------------------------- boot --------------------------- */
+initTheme();
 document.getElementById("year").textContent = new Date().getFullYear();
 document.querySelector('.lang__btn[data-lang="' + current + '"]')
   ?.classList.add("is-active");

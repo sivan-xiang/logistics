@@ -13,6 +13,7 @@
   --gold: #e8a33d;
   --gold-deep: #c8852a;
   --line: rgba(0, 0, 0, 0.08);
+  --head: #0b1e3a; /* headings — flips in dark theme */
   --radius: 20px;
   --maxw: 1120px;
   --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
@@ -95,7 +96,7 @@ a { color: inherit; text-decoration: none; }
   font: inherit; font-size: 12px; font-weight: 600; color: var(--ink-soft);
   padding: 4px 11px; border-radius: 999px; transition: all .2s;
 }
-.lang__btn.is-active { background: var(--paper); color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.lang__btn.is-active { background: var(--paper); color: var(--head); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
 
 .nav__burger { display: none; flex-direction: column; gap: 4px; background: none; border: 0; cursor: pointer; padding: 6px; }
 .nav__burger span { width: 20px; height: 2px; background: var(--ink); border-radius: 2px; transition: .3s; }
@@ -350,7 +351,7 @@ a { color: inherit; text-decoration: none; }
 .about-story__lead {
   font-family: var(--font-display);
   font-size: clamp(22px, 3.2vw, 34px); font-weight: 600; line-height: 1.34;
-  letter-spacing: -0.01em; color: var(--navy);
+  letter-spacing: -0.01em; color: var(--head);
   max-width: 880px; margin: 0 auto 56px; text-align: center;
 }
 .about-foundations { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 64px; }
@@ -395,7 +396,7 @@ a { color: inherit; text-decoration: none; }
 .subs__group-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
 .subs__group-name {
   font-family: var(--font-display);
-  font-size: 18px; font-weight: 600; color: var(--navy); letter-spacing: .01em;
+  font-size: 18px; font-weight: 600; color: var(--head); letter-spacing: .01em;
 }
 .subs__group-count {
   font-family: var(--font-display);
@@ -417,7 +418,7 @@ a { color: inherit; text-decoration: none; }
 }
 .sub-office__city {
   font-family: var(--font-display); font-size: 16px; font-weight: 700;
-  color: var(--navy); letter-spacing: .01em; margin: 0 0 8px;
+  color: var(--head); letter-spacing: .01em; margin: 0 0 8px;
 }
 .sub-office__addr {
   font-size: 13px; line-height: 1.55; color: var(--ink-soft);
@@ -574,7 +575,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: 12px; padding: 12px 16px; white-space: nowrap;
 }
 .about-promise__body { min-width: 0; }
-.about-promise__title { margin: 0 0 6px; font-size: 17px; font-weight: 600; color: var(--navy); letter-spacing: -0.01em; }
+.about-promise__title { margin: 0 0 6px; font-size: 17px; font-weight: 600; color: var(--head); letter-spacing: -0.01em; }
 .about-promise__text { margin: 0; font-size: 15px; line-height: 1.62; color: var(--ink-soft); }
 @media (max-width: 640px) {
   .about-promise { flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -586,7 +587,7 @@ a { color: inherit; text-decoration: none; }
 .svc-group__head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 24px; }
 .svc-group__title {
   font-family: var(--font-display); font-size: clamp(20px, 2.6vw, 26px);
-  font-weight: 600; color: var(--navy); letter-spacing: -0.01em;
+  font-weight: 600; color: var(--head); letter-spacing: -0.01em;
 }
 .svc-group__count {
   font-family: var(--font-display); font-size: 12px; font-weight: 700; color: var(--blue);
@@ -650,7 +651,7 @@ a { color: inherit; text-decoration: none; }
   color: var(--blue); background: rgba(0,113,227,.10); padding: 2px 11px; border-radius: 999px;
   margin-bottom: 10px; letter-spacing: .02em;
 }
-.timeline__title { font-size: 17px; font-weight: 700; color: var(--navy); margin: 0 0 6px; letter-spacing: -.01em; }
+.timeline__title { font-size: 17px; font-weight: 700; color: var(--head); margin: 0 0 6px; letter-spacing: -.01em; }
 .timeline__text { font-size: 14.5px; line-height: 1.65; color: var(--ink-soft); margin: 0; }
 
 /* ---- Network: pulse-radiation map ---- */
@@ -681,36 +682,154 @@ a { color: inherit; text-decoration: none; }
   border-radius: 14px; padding: 12px 14px; cursor: default; outline: none;
   transition: background .25s, border-color .25s, box-shadow .25s, transform .25s;
 }
-.office-card:hover, .office-card:focus-visible {
+.office-card:hover, .office-card:focus-visible, .office-card:focus-within {
   background: #fff; border-color: rgba(0,113,227,.4); transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(11,30,58,.12);
+  box-shadow: 0 14px 30px rgba(11,30,58,.12); z-index: 5;
 }
 .office-card__top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.office-card__city { font-size: 14px; font-weight: 700; color: var(--navy); letter-spacing: -.01em; }
+.office-card__city { font-size: 14px; font-weight: 700; color: var(--head); letter-spacing: -.01em; }
 .office-card__country { font-size: 11px; font-weight: 600; color: rgba(11,30,58,.5); text-transform: uppercase; letter-spacing: .06em; }
+/* The detail panel is an absolutely-positioned popover, so hovering never
+   changes any card's height — the old grid-rows expansion grew the hovered
+   card, pushed the row underneath it, and the cursor ended up bouncing
+   between card/off-card, which read as the page jittering. */
 .office-card__detail {
-  display: grid; grid-template-rows: 0fr; opacity: 0;
-  transition: grid-template-rows .28s ease, opacity .28s ease, margin-top .28s ease;
-  margin-top: 0;
+  position: absolute; left: 0; right: 0; top: 100%; margin-top: 8px;
+  background: #fff; border: 1px solid rgba(0,113,227,.28); border-radius: 12px;
+  padding: 12px 14px; box-shadow: 0 18px 38px rgba(11,30,58,.18);
+  opacity: 0; visibility: hidden; transform: translateY(-6px);
+  transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
+  pointer-events: none; z-index: 30;
 }
-.office-card__detail > * { overflow: hidden; }
+/* invisible bridge across the 8px gap so the pointer never leaves the card */
+.office-card__detail::before { content: ""; position: absolute; left: 0; right: 0; top: -10px; height: 10px; }
 .office-card:hover .office-card__detail,
-.office-card:focus-visible .office-card__detail {
-  grid-template-rows: 1fr; opacity: 1; margin-top: 10px;
+.office-card:focus-visible .office-card__detail,
+.office-card:focus-within .office-card__detail {
+  opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
 }
 .office-card__addr { font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); margin: 0 0 6px; }
 .office-card__phone { font-size: 13px; font-weight: 600; color: var(--blue); text-decoration: none; white-space: nowrap; }
 .office-card__phone::before { content: "\260E"; margin-right: 5px; color: var(--gold); }
 /* touch devices: no hover — keep details visible */
 @media (hover: none) {
-  .office-card__detail { grid-template-rows: 1fr; opacity: 1; margin-top: 10px; }
+  .office-card__detail {
+    position: static; margin-top: 12px; opacity: 1; visibility: visible;
+    transform: none; padding: 0; border: 0; box-shadow: none;
+    background: transparent; pointer-events: auto;
+  }
+  .office-card__detail::before { display: none; }
 }
 @media (max-width: 480px) {
   .contact-offices { grid-template-columns: 1fr; }
-  .office-card__detail { grid-template-rows: 1fr; opacity: 1; margin-top: 10px; }
+  .office-card__detail {
+    position: static; margin-top: 12px; opacity: 1; visibility: visible;
+    transform: none; padding: 0; border: 0; box-shadow: none;
+    background: transparent; pointer-events: auto;
+  }
+  .office-card__detail::before { display: none; }
 }
 
 @media (max-width: 640px) {
   .timeline__item { padding-left: 36px; }
   .netmap__canvas { aspect-ratio: 1 / 1; }
 }
+
+/* ===================================================================
+   THEME TOGGLE (开灯 / 关灯)
+   =================================================================== */
+.theme-toggle {
+  display: inline-grid; place-items: center; width: 32px; height: 32px; padding: 0;
+  border-radius: 999px; border: 1px solid var(--line); background: var(--gray);
+  color: var(--ink); cursor: pointer;
+  transition: background .25s, color .25s, border-color .25s, transform .25s;
+}
+.theme-toggle:hover { color: var(--blue); border-color: rgba(0,113,227,.45); transform: translateY(-1px); }
+.theme-toggle:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.theme-toggle svg { width: 16px; height: 16px; display: block; }
+.theme-toggle .theme-toggle__sun { display: none; }
+html[data-theme="dark"] .theme-toggle .theme-toggle__sun { display: block; }
+html[data-theme="dark"] .theme-toggle .theme-toggle__moon { display: none; }
+html[data-theme="dark"] .theme-toggle { background: rgba(255,255,255,.08); }
+
+/* nav logo swaps to the white lockup on dark */
+.nav__logo .logo-dark { display: none; }
+html[data-theme="dark"] .nav__logo .logo-light { display: none; }
+html[data-theme="dark"] .nav__logo .logo-dark { display: block; }
+
+/* ===================================================================
+   DARK THEME — everything below only applies with data-theme="dark"
+   =================================================================== */
+html[data-theme="dark"] {
+  --ink: #e7ecf6;
+  --ink-soft: #97a3bb;
+  --paper: #070c17;
+  --gray: #0d1526;
+  --line: rgba(255, 255, 255, 0.10);
+  --head: #eef3fb;
+  --blue: #3f97f5;
+  --gold-deep: #e8a33d;
+}
+html[data-theme="dark"] body { background: var(--paper); color: var(--ink); }
+
+/* nav + mobile drawer */
+html[data-theme="dark"] .nav { background: rgba(7,12,23,.72); }
+html[data-theme="dark"] .nav--scrolled {
+  background: rgba(7,12,23,.88);
+  box-shadow: 0 1px 0 rgba(255,255,255,.07), 0 8px 30px rgba(0,0,0,.5);
+}
+html[data-theme="dark"] .lang__btn.is-active { box-shadow: 0 1px 3px rgba(0,0,0,.55); }
+html[data-theme="dark"] .nav__links.is-open { background: rgba(7,12,23,.97); }
+
+/* surfaces that were hard-coded white */
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .section--gray .card,
+html[data-theme="dark"] .about-found,
+html[data-theme="dark"] .sub-office,
+html[data-theme="dark"] .proc-step,
+html[data-theme="dark"] .about-promise__badge,
+html[data-theme="dark"] .office-card__detail { background: #101a2e; }
+html[data-theme="dark"] .card:hover,
+html[data-theme="dark"] .about-found:hover,
+html[data-theme="dark"] .sub-office:hover { box-shadow: 0 18px 40px rgba(0,0,0,.5); }
+html[data-theme="dark"] .card::before {
+  background: radial-gradient(240px circle at var(--mx, -300px) var(--my, -300px),
+    rgba(80,150,255,.20), transparent 62%);
+}
+html[data-theme="dark"] .office-card { background: rgba(63,151,245,.12); border-color: rgba(63,151,245,.3); }
+html[data-theme="dark"] .office-card:hover,
+html[data-theme="dark"] .office-card:focus-visible {
+  background: #101a2e; border-color: rgba(63,151,245,.55);
+  box-shadow: 0 14px 30px rgba(0,0,0,.5);
+}
+html[data-theme="dark"] .office-card__detail {
+  border-color: rgba(63,151,245,.35); box-shadow: 0 18px 38px rgba(0,0,0,.6);
+}
+
+/* forms */
+html[data-theme="dark"] .contact-form input,
+html[data-theme="dark"] .contact-form textarea {
+  background: #0d1728; color: var(--ink); border-color: rgba(255,255,255,.14);
+}
+html[data-theme="dark"] .contact-form input::placeholder,
+html[data-theme="dark"] .contact-form textarea::placeholder { color: #6b778e; }
+
+/* text colours that were tuned for a white card */
+html[data-theme="dark"] .office-card__country { color: rgba(231,236,246,.5); }
+html[data-theme="dark"] .about-promise__badge { color: #a99dff; }
+
+/* misc accents that were tuned for a white page */
+html[data-theme="dark"] .timeline__marker { background: #0d1728; }
+html[data-theme="dark"] .subs__group-count { color: #4fd6dc; background: rgba(79,214,220,.14); }
+html[data-theme="dark"] .section__eyebrow { color: var(--gold); }
+html[data-theme="dark"] .about-found:hover { box-shadow: 0 18px 40px rgba(0,0,0,.5); }
+
+/* already-dark bands: shift a touch lighter than the page so they read
+   as distinct panels instead of blending into the background */
+html[data-theme="dark"] .section--dark,
+html[data-theme="dark"] .stats,
+html[data-theme="dark"] .netmap-section { background: #0a1424; }
+
+/* keep the primary CTA on brand blue (its label is white) */
+html[data-theme="dark"] .btn--primary { background: #0071e3; }
+html[data-theme="dark"] .chip:hover { background: #1b2c49; color: var(--ink); }

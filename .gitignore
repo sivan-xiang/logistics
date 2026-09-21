@@ -1,0 +1,10 @@
+# Local build / verification artifacts — never part of the deploy.
+# (Headless-Edge verification scripts, screenshots and one-off patch scripts
+#  are generated per session; keep them out of the repo.)
+shot_*.png
+verify*.js
+apply_*.py
+fix_*.py
+i18n_build.py
+reorder_*.py
+*.log

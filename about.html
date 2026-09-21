@@ -7,12 +7,24 @@
   <meta name="description" content="GIRAFSAIL is an international logistics sub-brand of Longsail International Logistics Co., Ltd. — localized operations, globalized resources." />
   <link rel="icon" type="image/png" href="assets/img/favicon.png" />
   <link rel="stylesheet" href="assets/css/style.css" />
+  <script>
+    /* apply the stored theme before first paint (no light flash on reload) */
+    (function () {
+      try {
+        var t = localStorage.getItem("giraf_theme");
+        document.documentElement.setAttribute("data-theme", t === "dark" ? "dark" : "light");
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
 </head>
 <body data-page="about">
   <header class="nav" id="nav">
     <div class="nav__inner">
       <a href="index.html" class="nav__logo" aria-label="GIRAFSAIL Logistics home">
-        <img src="assets/img/logo.png" alt="GIRAFSAIL Logistics" />
+        <img class="logo-light" src="assets/img/logo.png" alt="GIRAFSAIL Logistics" />
+        <img class="logo-dark" src="assets/img/logo-white.png" alt="" aria-hidden="true" />
       </a>
       <nav class="nav__links" id="navLinks">
         <a href="services.html" data-nav="services" data-i18n="nav.services">Services</a>
@@ -22,6 +34,10 @@
         <a href="contact.html" data-nav="contact" data-i18n="nav.contact">Contact</a>
       </nav>
       <div class="nav__right">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Lights off" title="Lights off">
+          <svg class="theme-toggle__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/></svg>
+          <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.4 19.6l1.6-1.6M18 6l1.6-1.6"/></svg>
+        </button>
         <div class="lang" id="langSwitch" role="group" aria-label="Language">
           <button class="lang__btn is-active" data-lang="en">EN</button>
           <button class="lang__btn" data-lang="zh">中文</button>
