@@ -150,10 +150,18 @@ function renderOffices() {
   if (!grid) return;
   const subs = DATA[current].subsidiaries || [];
   const china = current === "zh" ? "大中华区" : "Greater China";
+  /* The band is labelled by country, not by continent: the branch records
+     carry only a region, so match them against the offices table first. */
+  const countryOf = {};
+  (DATA[current].offices || []).forEach((o) => { countryOf[o.city] = o.country; });
   const list = [];
   subs.forEach((g) => {
     if (g.region === china) return;
-    g.items.forEach((b) => list.push({ city: b.city, region: g.region, phone: b.phone }));
+    g.items.forEach((b) => list.push({
+      city: b.city, region: g.region,
+      country: countryOf[b.city] || g.region,
+      phone: b.phone,
+    }));
   });
   const esc = (v) => String(v == null ? "" : v);
   grid.innerHTML = list.map((b) => `
@@ -161,7 +169,7 @@ function renderOffices() {
       <span class="office__dot"></span>
       <div class="office__main">
         <div class="office__city">${esc(b.city)}</div>
-        <div class="office__country">${esc(b.region)}</div>
+        <div class="office__country">${esc(b.country)}</div>
       </div>
       ${b.phone ? `<a class="office__phone" href="tel:${esc(b.phone).replace(/[^0-9+]/g, "")}"><span class="office__ico" aria-hidden="true">&#9742;</span>${esc(b.phone)}</a>` : ""}
     </div>`).join("");
@@ -202,6 +210,7 @@ function renderHistory() {
   const items = (COPY[current] && COPY[current]["about.history"]) || COPY.en["about.history"];
   el.innerHTML = items.map((h) => `
     <li class="timeline__item reveal">
+      <span class="timeline__marker" aria-hidden="true"></span>
       <span class="timeline__year">${h.year}</span>
       <div class="timeline__body">
         <h3 class="timeline__title">${h.title}</h3>
@@ -292,6 +301,32 @@ function renderAll() {
 
 /* --------------------------- hero typewriter --------------------------- */
 let heroTypeTimer = null;
+let heroResizeTimer = null;
+
+function heroAccent(text, accent) {
+  if (!accent || text.indexOf(accent) === -1) return text;
+  const i = text.indexOf(accent);
+  return text.slice(0, i) + '<span class="stroke">' + accent + '</span>' + text.slice(i + accent.length);
+}
+
+/* The headline is set in a fluid clamp inside a shrink-to-fit container, so
+   the same slogan can be one line at 900px and two at 1400px. Reserve exactly
+   as many lines as the longest slogan needs at the *current* width, so the
+   hero never reflows mid-word while the text is being typed out. */
+function reserveHeroLines(ttl, textEl, slogans) {
+  const lh = parseFloat(getComputedStyle(ttl).lineHeight);
+  if (!lh) return;
+  const prev = textEl.innerHTML;
+  ttl.style.minHeight = "0px";
+  let lines = 1;
+  for (let i = 0; i < slogans.length; i++) {
+    textEl.innerHTML = heroAccent(slogans[i].text, slogans[i].accent);
+    lines = Math.max(lines, Math.round(ttl.getBoundingClientRect().height / lh));
+  }
+  textEl.innerHTML = prev;
+  ttl.style.minHeight = Math.round(lines * lh) + "px";
+}
+
 function initHeroTypewriter() {
   const wrap = document.getElementById("heroRotate");
   if (!wrap) return;
@@ -303,17 +338,13 @@ function initHeroTypewriter() {
   if (!slogans.length) { textEl.innerHTML = t("hero.title") || ""; return; }
   wrap.setAttribute("aria-label", slogans[0].text);
 
-  function applyAccent(text, accent) {
-    if (!accent || text.indexOf(accent) === -1) return text;
-    const i = text.indexOf(accent);
-    return text.slice(0, i) + '<span class="stroke">' + accent + '</span>' + text.slice(i + accent.length);
-  }
-
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    textEl.innerHTML = applyAccent(slogans[0].text, slogans[0].accent);
+    textEl.innerHTML = heroAccent(slogans[0].text, slogans[0].accent);
     if (caret) caret.style.display = "none";
+    reserveHeroLines(wrap, textEl, slogans);
     return;
   }
+  reserveHeroLines(wrap, textEl, slogans);
   if (caret) caret.style.display = "";
 
   let idx = 0, phase = "typing", currentText = "";
@@ -324,7 +355,7 @@ function initHeroTypewriter() {
       currentText = s.text.slice(0, currentText.length + 1);
       textEl.textContent = currentText;
       if (currentText.length === s.text.length) {
-        textEl.innerHTML = applyAccent(s.text, s.accent);
+        textEl.innerHTML = heroAccent(s.text, s.accent);
         phase = "holding";
         heroTypeTimer = setTimeout(step, 2200);
       } else {
@@ -347,6 +378,12 @@ function initHeroTypewriter() {
   }
   step();
 }
+
+/* re-measure the reserved headline height after a viewport change */
+window.addEventListener("resize", function () {
+  if (heroResizeTimer) clearTimeout(heroResizeTimer);
+  heroResizeTimer = setTimeout(initHeroTypewriter, 200);
+});
 
 /* --------------------------- language switch --------------------------- */
 function setLanguage(lang) {

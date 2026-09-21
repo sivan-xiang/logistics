@@ -638,13 +638,14 @@ a { color: inherit; text-decoration: none; }
 .timeline { position: relative; margin: 10px 0 0; padding: 0; list-style: none; }
 .timeline::before {
   content: ""; position: absolute; left: 7px; top: 6px; bottom: 0; width: 2px;
-  background: linear-gradient(180deg, var(--blue), var(--gold)); opacity: .35;
+  background: linear-gradient(180deg, var(--blue), var(--gold)); opacity: .45;
 }
 .timeline__item { position: relative; padding: 0 0 30px 42px; }
 .timeline__item:last-child { padding-bottom: 0; }
 .timeline__marker {
-  position: absolute; left: 0; top: 2px; width: 16px; height: 16px; border-radius: 50%;
+  position: absolute; left: 0; top: 7px; width: 16px; height: 16px; border-radius: 50%;
   background: #fff; border: 3px solid var(--gold); box-shadow: 0 0 0 4px rgba(232,163,61,.16);
+  z-index: 2;   /* above the row surface — the rail node stays crisp */
 }
 .timeline__year {
   display: inline-block; font-family: var(--font-display); font-size: 13px; font-weight: 700;
@@ -833,3 +834,791 @@ html[data-theme="dark"] .netmap-section { background: #0a1424; }
 /* keep the primary CTA on brand blue (its label is white) */
 html[data-theme="dark"] .btn--primary { background: #0071e3; }
 html[data-theme="dark"] .chip:hover { background: #1b2c49; color: var(--ink); }
+
+/* ===================================================================
+   POLISH v2 — frosted-glass surfaces, unified motion, micro-interactions
+   Appended last on purpose: it refines the rules above, never fights them.
+   =================================================================== */
+
+:root {
+  --ease: cubic-bezier(.22, .8, .26, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --glass-blur: 12px;
+  --glass-blur-hi: 22px;
+  --glass-bg: rgba(255, 255, 255, .68);
+  --glass-bg-hi: rgba(255, 255, 255, .93);
+  --glass-brd: rgba(255,255,255,.70);
+  --glass-brd-hi: rgba(255,255,255,.96);
+  --shadow-1: 0 0 0 1px rgba(11,30,58,.045), 0 1px 1px rgba(11,30,58,.04),
+              0 14px 34px -20px rgba(11,30,58,.26);
+  --shadow-2: 0 0 0 1px rgba(11,30,58,.07), 0 2px 5px rgba(11,30,58,.05),
+              0 34px 60px -26px rgba(11,30,58,.38);
+}
+
+/* 1 ─ soft accent blooms behind light sections: the colour the glass refracts */
+.section { position: relative; isolation: isolate; }
+.section > .wrap { position: relative; z-index: 1; }
+/* 2 ─ the frosted-glass card system (rest + hover) */
+.card, .about-found, .proc-step, .sub-office, .office-card, .about-promise {
+  position: relative; isolation: isolate;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-brd);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(175%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(175%);
+  box-shadow: var(--shadow-1), inset 0 1px 0 rgba(255,255,255,.9), inset 0 -1px 0 rgba(11,30,58,.045);
+  transition: transform .34s var(--ease-out), box-shadow .34s var(--ease-out),
+              border-color .34s var(--ease-out), background .34s var(--ease-out),
+              backdrop-filter .34s var(--ease-out), -webkit-backdrop-filter .34s var(--ease-out);
+}
+.card:hover, .about-found:hover, .proc-step:hover, .sub-office:hover,
+.office-card:hover, .office-card:focus-visible, .office-card:focus-within {
+  transform: translateY(-6px);
+  background: var(--glass-bg-hi);
+  border-color: var(--glass-brd-hi);
+  box-shadow: var(--shadow-2), inset 0 1px 0 #fff;
+  -webkit-backdrop-filter: blur(var(--glass-blur-hi)) saturate(200%);
+  backdrop-filter: blur(var(--glass-blur-hi)) saturate(200%);
+  z-index: 4;
+}
+
+/* 2b ─ pointer-tracked specular sheen (rides --mx/--my set in effects.js).
+        z-index:-1 keeps it above the card fill but under the text. */
+.about-found::after, .proc-step::after, .sub-office::after,
+.office::after, .office-card::after, .about-promise::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+  pointer-events: none; opacity: 0; transition: opacity .34s var(--ease);
+  background:
+    radial-gradient(190px circle at var(--mx, -300px) var(--my, -300px),
+    rgba(255,255,255,.60), rgba(255,255,255,0) 64%);
+}
+.about-found:hover::after, .proc-step:hover::after, .sub-office:hover::after,
+.office:hover::after, .office-card:hover::after, .office-card:focus-visible::after,
+.about-promise:hover::after { opacity: .85; }
+
+/* upgrade the original .card spotlight into a proper glass highlight */
+.card::before {
+  background:
+    radial-gradient(190px circle at var(--mx,-300px) var(--my,-300px), rgba(255,255,255,.62), transparent 62%),
+    radial-gradient(290px circle at var(--mx,-300px) var(--my,-300px), rgba(0,113,227,.16), transparent 68%);
+  transition: opacity .34s var(--ease);
+}
+
+/* 3 ─ dark theme glass */
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .section--gray .card,
+html[data-theme="dark"] .about-found,
+html[data-theme="dark"] .sub-office,
+html[data-theme="dark"] .proc-step,
+html[data-theme="dark"] .office-card,
+html[data-theme="dark"] .about-promise {
+  background: rgba(255, 255, 255, .065);
+  border-color: rgba(255,255,255,.14);
+  box-shadow: 0 1px 1px rgba(0,0,0,.45), 0 16px 36px -20px rgba(0,0,0,.8),
+              inset 0 1px 0 rgba(255,255,255,.09);
+}
+html[data-theme="dark"] .card:hover,
+html[data-theme="dark"] .about-found:hover,
+html[data-theme="dark"] .sub-office:hover,
+html[data-theme="dark"] .proc-step:hover,
+html[data-theme="dark"] .office-card:hover,
+html[data-theme="dark"] .office-card:focus-visible {
+  background: rgba(255, 255, 255, .11);
+  border-color: rgba(255,255,255,.24);
+  box-shadow: 0 2px 6px rgba(0,0,0,.5), 0 34px 64px -28px rgba(0,0,0,.9),
+              inset 0 1px 0 rgba(255,255,255,.17);
+}
+html[data-theme="dark"] .card::before {
+  background:
+    radial-gradient(190px circle at var(--mx,-300px) var(--my,-300px), rgba(255,255,255,.20), transparent 62%),
+    radial-gradient(290px circle at var(--mx,-300px) var(--my,-300px), rgba(80,150,255,.26), transparent 68%);
+}
+html[data-theme="dark"] .about-found::after,
+html[data-theme="dark"] .proc-step::after,
+html[data-theme="dark"] .sub-office::after,
+html[data-theme="dark"] .office-card::after,
+html[data-theme="dark"] .about-promise::after {
+  background: radial-gradient(190px circle at var(--mx, -300px) var(--my, -300px),
+    rgba(255,255,255,.20), rgba(255,255,255,0) 64%);
+}
+html[data-theme="dark"] .office-card__detail {
+  background: rgba(16,26,46,.94);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  backdrop-filter: blur(16px) saturate(170%);
+}
+
+/* 4 ─ dark-band office cards (home "where we are") get the same treatment */
+.office {
+  isolation: isolate;
+  background: rgba(255,255,255,.055);
+  border-color: rgba(255,255,255,.12);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  backdrop-filter: blur(10px) saturate(160%);
+  box-shadow: 0 10px 26px -18px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.office:hover {
+  background: rgba(255,255,255,.10);
+  border-color: rgba(232,163,61,.55);
+  box-shadow: 0 22px 44px -22px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+/* 5 ─ chips */
+.chip {
+  background: rgba(255,255,255,.66);
+  border-color: rgba(255,255,255,.72);
+  -webkit-backdrop-filter: blur(8px) saturate(160%);
+  backdrop-filter: blur(8px) saturate(160%);
+  box-shadow: 0 8px 20px -16px rgba(11,30,58,.6);
+  transition: transform .28s var(--ease-out), background .3s var(--ease),
+              color .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
+}
+.chip:hover { transform: translateY(-3px); border-color: transparent; box-shadow: 0 18px 34px -18px rgba(11,30,58,.75); }
+html[data-theme="dark"] .chip { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.14); }
+
+/* 6 ─ timeline micro-interactions. Nothing moves. The row gains a surface,
+       the rail node fills in, the year pill fills in — three quiet states
+       instead of a slide three effects deep. The row wash is what makes a
+       640px-wide entry feel like one hoverable thing. */
+.timeline__item::after {
+  content: ""; position: absolute; left: -12px; right: -12px;
+  top: -12px; bottom: 18px; border-radius: 16px;
+  background: rgba(0, 113, 227, .055);
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s var(--ease);
+}
+.timeline__item:last-child::after { bottom: -12px; }
+.timeline__item:hover::after { opacity: 1; }
+.timeline__marker {
+  transition: background .3s var(--ease), border-color .3s var(--ease), box-shadow .35s var(--ease);
+}
+.timeline__item:hover .timeline__marker {
+  background: var(--gold); border-color: var(--gold);
+  box-shadow: 0 0 0 6px rgba(232,163,61,.22);
+}
+.timeline__year { transition: background .3s var(--ease), color .3s var(--ease), box-shadow .3s var(--ease); }
+.timeline__item:hover .timeline__year {
+  background: var(--blue); color: #fff;
+  box-shadow: 0 6px 16px -12px rgba(0,113,227,.85);
+}
+html[data-theme="dark"] .timeline__item::after { background: rgba(63, 151, 245, .10); }
+html[data-theme="dark"] .timeline::before { opacity: .6; }
+html[data-theme="dark"] .timeline__item:hover .timeline__marker { background: var(--gold); }
+
+/* 7 ─ stats */
+.stat { transition: transform .32s var(--ease-out); }
+.stat:hover { transform: translateY(-3px); }
+.stat__num { transition: text-shadow .35s var(--ease); }
+.stat:hover .stat__num { text-shadow: 0 0 26px rgba(232,163,61,.55); }
+
+/* 8 ─ buttons */
+.btn { transition: transform .2s var(--ease-out), background .25s var(--ease),
+       color .25s var(--ease), border-color .25s var(--ease), box-shadow .3s var(--ease); }
+.btn:active { transform: translateY(0) scale(.97); }
+.btn:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.btn--primary { box-shadow: 0 10px 26px -14px rgba(0,113,227,.85); }
+.btn--primary:hover { box-shadow: 0 16px 36px -14px rgba(0,113,227,.95); }
+.btn--gold { box-shadow: 0 10px 26px -16px rgba(232,163,61,.95); }
+.btn--gold:hover { box-shadow: 0 16px 36px -16px rgba(232,163,61,.95); }
+.btn--ghost { background: rgba(255,255,255,.06); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.btn--ghost:hover { background: rgba(255,255,255,.14); }
+
+/* 9 ─ nav */
+.nav__links a { position: relative; transition: color .22s var(--ease), opacity .22s var(--ease); }
+.nav__links a:not(.is-active)::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--gold));
+  transform: scaleX(0); transform-origin: left center; transition: transform .3s var(--ease-out);
+}
+.nav__links a:not(.is-active):hover::after { transform: scaleX(1); }
+.nav__logo img { transition: transform .32s var(--ease-out); }
+.nav__logo:hover img { transform: scale(1.04); }
+.lang__btn { transition: background .25s var(--ease), color .25s var(--ease), box-shadow .25s var(--ease); }
+.lang__btn:hover { color: var(--blue); }
+.theme-toggle:active { transform: scale(.9); }
+.theme-toggle svg { transition: transform .5s var(--ease-out); }
+html[data-theme="dark"] .theme-toggle:hover svg { transform: rotate(40deg); }
+
+/* 10 ─ forms */
+.contact-form input, .contact-form textarea {
+  transition: border-color .25s var(--ease), box-shadow .25s var(--ease),
+              background .25s var(--ease), transform .25s var(--ease-out);
+}
+.contact-form input:hover, .contact-form textarea:hover { border-color: rgba(0,113,227,.35); }
+.contact-form input:focus, .contact-form textarea:focus {
+  outline: none; border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(0,113,227,.14); transform: translateY(-1px);
+}
+
+/* 11 ─ sub-office phone link + footer links */
+.sub-office__line { transition: color .25s var(--ease), transform .25s var(--ease-out); }
+.sub-office__line:hover { transform: translateX(3px); }
+.footer__col a { transition: color .22s var(--ease), transform .22s var(--ease-out); }
+.footer__col a:hover { transform: translateX(3px); }
+.contact-info a { transition: color .22s var(--ease); }
+
+/* 12 ─ the map panel gets a lit edge */
+.netmap {
+  box-shadow: 0 40px 90px -50px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.07);
+  transition: border-color .4s var(--ease), box-shadow .4s var(--ease);
+}
+.netmap:hover { border-color: rgba(232,163,61,.32); }
+
+/* 13 ─ global finishing touches */
+::selection { background: rgba(0,113,227,.22); }
+html[data-theme="dark"] ::selection { background: rgba(63,151,245,.34); }
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--blue); outline-offset: 3px;
+}
+html[data-theme="dark"] a:focus-visible,
+html[data-theme="dark"] button:focus-visible,
+html[data-theme="dark"] [tabindex]:focus-visible { outline-color: var(--blue); }
+html { scrollbar-width: thin; scrollbar-color: rgba(11,30,58,.28) transparent; }
+html[data-theme="dark"] { scrollbar-color: rgba(255,255,255,.22) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(11,30,58,.24); background-clip: content-box;
+  border: 3px solid transparent; border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(0,113,227,.55); background-clip: content-box; }
+html[data-theme="dark"] ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.22); background-clip: content-box; }
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover { background: rgba(63,151,245,.6); background-clip: content-box; }
+
+/* 14 ─ cross-page fade (same-origin navigations, Chrome/Edge 126+) */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: vtOut .2s var(--ease) both; }
+::view-transition-new(root) { animation: vtIn .34s var(--ease-out) both; }
+@keyframes vtOut { to { opacity: 0; } }
+@keyframes vtIn { from { opacity: 0; transform: translateY(8px); } }
+
+/* 15 ─ graceful degradation */
+@media (hover: none) {
+  .card, .about-found, .proc-step, .sub-office, .office-card, .office, .chip,
+  .about-promise, .contact-form input, .contact-form textarea {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+}
+@media (max-width: 860px) {
+  .nav__links a::after { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card, .about-found, .proc-step, .sub-office, .office-card, .office, .chip,
+  .stat, .timeline__item, .timeline__marker, .btn, .sub-office__line, .footer__col a {
+    transition: none !important;
+  }
+  .card:hover, .about-found:hover, .proc-step:hover, .sub-office:hover,
+  .office-card:hover, .office:hover, .chip:hover, .stat:hover, .timeline__item:hover,
+  .btn:active { transform: none !important; }
+  .about-found::after, .proc-step::after, .sub-office::after,
+  .office::after, .office-card::after, .about-promise::after { display: none; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+  .theme-toggle svg { transition: none !important; }
+}
+
+/* 16 ─ pointer-tracked light layers removed.
+   The 520px glow cursor and the per-card specular both read as a smudge of
+   light stuck under the pointer once the panes became frosted. The glass look
+   now comes from the blur, the lit rim and the refracted fill alone. Rules
+   above are kept intact so this can be reverted by deleting this block. */
+.card::before,
+.about-found::after, .proc-step::after, .sub-office::after,
+.office::after, .office-card::after, .about-promise::after { display: none; }
+.glow-cursor { display: none; }
+
+/* ===================================================================
+   APPLE PASS — realigned to apple.com's design language
+   -------------------------------------------------------------------
+   What was borrowed, straight from apple.com:
+     · ONE type family (SF Pro / system), tight optical tracking,
+       semibold headings — no decorative display face
+     · a surface is a FLAT tile: #f5f5f7, radius 18px, no border,
+       no drop shadow, no blur
+     · ONE accent (blue #0071e3) + neutral greys. No gradient may
+       carry meaning or decoration anywhere on the site.
+     · controls are 980px pills at 17px; they do not lift on hover,
+       they compress on press (scale .97)
+     · rhythm alternates #fff / #f5f5f7 with a lot of vertical air
+   Appended last, so it wins on source order. Delete this whole block
+   (from the marker to EOF) to roll the site back.
+   =================================================================== */
+
+/* 1 ─ Type: the system stack, Apple's optical sizes.
+       The old glass tokens are re-pointed at the flat tile colours so
+       the layer above renders flat too, without touching its rules. */
+:root {
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text",
+          "Segoe UI", "Helvetica Neue", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI Variable Display",
+          "Segoe UI", "Helvetica Neue", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --tile: #f5f5f7;
+  --tile-2: #ececf0;
+  --link: #0066cc;
+  --radius: 18px;
+  --radius-lg: 28px;
+  --apple-ease: cubic-bezier(.28, .11, .32, 1);
+  /* neutralised glass tokens */
+  --glass-bg: #f5f5f7;
+  --glass-bg-hi: #ececf0;
+  --glass-brd: transparent;
+  --glass-brd-hi: transparent;
+  --glass-blur: 0px;
+  --glass-blur-hi: 0px;
+}
+body { font-size: 17px; line-height: 1.47059; letter-spacing: -.011em; }
+
+/* 2 ─ Surfaces are hairlines: white fill, one 1px rim, no shadow.
+       A flat grey fill reads as a slab of concrete once it is repeated
+       eight times across a grid, so the fill stays white and the rim
+       does the separating — Apple's own content-card treatment. */
+.card, .about-found, .sub-office, .proc-step {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, .10);
+  border-radius: var(--radius);
+  box-shadow: none;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.card, .about-found { padding: 36px 32px; }
+.proc-step { padding: 32px 26px; }
+.sub-office { padding: 20px 22px; box-shadow: none; }
+/* on a grey band the rim is redundant: the band already separates */
+.section--gray .card,
+.section--gray .about-found,
+.section--gray .sub-office,
+.section--gray .proc-step { background: #fff; border-color: transparent; }
+/* hover: the rim firms up and the card lifts 2px. Nothing else moves. */
+.card:hover, .about-found:hover, .sub-office:hover, .proc-step:hover {
+  background: #fff;
+  border-color: rgba(0, 0, 0, .20);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px -22px rgba(0, 0, 0, .40);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.section--gray .card:hover,
+.section--gray .about-found:hover,
+.section--gray .sub-office:hover,
+.section--gray .proc-step:hover {
+  border-color: transparent;
+  box-shadow: 0 14px 34px -20px rgba(0, 0, 0, .22);
+}
+/* the rotating conic border glow and the pointer spotlight both go */
+.card::after { display: none; content: none; }
+
+/* 3 ─ Icons become bare Apple-style glyphs, no tinted chip behind them */
+.card__icon {
+  display: flex; align-items: center; justify-content: center;
+  width: auto; height: auto; border-radius: 0;
+  background: none; color: var(--blue);
+  margin-bottom: 18px;
+}
+.card__icon svg { width: 36px; height: 36px; }
+.card__icon--gold { background: none; color: var(--gold-deep); }
+.section--dark .card__icon, .netmap-section .card__icon { background: none; color: var(--gold); }
+.detail-item__head .card__icon { margin-bottom: 0; }
+
+/* 4 ─ Every decorative gradient is removed. Colour now only ever
+       appears as a flat fill. */
+.hero {
+  background: var(--navy);
+  background-image: radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,.07), transparent 60%);
+}
+.hero__routes { opacity: .45; }
+.stats { background: var(--navy); }
+.cta { background: var(--navy); }
+.stats::before, .cta::before, .page-hero::before { display: none; content: none; }
+/* page banners keep their per-page colour, but as a flat fill with one
+   soft top highlight instead of a rotating conic sheen */
+.page-hero {
+  background-color: rgb(var(--h2));
+  background-image: radial-gradient(120% 95% at 50% 0%, rgb(var(--h1) / .55), transparent 62%);
+}
+.page-hero::after { height: 1px; background: rgba(255, 255, 255, .16); }
+.page-hero__stroke { opacity: .10; }
+.scroll-progress { background: var(--blue); box-shadow: none; }
+.btn::after { display: none; content: none; }
+.hero__caret { background: var(--gold); }
+.nav__links a.is-active::after { background: var(--blue); width: 16px; height: 2px; bottom: -5px; }
+.nav__links a:not(.is-active)::after { display: none; content: none; }
+.subs__group-rule, .svc-group__rule { background: var(--line); }
+.about-promise {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, .10); border-left: 1px solid rgba(0, 0, 0, .10);
+}
+.about-promise__badge { background: var(--tile); border-color: transparent; }
+.about-found::before { height: 3px; background: rgb(var(--a2) / .85); }
+.proc-step::before { height: 3px; background: rgba(0, 113, 227, .55); }
+.proc-step__num {
+  background: none; -webkit-background-clip: border-box; background-clip: border-box;
+  -webkit-text-fill-color: currentColor; color: var(--blue); font-weight: 600;
+}
+.timeline::before { background: var(--line); opacity: 1; }
+.netmap { background: var(--navy); background-image: none; border: 1px solid transparent; }
+.netmap:hover { border-color: transparent; }
+.section__dots { opacity: .30; }
+
+/* 5 ─ Controls: 980px pills, 17px, one accent, press-don't-lift */
+.btn {
+  font-size: 17px; font-weight: 400; padding: 12px 24px;
+  border-radius: 980px; letter-spacing: -.011em;
+  box-shadow: none; transform: none;
+}
+.btn:hover { transform: none; }
+.btn:active { transform: scale(.97); }
+.btn--primary, .btn--gold { background: var(--blue); color: #fff; }
+.btn--primary:hover, .btn--gold:hover { background: #0077ed; color: #fff; box-shadow: none; }
+.btn--ghost {
+  background: transparent; color: #fff;
+  border: 1px solid rgba(255, 255, 255, .42);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.btn--ghost:hover { background: rgba(255, 255, 255, .14); border-color: rgba(255, 255, 255, .72); }
+.chip, .about-presence__city {
+  background: var(--tile); border: 1px solid transparent;
+  box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.chip:hover { background: #1d1d1f; color: #fff; transform: none; }
+.about-presence__city { padding: 11px 22px; font-size: 15px; }
+
+/* 6 ─ Nav: 48px, 12px links, hairline, no gradient underline */
+.nav { background: rgba(251, 251, 253, .80); }
+.nav--scrolled { background: rgba(251, 251, 253, .86); box-shadow: 0 1px 0 var(--line); }
+.nav__inner { height: 48px; }
+.nav__links { gap: 30px; }
+.nav__links a { font-size: 12px; letter-spacing: -.01em; opacity: .82; transition: opacity .3s var(--apple-ease); }
+.nav__links a:hover { opacity: 1; color: var(--ink); }
+.nav__links a.is-active { color: var(--ink); opacity: 1; font-weight: 600; }
+
+/* 7 ─ Rhythm: more air between bands, Apple's section header stack */
+.section { padding: clamp(84px, 9vw, 132px) 0; }
+.section__head { max-width: 740px; margin-bottom: 64px; }
+.section__eyebrow { font-size: 17px; font-weight: 600; letter-spacing: -.011em; margin-bottom: 10px; }
+.section__lead { font-size: clamp(17px, 1.7vw, 21px); line-height: 1.42; letter-spacing: .002em; margin-top: 14px; }
+
+/* 8 ─ Weights, plus the two banner details the scale section does not own.
+       (Sizes and tracking all live in section 16, the type scale.) */
+.hero__title { font-weight: 700; }
+.section__title, .cta__title { font-weight: 600; }
+.stat__num { font-weight: 600; }
+.page-hero__eyebrow { font-size: 12px; letter-spacing: .12em; }
+/* the stroke-text flourish survives the banner reveal, but the fill it
+   sweeps to is solid white — Apple headlines are never gradient-filled */
+.page-hero__title {
+  font-weight: 600;
+  -webkit-text-stroke-width: 1.25px;
+  background-image: linear-gradient(100deg, #fff 0%, rgba(255, 255, 255, .88) 100%);
+}
+
+/* 9 ─ Forms: hairline fields, Apple's blue focus halo */
+.contact-form label { font-size: 14px; font-weight: 600; letter-spacing: -.01em; }
+.contact-form input, .contact-form textarea {
+  background: #fff; border: 1px solid rgba(0, 0, 0, .16); border-radius: 12px;
+  padding: 14px 16px; font-size: 17px; letter-spacing: -.011em;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.contact-form input:hover, .contact-form textarea:hover { border-color: rgba(0, 0, 0, .28); }
+.contact-form input:focus, .contact-form textarea:focus {
+  border-color: var(--blue); transform: none;
+  box-shadow: 0 0 0 4px rgba(0, 125, 250, .28);
+}
+
+/* 10 ─ Contact office cards */
+.office-card { background: #fff; border: 1px solid rgba(0, 0, 0, .10); -webkit-backdrop-filter: none; backdrop-filter: none; }
+/* hover: the tile steps down one tone instead of staying white, so the
+   card visibly answers the pointer. Tint + hairline only - no lift, no
+   shadow; a grey card does not float. */
+.office-card:hover, .office-card:focus-visible, .office-card:focus-within {
+  background: #f5f5f7; border-color: rgba(0, 0, 0, .20); transform: none;
+  box-shadow: 0 8px 24px -20px rgba(0, 0, 0, .28);
+}
+.office-card__detail {
+  background: #fff; border: 1px solid transparent; border-radius: 14px;
+  box-shadow: 0 20px 48px -12px rgba(0, 0, 0, .28);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+/* the office chips on the dark band */
+.office {
+  background: rgba(255, 255, 255, .07); border: 1px solid transparent;
+  box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.office:hover { background: rgba(255, 255, 255, .13); border-color: transparent; box-shadow: none; transform: none; }
+
+/* 11 ─ Footer: quieter, 12–13px, no uppercase tracking */
+.footer__col h4 { font-size: 12px; text-transform: none; letter-spacing: -.006em; color: rgba(255, 255, 255, .58); }
+.footer__col a, .footer__col span { font-size: 13px; margin-bottom: 9px; }
+.footer__bottom { font-size: 12px; letter-spacing: 0; }
+
+/* 12 ─ Motion: Apple's reveal is a short fade-up on a calm curve */
+.reveal { transform: translateY(16px); transition: opacity .8s var(--apple-ease), transform .8s var(--apple-ease); }
+
+/* 13 ─ Focus + scrollbar */
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 3px solid rgba(0, 125, 250, .70); outline-offset: 2px;
+}
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, .22); background-clip: content-box; border: 3px solid transparent; border-radius: 999px; }
+
+/* 14 ─ Dark mode = Apple's black. #000 page, #1d1d1f surfaces,
+        #f5f5f7 text, #2997ff link blue. */
+html[data-theme="dark"] {
+  --paper: #000000;
+  --gray: #1d1d1f;
+  --tile: #1d1d1f;
+  --tile-2: #2c2c2e;
+  --ink: #f5f5f7;
+  --ink-soft: #86868b;
+  --head: #f5f5f7;
+  --line: rgba(255, 255, 255, .14);
+  --blue: #2997ff;
+  --link: #2997ff;
+  --gold-deep: #e8a33d;
+  --navy: #1d1d1f;
+  --navy-2: #161617;
+  --glass-bg: #1d1d1f;
+  --glass-bg-hi: #2c2c2e;
+}
+html[data-theme="dark"] body { background: #000; }
+html[data-theme="dark"] .nav { background: rgba(22, 22, 23, .72); }
+html[data-theme="dark"] .nav--scrolled { background: rgba(22, 22, 23, .86); box-shadow: 0 1px 0 rgba(255, 255, 255, .10); }
+html[data-theme="dark"] .nav__links.is-open { background: rgba(22, 22, 23, .98); }
+html[data-theme="dark"] .theme-toggle { background: rgba(255, 255, 255, .10); border-color: transparent; }
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .about-found,
+html[data-theme="dark"] .sub-office,
+html[data-theme="dark"] .proc-step {
+  background: #1d1d1f; border-color: rgba(255, 255, 255, .12); box-shadow: none;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+/* a card sitting on a dark band steps up one notch, or it vanishes */
+html[data-theme="dark"] .section--gray .card,
+html[data-theme="dark"] .section--gray .about-found,
+html[data-theme="dark"] .section--gray .sub-office,
+html[data-theme="dark"] .section--gray .proc-step { background: #2c2c2e; border-color: rgba(255, 255, 255, .12); }
+html[data-theme="dark"] .card:hover,
+html[data-theme="dark"] .about-found:hover,
+html[data-theme="dark"] .sub-office:hover,
+html[data-theme="dark"] .proc-step:hover {
+  background: #252527; border-color: rgba(255, 255, 255, .22);
+  box-shadow: 0 14px 34px -22px rgba(0, 0, 0, .95);
+}
+html[data-theme="dark"] .section--gray .card:hover,
+html[data-theme="dark"] .section--gray .about-found:hover,
+html[data-theme="dark"] .section--gray .sub-office:hover,
+html[data-theme="dark"] .section--gray .proc-step:hover { background: #3a3a3c; }
+html[data-theme="dark"] .section--dark .card,
+html[data-theme="dark"] .netmap-section .card { background: #2c2c2e; border-color: rgba(255, 255, 255, .12); }
+html[data-theme="dark"] .section--dark .card:hover,
+html[data-theme="dark"] .netmap-section .card:hover { background: #3a3a3c; }
+html[data-theme="dark"] .about-promise { background: #1d1d1f; border-color: rgba(255, 255, 255, .12); }
+html[data-theme="dark"] .about-promise__badge { background: #2c2c2e; border-color: transparent; color: #f5f5f7; }
+html[data-theme="dark"] .office-card { background: #1d1d1f; border-color: rgba(255, 255, 255, .12); }
+html[data-theme="dark"] .office-card:hover,
+html[data-theme="dark"] .office-card:focus-visible,
+html[data-theme="dark"] .office-card:focus-within { background: #333336; border-color: rgba(255, 255, 255, .24); }
+html[data-theme="dark"] .office-card__detail { background: #2c2c2e; border-color: transparent; }
+html[data-theme="dark"] .office-card__country { color: rgba(245, 245, 247, .5); }
+html[data-theme="dark"] .office { background: rgba(255, 255, 255, .09); }
+html[data-theme="dark"] .office:hover { background: rgba(255, 255, 255, .16); }
+html[data-theme="dark"] .chip { background: #1d1d1f; }
+html[data-theme="dark"] .chip:hover { background: #f5f5f7; color: #1d1d1f; }
+html[data-theme="dark"] .contact-form input,
+html[data-theme="dark"] .contact-form textarea { background: #1d1d1f; border-color: rgba(255, 255, 255, .18); }
+html[data-theme="dark"] .contact-form input:focus,
+html[data-theme="dark"] .contact-form textarea:focus { border-color: var(--blue); }
+html[data-theme="dark"] .section--dark,
+html[data-theme="dark"] .stats,
+html[data-theme="dark"] .netmap-section,
+html[data-theme="dark"] .cta,
+html[data-theme="dark"] .hero { background: #1d1d1f; }
+html[data-theme="dark"] .footer { background: #161617; }
+html[data-theme="dark"] .subs__group-count { background: rgba(41, 151, 255, .16); color: #2997ff; }
+html[data-theme="dark"] .timeline__marker { background: #1d1d1f; }
+html[data-theme="dark"] .section__eyebrow { color: var(--gold); }
+html[data-theme="dark"] ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, .22); background-clip: content-box; }
+
+/* 15 ─ Banner + map surfaces settled after the first visual pass */
+.page-hero__canvas { opacity: .50; }
+/* the map panel needs its own tone: with the band and the panel both flat
+   navy it had no edge at all. A darker well + hairline rim reads as a
+   mounted screen rather than a hole in the band. */
+.netmap { background: #081626; border: 1px solid rgba(255, 255, 255, .08); }
+.netmap:hover { border-color: rgba(255, 255, 255, .13); }
+html[data-theme="dark"] .netmap { background: #111113; border-color: rgba(255, 255, 255, .10); }
+
+/* 16 ─ Type scale, snapped onto Apple's steps.
+       Apple runs a coarse scale — 12 / 14 / 17 / 19 / 21 / 24 / 32 / 40 /
+       48 / 56 / 80 — and one tracking rule that never breaks: the larger the
+       type, the tighter it is set. The audit found eleven sizes in the
+       11–26px band and small text inheriting the headline's negative
+       tracking, which is what made it look unsettled. Everything below
+       snaps to the steps and gives each paragraph a readable measure. */
+
+/* 16a ─ display tier */
+.hero__title { font-size: clamp(44px, 6.4vw, 80px); line-height: 1.05; letter-spacing: -.022em; }
+.page-hero__title { font-size: clamp(34px, 4.6vw, 56px); line-height: 1.10; letter-spacing: -.019em; }
+.section__title, .cta__title { font-size: clamp(30px, 4.2vw, 48px); line-height: 1.08; letter-spacing: -.019em; }
+.stat__num { font-size: clamp(40px, 4.6vw, 56px); line-height: 1.05; letter-spacing: -.022em; }
+.proc-step__num { font-size: 40px; line-height: 1.05; letter-spacing: -.022em; }
+.about-story__lead { font-size: clamp(22px, 2.8vw, 32px); line-height: 1.26; letter-spacing: -.014em; max-width: 800px; }
+
+/* 16b ─ title tier */
+.svc-group__title { font-size: clamp(20px, 2.2vw, 24px); line-height: 1.20; letter-spacing: -.014em; }
+.subs__group-name { font-size: 21px; line-height: 1.19; letter-spacing: -.014em; }
+.card__title, .about-found__title { font-size: 21px; line-height: 1.19; letter-spacing: -.014em; }
+.proc-step__title, .about-promise__title { font-size: 19px; line-height: 1.26; letter-spacing: -.011em; }
+.hero__eyebrow, .section__eyebrow { font-size: 17px; line-height: 1.30; letter-spacing: -.011em; }
+.office__city, .sub-office__city, .timeline__title {
+  font-size: 17px; font-weight: 600; line-height: 1.29; letter-spacing: -.011em;
+}
+
+/* 16c ─ lead tier: one size for every standfirst on the site */
+.hero__sub, .section__lead, .cta__sub, .page-hero__lead {
+  font-size: clamp(17px, 1.7vw, 21px); line-height: 1.42; letter-spacing: .002em;
+}
+.page-hero__lead { font-size: 19px; }
+.section__head { max-width: 690px; }
+.section__lead { max-width: 640px; margin-left: auto; margin-right: auto; }
+.hero__sub, .cta__sub { max-width: 620px; }
+.hero__sub { margin-left: auto; margin-right: auto; }
+.cta__sub { margin-left: auto; margin-right: auto; }
+
+/* 16d ─ body tier. Everything that supports a heading sits one full step
+        below the lead: 15px, with the line-height opened up to carry it.
+        17px is Apple's reading size but it belongs to the standfirst, not
+        to a paragraph tucked inside a card. */
+.card__desc, .about-found__desc, .detail-item__intro,
+.timeline__text, .about-promise__text {
+  font-size: 15px; line-height: 1.58; letter-spacing: -.006em;
+}
+.detail-item__intro, .timeline__text { max-width: 62ch; }
+strong { font-weight: 600; }
+
+/* 16e ─ dense/meta tier: lists, addresses, controls, footers */
+.caps__item, .proc-step__desc, .stat__label, .office__phone, .office__ico,
+.sub-office__addr, .sub-office__line, .office-card__addr, .office-card__phone,
+.chip, .footer__tag, label {
+  font-size: 14px; line-height: 1.45; letter-spacing: -.006em;
+}
+.footer__col a, .footer__col span { font-size: 14px; letter-spacing: -.006em; }
+.about-presence__city { font-size: 14px; letter-spacing: -.006em; }
+.office-card__city { font-size: 14px; font-weight: 600; letter-spacing: -.006em; }
+
+/* 16f ─ micro tier: 12px labels. Tracking goes positive down here, not
+        negative — small glyphs need the air. */
+.office__country, .office-card__country { font-size: 12px; font-weight: 600; letter-spacing: .04em; line-height: 1.33; }
+.timeline__year, .detail-item__tag, .svc-group__count, .subs__group-count {
+  font-size: 12px; font-weight: 600; letter-spacing: .02em;
+}
+.footer__col h4, .contact-info h4 {
+  font-size: 12px; font-weight: 600; letter-spacing: -.002em; text-transform: none;
+}
+.footer__bottom, .footer__bottom a { font-size: 12px; letter-spacing: -.002em; }
+.contact-info h4 { font-size: 14px; }
+.footer__col h4 { color: rgba(255, 255, 255, .58); }
+html[data-theme="dark"] .footer__col h4 { color: rgba(245, 245, 247, .58); }
+.about-promise__badge { font-weight: 600; }
+/* a shouty uppercase label on every card is not Apple; sentence case, set
+   in the secondary grey at the dense tier */
+.detail-item__caps-label {
+  font-size: 14px; font-weight: 600; letter-spacing: -.011em;
+  text-transform: none; color: var(--ink-soft);
+}
+.section--dark .detail-item__caps-label,
+.netmap-section .detail-item__caps-label { color: rgba(255, 255, 255, .62); }
+
+/* 16g ─ rag control. Balance the headlines, and stop paragraphs from
+        dropping a single orphan word onto their last line. */
+.section__title, .cta__title, .page-hero__title,
+.card__title, .proc-step__title, .about-found__title { text-wrap: balance; }
+.hero__sub, .section__lead, .cta__sub, .page-hero__lead, .card__desc,
+.detail-item__intro, .timeline__text, .about-promise__text,
+.about-found__desc, .caps__item { text-wrap: pretty; }
+
+/* 17 ─ Touch + reduced-motion parity for the new layer */
+@media (hover: none) {
+  .card:hover, .about-found:hover, .sub-office:hover, .proc-step:hover,
+  .office-card:hover, .office:hover { transform: none; }
+}
+@media (max-width: 640px) {
+  .card, .about-found { padding: 30px 26px; }
+  .section { padding: 76px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transform: none; }
+}
+
+/* ---------------------------------------------------------------------
+   20 - THE FORM'S PRIMARY ACTION
+   A 144px pill floating under a 560px stack of fields reads as an
+   afterthought. The submit becomes the closing edge of the form:
+   full column width, a real 52px touch target, and a focus state that
+   borrows the exact halo the inputs already use so the whole block
+   answers in one voice.
+   --------------------------------------------------------------------- */
+/* a real <button> still ships the UA's `2px outset` border, which draws a
+   grey ring around the pill. Every other .btn on the site is an <a>. */
+button.btn { border: 0; -webkit-appearance: none; appearance: none; font: inherit; }
+#contactForm .btn {
+  align-self: stretch;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 10px;
+  padding: 15px 26px;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -.011em;
+}
+/* hover: deeper blue only. No lift - the form is not a floating card. */
+#contactForm .btn:hover { background: #0066cc; }
+html[data-theme="dark"] #contactForm .btn { background: #0071e3; }
+html[data-theme="dark"] #contactForm .btn:hover { background: #0077ed; }
+#contactForm .btn:active { transform: scale(.988); }
+/* same halo as input:focus, so keyboard focus is unmistakable here too */
+#contactForm .btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0, 113, 227, .24);
+}
+html[data-theme="dark"] #contactForm .btn:focus-visible { box-shadow: 0 0 0 4px rgba(41, 151, 255, .34); }
+#contactForm .btn[disabled] { opacity: .42; cursor: not-allowed; }
+@media (max-width: 640px) {
+  #contactForm .btn { min-height: 50px; font-size: 16px; }
+}
+
+/* ---------------------------------------------------------------------
+   19 - FOUR-UP GRIDS READ TIGHTER
+   A 252px column cannot carry the 36/32 tile padding that suits a
+   3-up or 2-up row; the copy ends up on three cramped lines. Tighten
+   the inset and step the title down one notch so the four cards sit
+   comfortably on a single row.
+   --------------------------------------------------------------------- */
+.cards--4 .card { padding: 30px 24px; }
+.cards--4 .card__title { font-size: 19px; }
+.cards--4 .card__desc { max-width: none; }
+@media (max-width: 900px) {
+  .cards--4 .card { padding: 32px 26px; }
+  .cards--4 .card__title { font-size: 21px; }
+}
+
+
+/* ===================================================================
+   18 ─ DETAIL-CARD TYPE LADDER
+        The 17px body tier set the standfirst and the body paragraph to
+        the same size *and* the same grey, so a services card collapsed
+        into one block of text. Restore the finer step — 21 title / 15
+        standfirst / 15 body / 14 capability — and separate the two 15s
+        by colour rather than by weight, so nothing shouts.
+   =================================================================== */
+.card.detail-item { padding: 32px 30px; }
+.card.detail-item .card__desc {
+  font-size: 15px; line-height: 1.5; letter-spacing: -.006em;
+  color: #424245; /* standfirst sits deeper than the body paragraph below it */
+}
+.detail-item__intro {
+  font-size: 15px; line-height: 1.62; letter-spacing: -.004em;
+  max-width: 56ch; margin-bottom: 20px;
+}
+.detail-item__caps-label { font-size: 13px; letter-spacing: -.002em; }
+.detail-item__caps .caps__item { font-size: 14px; line-height: 1.45; }
+/* dark bands keep the same relationship, just on the other side of the axis */
+.section--dark .card.detail-item .card__desc,
+.netmap-section .card.detail-item .card__desc { color: rgba(255, 255, 255, .82); }
+@media (max-width: 640px) {
+  .card.detail-item { padding: 28px 24px; }
+}

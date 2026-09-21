@@ -59,7 +59,7 @@
           x: Math.random() * w, y: Math.random() * h,
           vx: (Math.random() - 0.5) * 0.22, vy: (Math.random() - 0.5) * 0.18,
           r: Math.max(w, h) * (0.30 + Math.random() * 0.20),
-          a: 0.20 - i * 0.012
+          a: 0.085 - i * 0.010
         };
       });
     }
@@ -130,7 +130,8 @@
   function initSpotlight() {
     if (!fine) return;
     document.addEventListener('pointermove', function (e) {
-      var card = e.target.closest && e.target.closest('.card');
+      var card = e.target.closest && e.target.closest(
+        '.card, .about-found, .proc-step, .sub-office, .office, .office-card, .about-promise');
       if (!card) return;
       var r = card.getBoundingClientRect();
       card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
@@ -628,8 +629,11 @@
 
   ready(function () {
     initAurora();
-    initGlowCursor();
-    initSpotlight();
+    /* Disabled on purpose: the 520px pointer halo and the per-card specular
+       both read as a floating smudge of light under the cursor once the cards
+       turned frosted. Functions kept above — re-enable by uncommenting. */
+    // initGlowCursor();
+    // initSpotlight();
     initDotField();
     initHeroNetwork();
     initParticleText();

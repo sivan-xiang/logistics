@@ -17,19 +17,19 @@ const COPY = {
     "nav.contact": "Contact",
 
     "hero.eyebrow": "GIRAFSAIL · A Longsail Sub-Brand",
-    "hero.title": "Simplify the<br><span class=\"stroke\">cross-border</span> trade.",
+    "hero.title": "Logistics, made <span class=\"stroke\">simple</span>.",
     "hero.sub": "One-stop global logistics built on localized operations and globalized resources — powered by a self-developed IT platform and an AAAAA-level network.",
     "heroSlogans": [
-      { "text": "Simplify the cross-border trade.", "accent": "cross-border" },
-      { "text": "Move the world with confidence.", "accent": "world" },
-      { "text": "Ship smarter, reach further.", "accent": "further" },
-      { "text": "From port to door, with care.", "accent": "care" },
-      { "text": "Your cargo, our commitment.", "accent": "commitment" },
-      { "text": "One partner, from door to door.", "accent": "door to door" },
-      { "text": "Global network, local expertise.", "accent": "local expertise" },
       { "text": "Logistics, made simple.", "accent": "simple" },
-      { "text": "We move your world forward.", "accent": "forward" },
-      { "text": "Clear quotes, zero surprises.", "accent": "surprises" }
+      { "text": "Global reach, local care.", "accent": "local care" },
+      { "text": "Sea, air, rail and road.", "accent": "rail" },
+      { "text": "Track every box, live.", "accent": "live" },
+      { "text": "Every lane, one partner.", "accent": "one partner" },
+      { "text": "Delivered to your door.", "accent": "your door" },
+      { "text": "One team. 33 branches.", "accent": "33 branches" },
+      { "text": "Customs done right.", "accent": "right" },
+      { "text": "Built for cross-border.", "accent": "cross-border" },
+      { "text": "Backed by Longsail.", "accent": "Longsail" }
     ],
     "hero.cta1": "Explore services",
     "hero.cta2": "Talk to our team",
@@ -57,7 +57,7 @@ const COPY = {
     "industries.title": "Trusted across industries",
     "industries.lead": "We provide end-to-end logistics management for Fortune 500 companies, listed firms, and category leaders.",
 
-    "why.eyebrow": "Why GIRAF",
+    "why.eyebrow": "Why GIRAFSAIL",
     "why.title": "Global resources, local compliance",
     "why.lead": "GIRAFSAIL is an international logistics sub-brand of Longsail International Logistics Co., Ltd., committed to helping customers efficiently open up new markets.",
 
@@ -89,7 +89,7 @@ const COPY = {
     "network.mapTitle": "A network that reaches every market",
     "about.history": [
       { year: "2025", title: "New milestones", text: "Launched Sowoll & Xiaofan overseas editions; annual price checks exceeded 3 million; Shenzhen HQ moved to Runhong Building; established Beijing & Malaysia branches; shipped 600,000 TEUs in 2025." },
-      { year: "2024", title: "Global recognition", text: "Ranked among the Global Top 50 Ocean Freight Forwarders; recognised as a key enterprise in China's International Freight Forwarding Industry; SOWOLL platform inquiries approached 1 million; opened Changsha (domestic) and Saudi Arabia (overseas) branches." },
+      { year: "2024", title: "Global recognition", text: "Ranked among the Global Top 50 Ocean Freight Forwarders; recognized as a key enterprise in China's International Freight Forwarding Industry; Sowoll platform inquiries approached 1 million; opened Changsha (domestic) and Saudi Arabia (overseas) branches." },
       { year: "2023", title: "Top-tier certification", text: "Awarded 5A Logistics Enterprise by the China Federation of Logistics and Purchasing; the Dayu system rolled out globally." },
       { year: "2022", title: "Worldwide expansion", text: "Established SAFESAIL Supply Chain, SOWOLL Chengdu branch, GIRAF Bangkok & London branches, GIRAFSAIL Hanoi branch, and the U.S. overseas warehouse." },
       { year: "2021", title: "New subsidiaries", text: "Established LONGSAIL Supply Chain, REXPRESS and ESAN International Logistics; opened Wuhan and Nanjing branches." },
@@ -99,15 +99,15 @@ const COPY = {
       { year: "2016", title: "Going global", text: "Opened the first overseas branch in the USA; passed national ISO9001 certification." },
       { year: "2015", title: "International strategy", text: "Adopted the international development strategy; served multiple Fortune Global 500 companies, listed firms and well-known enterprises." },
       { year: "2011", title: "North China", text: "Opened Tianjin and Qingdao branches, entering the North China market." },
-      { year: "2010", title: "Industry recognition", text: "First listed among China's Top 50 International Freight Forwarders in Ocean Shipping, and remained on the list for twelve consecutive years." },
+      { year: "2010", title: "Industry recognition", text: "First listed among China’s Top 50 International Freight Forwarders in Ocean Shipping, and remained on the list for twelve consecutive years." },
       { year: "2007", title: "Leapfrog growth", text: "Opened Foshan and Shanghai branches; employees surpassed 100, beginning a leapfrog growth path." },
-      { year: "Explore", title: "The beginning", text: "Opened the first Guangzhou branch and began the journey of national business development." },
-      { year: "2000", title: "First-class forwarder", text: "Approved by China's Ministry of Commerce as a National First-Class Freight Forwarding Enterprise; joined WCA, CGLN, WFN and X2; Vice Chairman of the Shenzhen Freight Forwarding Association; among the first NVOCCs." },
-      { year: "1997", title: "Founded", text: "Established in Shenzhen with a team of four. The name LONGSAIL comes from Li Bai's poem: 'A time will come to ride the wind and cleave the waves; I'll set my cloud-like sail to cross the sea which raves.'" }
+      { year: "Early years", title: "The beginning", text: "Opened the first Guangzhou branch and began the journey of national business development." },
+      { year: "2000", title: "First-class forwarder", text: "Approved by China’s Ministry of Commerce as a National First-Class Freight Forwarding Enterprise; joined WCA, CGLN, WFN and X2; Vice Chairman of the Shenzhen Freight Forwarding Association; among the first NVOCCs." },
+      { year: "1997", title: "Founded", text: "Established in Shenzhen with a team of four. The name LONGSAIL comes from Li Bai’s poem: 'A time will come to ride the wind and cleave the waves; I'll set my cloud-like sail to cross the sea which raves.'" }
     ],
     "contact.eyebrow": "Get in touch",
-    "contact.title": "Let's move your cargo",
-    "contact.lead": "Tell us about your shipment. One email, one call — we build the plan.",
+    "contact.title": "Let’s move your cargo",
+    "contact.lead": "Tell us about your cargo, your lanes and your deadline — we come back with a plan.",
     "contact.name": "Name",
     "contact.email": "Email",
     "contact.message": "How can we help?",
@@ -121,30 +121,30 @@ const COPY = {
   zh: {
     "nav.services": "服务项目",
     "nav.solutions": "解决方案",
-    "nav.network": "网络",
+    "nav.network": "全球网络",
     "nav.about": "关于我们",
     "nav.contact": "联系我们",
 
     "hero.eyebrow": "GIRAFSAIL · 长帆国际物流子品牌",
-    "hero.title": "让<span class=\"stroke\">跨境</span>贸易<br>更简单。",
-    "hero.sub": "以本地化运营与全球化资源，提供一站式全球物流解决方案——依托自主研发的 IT 平台与 AAAAA 级服务网络。",
+    "hero.title": "物流，<span class=\"stroke\">化繁为简</span>。",
+    "hero.sub": "以本地化运营与全球资源，提供一站式物流解决方案——依托自主研发的 IT 平台与 AAAAA 级服务网络。",
     "heroSlogans": [
-      { "text": "让跨境贸易更简单。", "accent": "跨境" },
-      { "text": "以信心，运达世界。", "accent": "世界" },
-      { "text": "运得更智，走得更远。", "accent": "更远" },
-      { "text": "从港口到门，用心托付。", "accent": "用心" },
-      { "text": "您的货物，我们的承诺。", "accent": "承诺" },
-      { "text": "从门到门，一个伙伴。", "accent": "一个伙伴" },
-      { "text": "全球网络，本地专精。", "accent": "本地专精" },
       { "text": "物流，化繁为简。", "accent": "化繁为简" },
-      { "text": "推动您的世界向前。", "accent": "向前" },
-      { "text": "报价透明，绝无意外。", "accent": "意外" }
+      { "text": "全球网络，本地服务。", "accent": "本地服务" },
+      { "text": "海陆空铁，四通八达。", "accent": "四通八达" },
+      { "text": "货物在哪，一目了然。", "accent": "一目了然" },
+      { "text": "一条航线，一个伙伴。", "accent": "一个伙伴" },
+      { "text": "门到门，全球直达。", "accent": "全球直达" },
+      { "text": "长帆旗下，全球直连。", "accent": "全球直连" },
+      { "text": "清关顺畅，从不等候。", "accent": "从不等候" },
+      { "text": "跨境贸易，一站到底。", "accent": "一站到底" },
+      { "text": "您的托付，我们守护。", "accent": "守护" }
     ],
     "hero.cta1": "浏览服务",
     "hero.cta2": "联系我们",
 
     "services.eyebrow": "我们做什么",
-    "services.title": "全谱系物流服务组合",
+    "services.title": "覆盖全链路的物流服务",
     "services.lead": "从起运地到目的港，一个电话或一封邮件即可。拥有 28 年专业经验的团队为您量身定制方案。",
     "detail.capLabel": "核心能力",
     "services.cat.freight": "全球货运",
@@ -166,7 +166,7 @@ const COPY = {
     "industries.title": "深受各行业信赖",
     "industries.lead": "为众多世界 500 强企业、海内外上市公司及行业知名企业提供端到端物流管理服务。",
 
-    "why.eyebrow": "为什么选择 GIRAF",
+    "why.eyebrow": "为什么选择 GIRAFSAIL",
     "why.title": "全球资源，本地合规",
     "why.lead": "GIRAFSAIL 是长帆国际物流股份有限公司旗下的国际物流子品牌，致力于帮助客户高效开拓新市场。",
 
@@ -189,7 +189,7 @@ const COPY = {
     "about.presenceLabel": "本地团队已设立于",
     "about.promiseTitle": "专业高效的服务",
     "about.promise": "一个电话或一封邮件，我们的团队便凭借 28 年专业经验，为您量身定制最合适的物流方案，提供高效、稳定、专业的服务。",
-    "about.promiseBadge": "28 年专业经验",
+    "about.promiseBadge": "28 年经验",
     "network.subsTitle": "长帆集团网络",
     "network.subsLead": "GIRAFSAIL 隶属长帆集团，全球拥有 33 家分支机构。",
     "about.historyEyebrow": "发展历程",
@@ -214,9 +214,9 @@ const COPY = {
       { year: "2000", title: "一级货代资质", text: "获原外经贸部批准为国家一级货运代理企业；加入 WCA、CGLN、WFN、X2 等全球物流联盟；任深圳市货代协会副会长单位，并跻身首批无船承运人（NVOCC）。" },
       { year: "1997", title: "扬帆起航", text: "在深圳正式成立，专注综合第三方物流。公司名“LONGSAIL”取自李白诗句“长风破浪会有时，直挂云帆济沧海”。四人的小团队由此启航。" }
     ],
-    "contact.eyebrow": "联系我们",
-    "contact.title": "让您的货物动起来",
-    "contact.lead": "告诉我们您的运输需求，一封邮件、一个电话，方案由我们构建。",
+    "contact.eyebrow": "取得联系",
+    "contact.title": "让您的货物顺利抵达",
+    "contact.lead": "告诉我们您的货物、航线与时效要求，我们会带着方案回来。",
     "contact.name": "姓名",
     "contact.email": "邮箱",
     "contact.message": "您的需求",
@@ -235,7 +235,7 @@ const DATA = {
   en: {
     stats: [
       { value: 600000, suffix: "+", label: "Containers (2025)" },
-      { value: 110000, suffix: "+", label: "Customers" },
+      { value: 110000, suffix: "+", label: "Customers served" },
       { value: 33, suffix: "+", label: "Global branches" },
       { value: 28, suffix: "+", label: "Years of experience" }
     ],
@@ -267,9 +267,9 @@ const DATA = {
       { icon: "port", cat: "trade", tag: "Local clearance", title: "Destination Port Services", desc: "Local clearance, devanning and delivery at overseas gateway ports.",
         intro: "On arrival, our local teams take over: customs clearance, devanning, transloading and delivery to your DC or door. One partner from origin to final mile, in the market that matters.",
         features: ["Local customs clearance at gateway ports", "Devanning and transloading", "Delivery to door or distribution center", "Short-term port storage and stuffing"] },
-      { icon: "ecommerce", cat: "trade", tag: "API fulfilment", title: "Cross-border E-commerce", desc: "Fulfilment, line-haul and last-mile for global online sellers.",
-        intro: "We help online sellers scale across marketplaces with overseas warehousing, pick-and-pack fulfilment, returns management and multi-carrier last-mile delivery — all connected through API.",
-        features: ["Overseas warehouse fulfilment", "Pick, pack and returns handling", "Multiple last-mile carrier integrations", "Marketplace and API connectivity"] }
+      { icon: "ecommerce", cat: "trade", tag: "API fulfillment", title: "Cross-border E-commerce", desc: "Fulfillment, line-haul and last-mile for global online sellers.",
+        intro: "We help online sellers scale across marketplaces with overseas warehousing, pick-and-pack fulfillment, returns management and multi-carrier last-mile delivery — all connected through API.",
+        features: ["Overseas warehouse fulfillment", "Pick, pack and returns handling", "Multiple last-mile carrier integrations", "Marketplace and API connectivity"] }
     ],
     solutions: [
       { icon: "general", tag: "Standard", title: "General Cargo", desc: "Standard commodities with optimized routing and visibility.",
@@ -287,8 +287,8 @@ const DATA = {
       { icon: "lock", tag: "Escort", title: "High-value & Secure", desc: "Chain-of-custody and security escort for high-value shipments.",
         intro: "For high-value goods we apply a controlled chain-of-custody with sealing, monitoring and vetted handlers, plus security escort on sensitive lanes, keeping risk and loss to a minimum.",
         features: ["Sealed and monitored transport", "Vetted, background-checked handlers", "Security escort on request", "Reduced-risk routing"] },
-      { icon: "ecommerce", tag: "Pick & pack", title: "E-commerce Fulfilment", desc: "Overseas warehousing and pick-pack fulfilment for online sellers.",
-        intro: "We help online sellers scale across marketplaces with overseas warehousing, pick-and-pack fulfilment, returns management and multi-carrier last-mile, all connected through API.",
+      { icon: "ecommerce", tag: "Pick & pack", title: "E-commerce Fulfillment", desc: "Overseas warehousing and pick-pack fulfillment for online sellers.",
+        intro: "We help online sellers scale across marketplaces with overseas warehousing, pick-and-pack fulfillment, returns management and multi-carrier last-mile, all connected through API.",
         features: ["Overseas warehouse storage", "Pick, pack and returns handling", "Multi-carrier last-mile", "Marketplace and API integration"] }
     ],
     process: [
@@ -315,14 +315,14 @@ const DATA = {
       "Smart Home", "Engineering Machinery", "Chemicals", "EPC"
     ],
     why: [
-      { icon: "grade", title: "AAAAA-level network", desc: "Backed by Longsail's top-tier qualification and 33 global branches." },
+      { icon: "grade", title: "AAAAA-level network", desc: "Backed by Longsail’s top-tier qualification and 33 global branches." },
       { icon: "platform", title: "Self-developed IT platform", desc: "A proprietary system connects every node for transparent, efficient service." },
       { icon: "experience", title: "28 years of expertise", desc: "A seasoned team turns complex trade into a simple, reliable plan." },
       { icon: "local", title: "Localized + global", desc: "Local compliance and agile response in every key market we serve." }
     ],
     aboutFoundations: [
       { icon: "grade", title: "AAAAA-level qualification", desc: "Top-tier national logistics certification behind every shipment." },
-      { icon: "local", title: "33 global branches", desc: "Owned offices and local teams across the world's key markets." },
+      { icon: "local", title: "33 global branches", desc: "Owned offices and local teams across the world’s key markets." },
       { icon: "platform", title: "Self-developed IT platform", desc: "A proprietary system connects every node for full visibility." }
     ],
     subsidiaries: [
