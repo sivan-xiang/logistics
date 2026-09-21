@@ -438,6 +438,20 @@
     var nodes = [], arcs = [], hoverIdx = -1;
     var LAND = (typeof WORLDMAP !== "undefined") ? WORLDMAP : [];
 
+    // Continent & ocean labels (bilingual). Positioned in lon/lat so they
+    // reproject on resize. type controls font treatment.
+    var LABELS = [
+      { lat: 46, lon: -100, type: 'continent', en: 'NORTH AMERICA', zh: '北美洲' },
+      { lat: -14, lon: -62, type: 'continent', en: 'SOUTH AMERICA', zh: '南美洲' },
+      { lat: 52, lon: 13,  type: 'continent', en: 'EUROPE', zh: '欧洲' },
+      { lat: 8,  lon: 21,  type: 'continent', en: 'AFRICA', zh: '非洲' },
+      { lat: 47, lon: 95,  type: 'continent', en: 'ASIA', zh: '亚洲' },
+      { lat: -25, lon: 134, type: 'continent', en: 'OCEANIA', zh: '大洋洲' },
+      { lat: 30, lon: -35, type: 'ocean', en: 'ATLANTIC OCEAN', zh: '大西洋' },
+      { lat: -10, lon: -120, type: 'ocean', en: 'PACIFIC OCEAN', zh: '太平洋' },
+      { lat: -12, lon: 78, type: 'ocean', en: 'INDIAN OCEAN', zh: '印度洋' }
+    ];
+
     var LON_MIN = -140, LON_MAX = 155, LAT_MIN = -30, LAT_MAX = 75;
     function project(lat, lon) {
       return {
@@ -544,7 +558,27 @@
         ctx.beginPath(); ctx.arc(n.x, n.y, (i === hoverIdx) ? 4.2 : 2.6, 0, Math.PI * 2); ctx.fill();
       }
     }
-    function draw() { ctx.clearRect(0, 0, w, h); drawGraticule(); drawLand(); drawArcs(); drawNodes(); }
+    function drawLabels() {
+      var lang = (typeof current !== 'undefined' && current === 'zh') ? 'zh' : 'en';
+      ctx.save();
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      try { ctx.letterSpacing = '2px'; } catch (e) {}
+      for (var i = 0; i < LABELS.length; i++) {
+        var L = LABELS[i];
+        var p = project(L.lat, L.lon);
+        if (L.type === 'continent') {
+          ctx.font = '600 13px "Segoe UI", system-ui, sans-serif';
+          ctx.fillStyle = 'rgba(202,222,246,0.55)';
+        } else {
+          ctx.font = 'italic 600 14px "Segoe UI", system-ui, sans-serif';
+          ctx.fillStyle = 'rgba(150,190,230,0.40)';
+        }
+        ctx.fillText(L[lang], p.x, p.y);
+      }
+      ctx.restore();
+    }
+    function draw() { ctx.clearRect(0, 0, w, h); drawGraticule(); drawLand(); drawLabels(); drawArcs(); drawNodes(); }
     function loop() { t += 0.016; draw(); if (running && !reduce) raf = requestAnimationFrame(loop); }
 
     function showTip(i) {
