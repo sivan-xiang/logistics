@@ -13,7 +13,7 @@
   --gold: #e8a33d;
   --gold-deep: #c8852a;
   --line: rgba(0, 0, 0, 0.08);
-  --head: #0b1e3a; /* headings — flips in dark theme */
+  --head: #1d1d1f; /* headings — flips in dark theme */
   --radius: 20px;
   --maxw: 1120px;
   --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
@@ -689,7 +689,7 @@ a { color: inherit; text-decoration: none; }
 }
 .office-card__top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .office-card__city { font-size: 14px; font-weight: 700; color: var(--head); letter-spacing: -.01em; }
-.office-card__country { font-size: 11px; font-weight: 600; color: rgba(11,30,58,.5); text-transform: uppercase; letter-spacing: .06em; }
+.office-card__country { font-size: 11px; font-weight: 600; color: rgba(29,29,31,.5); text-transform: uppercase; letter-spacing: .06em; }
 /* The detail panel is an absolutely-positioned popover, so hovering never
    changes any card's height — the old grid-rows expansion grew the hovered
    card, pushed the row underneath it, and the cursor ended up bouncing
@@ -1577,6 +1577,18 @@ html[data-theme="dark"] #contactForm .btn:hover { background: #0077ed; }
 }
 html[data-theme="dark"] #contactForm .btn:focus-visible { box-shadow: 0 0 0 4px rgba(41, 151, 255, .34); }
 #contactForm .btn[disabled] { opacity: .42; cursor: not-allowed; }
+/* the reassurance line, centred under the full-width submit so it reads as
+   part of the button's block rather than as loose copy */
+.form-note {
+  margin: -2px 0 0;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: -.002em;
+  color: var(--ink-soft);
+}
+/* Apple's dark secondary grey is a touch dim for a 13px line on pure black */
+html[data-theme="dark"] .form-note { color: #a1a1a6; }
 @media (max-width: 640px) {
   #contactForm .btn { min-height: 50px; font-size: 16px; }
 }
