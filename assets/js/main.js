@@ -199,6 +199,7 @@ function renderAll() {
   renderAbout();
   renderSubsidiaries();
   setActiveNav();
+  applyRevealStagger();
   observeReveal();
   observeCounters();
 }
@@ -211,6 +212,10 @@ function setLanguage(lang) {
   document.querySelectorAll(".lang__btn").forEach((b) =>
     b.classList.toggle("is-active", b.dataset.lang === lang));
   renderAll();
+  document.querySelectorAll(".reveal").forEach(function (e) {
+    e.classList.add("in-view");
+    e.style.transitionDelay = "";
+  });
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -219,14 +224,30 @@ document.getElementById("langSwitch").addEventListener("click", (e) => {
   if (btn) setLanguage(btn.dataset.lang);
 });
 
+/* --------------------------- staggered reveal (cascade) --------------------------- */
+function applyRevealStagger() {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) return;
+  var groups = {};
+  document.querySelectorAll(".reveal").forEach(function (el) {
+    var par = el.parentElement;
+    var idx = groups[par] || 0;
+    groups[par] = idx + 1;
+    if (idx > 0) el.style.transitionDelay = (Math.min(idx, 10) * 60) + "ms";
+  });
+}
+
 /* --------------------------- scroll reveal --------------------------- */
 let revealObserver;
 function observeReveal() {
   if (revealObserver) revealObserver.disconnect();
   revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((en) => {
-      if (en.isIntersecting) {
+      var past = en.boundingClientRect && en.boundingClientRect.top < 0;
+      if (en.isIntersecting || past) {
         en.target.classList.add("in-view");
+        var el = en.target;
+        setTimeout(function () { el.style.transitionDelay = ""; }, 1200);
         revealObserver.unobserve(en.target);
       }
     });
@@ -268,9 +289,20 @@ function animateCount(el) {
 
 /* --------------------------- nav interactions --------------------------- */
 const nav = document.getElementById("nav");
+const progress = document.createElement("div");
+progress.className = "scroll-progress";
+document.body.appendChild(progress);
+function updateProgress() {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const p = h > 0 ? Math.min(window.scrollY / h, 1) : 0;
+  progress.style.width = (p * 100) + "%";
+}
 window.addEventListener("scroll", () => {
   nav.classList.toggle("nav--scrolled", window.scrollY > 20);
-});
+  updateProgress();
+}, { passive: true });
+window.addEventListener("resize", updateProgress);
+updateProgress();
 
 const burger = document.getElementById("burger");
 const navLinks = document.getElementById("navLinks");
