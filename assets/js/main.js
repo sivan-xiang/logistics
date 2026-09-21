@@ -22,7 +22,9 @@ const ICONS = {
   grade: '<path d="M5 4h14l-1 16-6 3-6-3zM9 9h6M9 13h6M9 17h4"/>',
   platform: '<path d="M4 7h16M4 12h16M4 17h16M8 4v16M16 4v16"/>',
   experience: '<circle cx="12" cy="9" r="5"/><path d="M8 14l-2 7 6-3 6 3-2-7"/>',
-  local: '<path d="M12 21s7-6 7-12a7 7 0 1 0-14 0c0 6 7 12 7 12zM12 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>'
+  local: '<path d="M12 21s7-6 7-12a7 7 0 1 0-14 0c0 6 7 12 7 12zM12 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>',
+  project: '<path d="M3 21V8h7M10 8V5h6M16 5v16M16 9h5M2 21h20"/>',
+  lock: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
 };
 
 function svg(name, cls) {
@@ -78,6 +80,7 @@ function detailCard(s, accent) {
         <div>
           <h3 class="card__title">${s.title}</h3>
           <p class="card__desc">${s.desc}</p>
+          ${s.tag ? `<span class="detail-item__tag">${s.tag}</span>` : ""}
         </div>
       </div>
       <p class="detail-item__intro">${s.intro || ""}</p>
@@ -92,14 +95,40 @@ function renderServices() {
   const grid = document.getElementById("servicesGrid");
   if (!grid) return;
   const items = DATA[current].services;
-  grid.innerHTML = grid.classList.contains("detail-list")
-    ? items.map((s) => detailCard(s, false)).join("")
-    : items.map((s) => `
-      <article class="card reveal">
-        <div class="card__icon">${svg(s.icon)}</div>
-        <h3 class="card__title">${s.title}</h3>
-        <p class="card__desc">${s.desc}</p>
-      </article>`).join("");
+  const order = ["freight", "special", "trade"];
+  const groups = order
+    .map((cat) => ({ cat, items: items.filter((s) => s.cat === cat) }))
+    .filter((g) => g.items.length);
+  grid.innerHTML =
+    '<div class="svc-groups">' +
+    groups
+      .map(
+        (g) => `
+      <div class="svc-group reveal">
+        <div class="svc-group__head">
+          <span class="svc-group__title">${t("services.cat." + g.cat)}</span>
+          <span class="svc-group__count">${g.items.length}</span>
+          <span class="svc-group__rule"></span>
+        </div>
+        <div class="detail-list">
+          ${g.items.map((s) => detailCard(s, false)).join("")}
+        </div>
+      </div>`
+      )
+      .join("") +
+    "</div>";
+}
+
+function renderProcess() {
+  const grid = document.getElementById("processGrid");
+  if (!grid) return;
+  const steps = DATA[current].process || [];
+  grid.innerHTML = steps.map((s) => `
+    <div class="proc-step reveal">
+      <div class="proc-step__num">${s.num}</div>
+      <h3 class="proc-step__title">${s.title}</h3>
+      <p class="proc-step__desc">${s.desc}</p>
+    </div>`).join("");
 }
 
 function renderSolutions() {
@@ -164,19 +193,22 @@ function renderSubsidiaries() {
   const el = document.getElementById("subsidiariesList");
   if (!el) return;
   const groups = DATA[current].subsidiaries;
+  const esc = (v) => String(v == null ? "" : v);
   el.innerHTML = groups.map((g) => `
     <div class="subs__group reveal">
       <div class="subs__group-head">
-        <span class="subs__group-name">${g.region}</span>
+        <span class="subs__group-name">${esc(g.region)}</span>
         <span class="subs__group-count">${g.items.length}</span>
         <span class="subs__group-rule"></span>
       </div>
-      <div class="subs__grid">
-        ${g.items.map((name, i) => `
-          <div class="subs__tile reveal">
-            <span class="subs__idx">${String(i + 1).padStart(2, "0")}</span>
-            <span class="subs__name">${name}</span>
-          </div>`).join("")}
+      <div class="subs__offices">
+        ${g.items.map((b) => `
+          <article class="sub-office">
+            <h3 class="sub-office__city">${esc(b.city)}</h3>
+            <p class="sub-office__addr">${esc(b.address)}</p>
+            ${b.phone ? `<a class="sub-office__line" href="tel:${esc(b.phone).replace(/[^0-9+]/g, "")}"><span class="sub-office__ico" aria-hidden="true">&#9742;</span><span>${esc(b.phone)}</span></a>` : ""}
+            ${b.email ? `<a class="sub-office__line" href="mailto:${esc(b.email)}"><span class="sub-office__ico" aria-hidden="true">&#9993;</span><span>${esc(b.email)}</span></a>` : ""}
+          </article>`).join("")}
       </div>
     </div>`).join("");
 }
@@ -193,6 +225,7 @@ function renderAll() {
   if (document.getElementById("statsGrid")) renderStats();
   if (document.getElementById("servicesGrid")) renderServices();
   if (document.getElementById("solutionsGrid")) renderSolutions();
+  if (document.getElementById("processGrid")) renderProcess();
   if (document.getElementById("officesGrid")) renderOffices();
   if (document.getElementById("industriesGrid")) renderIndustries();
   if (document.getElementById("whyGrid")) renderWhy();
