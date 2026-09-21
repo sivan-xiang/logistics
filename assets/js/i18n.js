@@ -326,20 +326,20 @@ const DATA = {
       { icon: "platform", title: "Self-developed IT platform", desc: "A proprietary system connects every node for full visibility." }
     ],
     subsidiaries: [
+      { region: "Americas", items: [
+        { city: "Los Angeles", address: "14750 Nelson Ave, Unit H, City of Industry, CA 91744", phone: "+1 626-386-8828", email: "" , lat: 34.052, lon: -118.244 },
+        { city: "Mexico City", address: "Hamburgo 206 piso 3 oficina 301, Colonia Juarez, alcaldia Cuauhtemoc, CP 06600, Ciudad de Mexico", phone: "+52 5524865705", email: "" , lat: 19.433, lon: -99.133 }
+      ] },
+      { region: "Europe", items: [
+        { city: "London", address: "Airivo Chiswick Gable House, 18-24 Turnham Green Terrace, Chiswick, London W4 1QP", phone: "+44 790 4077141", email: "" , lat: 51.507, lon: -0.128 },
+        { city: "Hamburg", address: "Hamburger Str. 11, 22083 Hamburg, Germany", phone: "+49 40 822178905", email: "" , lat: 53.551, lon: 9.994 }
+      ] },
       { region: "Southeast Asia", items: [
         { city: "Bangkok", address: "Room No. 32/37 15th Floor Zone A Unit B Sino-Thai Tower, Sukhumvit 21 Rd (Asok), Klongtoey, Nua, Wattana, Bangkok 10110", phone: "+66 2 163 4397", email: "" , lat: 13.756, lon: 100.502 },
         { city: "Hanoi", address: "9th Fl, No. 1, Lane 19, Duy Tan Street, Dich Vong Hau Ward, Cau Giay District, Ha Noi", phone: "+84 778284888", email: "" , lat: 21.028, lon: 105.834 },
         { city: "Ho Chi Minh City", address: "4th Floor, 2-2B Lam Son, Tan Son Hoa Ward, Ho Chi Minh City, Vietnam", phone: "+84 28 36228118", email: "" , lat: 10.823, lon: 106.63 },
         { city: "Klang (Malaysia)", address: "Unit 12-G, Level 12, Top Glove Tower, No. 16, Persiaran Setia Dagang, Bandar Setia Alam, 40170 Shah Alam, Selangor.", phone: "", email: "" , lat: 3.044, lon: 101.447 },
         { city: "Singapore", address: "60 Paya Lebar Road #11-53 Paya Lebar Square, Singapore 409051", phone: "", email: "" , lat: 1.352, lon: 103.82 }
-      ] },
-      { region: "Europe", items: [
-        { city: "London", address: "Airivo Chiswick Gable House, 18-24 Turnham Green Terrace, Chiswick, London W4 1QP", phone: "+44 790 4077141", email: "" , lat: 51.507, lon: -0.128 },
-        { city: "Hamburg", address: "Hamburger Str. 11, 22083 Hamburg, Germany", phone: "+49 40 822178905", email: "" , lat: 53.551, lon: 9.994 }
-      ] },
-      { region: "Americas", items: [
-        { city: "Los Angeles", address: "14750 Nelson Ave, Unit H, City of Industry, CA 91744", phone: "+1 626-386-8828", email: "" , lat: 34.052, lon: -118.244 },
-        { city: "Mexico City", address: "Hamburgo 206 piso 3 oficina 301, Colonia Juarez, alcaldia Cuauhtemoc, CP 06600, Ciudad de Mexico", phone: "+52 5524865705", email: "" , lat: 19.433, lon: -99.133 }
       ] },
       { region: "Middle East & Africa", items: [
         { city: "Riyadh", address: "6719 Wadi Al Thumamah, Sahafah, Riyadh City, Saudi Arabia", phone: "", email: "" , lat: 24.714, lon: 46.675 },
@@ -466,26 +466,26 @@ const DATA = {
       { icon: "platform", title: "自主研发 IT 平台", desc: "自研系统连接每个节点，全程可视透明。" }
     ],
       subsidiaries: [
-        { region: "东南亚", items: [
+      { region: "美洲", items: [
+          { city: "洛杉矶", address: "14750 Nelson Ave, Unit H, City of Industry, CA 91744", phone: "+1 626-386-8828", email: "" , lat: 34.052, lon: -118.244 },
+          { city: "墨西哥城", address: "Hamburgo 206 piso 3 oficina 301, Colonia Juarez, alcaldia Cuauhtemoc, CP 06600, Ciudad de Mexico", phone: "+52 5524865705", email: "" , lat: 19.433, lon: -99.133 }
+        ] },
+      { region: "欧洲", items: [
+          { city: "伦敦", address: "Airivo Chiswick Gable House, 18-24 Turnham Green Terrace, Chiswick, London W4 1QP", phone: "+44 790 4077141", email: "" , lat: 51.507, lon: -0.128 },
+          { city: "汉堡", address: "Hamburger Str. 11, 22083 Hamburg, Germany", phone: "+49 40 822178905", email: "" , lat: 53.551, lon: 9.994 }
+        ] },
+      { region: "东南亚", items: [
           { city: "曼谷", address: "Room No. 32/37 15th Floor Zone A Unit B Sino-Thai Tower, Sukhumvit 21 Rd (Asok), Klongtoey, Nua, Wattana, Bangkok 10110", phone: "+66 2 163 4397", email: "" , lat: 13.756, lon: 100.502 },
           { city: "河内", address: "9th Fl, No. 1, Lane 19, Duy Tan Street, Dich Vong Hau Ward, Cau Giay District, Ha Noi", phone: "+84 778284888", email: "" , lat: 21.028, lon: 105.834 },
           { city: "胡志明市", address: "4th Floor, 2-2B Lam Son, Tan Son Hoa Ward, Ho Chi Minh City, Vietnam", phone: "+84 28 36228118", email: "" , lat: 10.823, lon: 106.63 },
           { city: "巴生港（马来西亚）", address: "Unit 12-G, Level 12, Top Glove Tower, No. 16, Persiaran Setia Dagang, Bandar Setia Alam, 40170 Shah Alam, Selangor.", phone: "", email: "" , lat: 3.044, lon: 101.447 },
           { city: "新加坡", address: "60 Paya Lebar Road #11-53 Paya Lebar Square, Singapore 409051", phone: "", email: "" , lat: 1.352, lon: 103.82 }
         ] },
-        { region: "欧洲", items: [
-          { city: "伦敦", address: "Airivo Chiswick Gable House, 18-24 Turnham Green Terrace, Chiswick, London W4 1QP", phone: "+44 790 4077141", email: "" , lat: 51.507, lon: -0.128 },
-          { city: "汉堡", address: "Hamburger Str. 11, 22083 Hamburg, Germany", phone: "+49 40 822178905", email: "" , lat: 53.551, lon: 9.994 }
-        ] },
-        { region: "美洲", items: [
-          { city: "洛杉矶", address: "14750 Nelson Ave, Unit H, City of Industry, CA 91744", phone: "+1 626-386-8828", email: "" , lat: 34.052, lon: -118.244 },
-          { city: "墨西哥城", address: "Hamburgo 206 piso 3 oficina 301, Colonia Juarez, alcaldia Cuauhtemoc, CP 06600, Ciudad de Mexico", phone: "+52 5524865705", email: "" , lat: 19.433, lon: -99.133 }
-        ] },
-        { region: "中东与非洲", items: [
+      { region: "中东与非洲", items: [
           { city: "利雅得", address: "6719 Wadi Al Thumamah, Sahafah, Riyadh City, Saudi Arabia", phone: "", email: "" , lat: 24.714, lon: 46.675 },
           { city: "卡萨布兰卡", address: "Angle Boulevard Moulay Ismail et Boulevard Balti Mohamed ben Mekki, Ain Sebaa, Casablanca, Morocco", phone: "", email: "" , lat: 33.573, lon: -7.59 }
         ] },
-        { region: "大中华区", items: [
+      { region: "大中华区", items: [
           { city: "深圳", address: "6th Floor, T2, Runhong Building, No. 75 Meiyuan Road, Sunxi Community, Sungang Sub-district, Luohu District, Shenzhen City, P.R. China", phone: "0755-25916717", email: "" , lat: 22.543, lon: 114.058 },
           { city: "上海", address: "Room 1001-1002, Floor 10, WanShuo Building, No. 198 JingZhou Road, Yangpu District, Shanghai, China.", phone: "021-36035663", email: "" , lat: 31.23, lon: 121.474 },
           { city: "宁波", address: "Rm 10-1, Yin Yi Times Square, #8 Lengjing Street, Haishu District, Ningbo", phone: "0574-87322632", email: "" , lat: 29.868, lon: 121.544 },

@@ -436,8 +436,9 @@
     var ctx = c.getContext('2d');
     var w = 0, h = 0, dpr = 1, raf = 0, running = true, t = 0;
     var nodes = [], arcs = [], hoverIdx = -1;
+    var LAND = (typeof WORLDMAP !== "undefined") ? WORLDMAP : [];
 
-    var LON_MIN = -140, LON_MAX = 155, LAT_MIN = -15, LAT_MAX = 75;
+    var LON_MIN = -140, LON_MAX = 155, LAT_MIN = -30, LAT_MAX = 75;
     function project(lat, lon) {
       return {
         x: (lon - LON_MIN) / (LON_MAX - LON_MIN) * w,
@@ -489,6 +490,22 @@
       var eq = (LAT_MAX - 0) / (LAT_MAX - LAT_MIN) * h;
       ctx.beginPath(); ctx.moveTo(0, eq); ctx.lineTo(w, eq); ctx.stroke();
     }
+    function drawLand() {
+      for (var k = 0; k < LAND.length; k++) {
+        var poly = LAND[k]; if (!poly || !poly.length) continue;
+        ctx.beginPath();
+        for (var j = 0; j < poly.length; j++) {
+          var p = project(poly[j][1], poly[j][0]);
+          if (j === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+        }
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(30,52,84,0.62)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(120,160,210,0.40)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
     function drawArcs() {
       for (var i = 0; i < arcs.length; i++) {
         var A = nodes[arcs[i].a], B = nodes[arcs[i].b];
@@ -527,7 +544,7 @@
         ctx.beginPath(); ctx.arc(n.x, n.y, (i === hoverIdx) ? 4.2 : 2.6, 0, Math.PI * 2); ctx.fill();
       }
     }
-    function draw() { ctx.clearRect(0, 0, w, h); drawGraticule(); drawArcs(); drawNodes(); }
+    function draw() { ctx.clearRect(0, 0, w, h); drawGraticule(); drawLand(); drawArcs(); drawNodes(); }
     function loop() { t += 0.016; draw(); if (running && !reduce) raf = requestAnimationFrame(loop); }
 
     function showTip(i) {

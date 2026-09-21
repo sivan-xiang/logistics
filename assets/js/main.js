@@ -147,11 +147,23 @@ function renderSolutions() {
 
 function renderOffices() {
   const grid = document.getElementById("officesGrid");
-  grid.innerHTML = DATA[current].offices.map((o) => `
-    <div class="office reveal">
+  if (!grid) return;
+  const subs = DATA[current].subsidiaries || [];
+  const china = current === "zh" ? "大中华区" : "Greater China";
+  const list = [];
+  subs.forEach((g) => {
+    if (g.region === china) return;
+    g.items.forEach((b) => list.push({ city: b.city, region: g.region, phone: b.phone }));
+  });
+  const esc = (v) => String(v == null ? "" : v);
+  grid.innerHTML = list.map((b) => `
+    <div class="office office--full reveal">
       <span class="office__dot"></span>
-      <div class="office__city">${o.city}</div>
-      <div class="office__country">${o.country}</div>
+      <div class="office__main">
+        <div class="office__city">${esc(b.city)}</div>
+        <div class="office__country">${esc(b.region)}</div>
+      </div>
+      ${b.phone ? `<a class="office__phone" href="tel:${esc(b.phone).replace(/[^0-9+]/g, "")}"><span class="office__ico" aria-hidden="true">&#9742;</span>${esc(b.phone)}</a>` : ""}
     </div>`).join("");
 }
 
