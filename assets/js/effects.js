@@ -924,7 +924,7 @@
     setTimeout(function () { document.documentElement.classList.remove('is-celebrating'); }, 2200);
 
     toast(T('egg.konami', 'You found it.'));
-    if (!reduce) burst();
+    if (!reduce) { burst(); patrol(); }
   }
 
   /* Gold + brand-blue confetti on a throwaway full-screen canvas. */
@@ -982,6 +982,68 @@
     requestAnimationFrame(loop);
   }
 
+  /* -------------------------------------------------------------------
+   * 13. EASTER-EGG MOTION - tasteful extensions on top of the existing
+   *     Konami / mascot celebration. Both are no-ops under reduced-motion.
+   * ----------------------------------------------------------------- */
+  var SAIL_SVG =
+    '<svg viewBox="0 0 64 40" fill="none" aria-hidden="true">' +
+    '<rect x="11" y="15" width="13" height="9" rx="1.5" fill="#0071e3"/>' +
+    '<rect x="26" y="15" width="13" height="9" rx="1.5" fill="#e8a33d"/>' +
+    '<rect x="41" y="15" width="12" height="9" rx="1.5" fill="#0071e3"/>' +
+    '<path d="M6 25 L58 25 L50 35 L14 35 Z" fill="currentColor"/>' +
+    '<path d="M33 15 L33 5 L45 10 Z" fill="#e8a33d"/>' +
+    '</svg>';
+
+  /* A giraffe laps the viewport once after the celebration fires. */
+  function patrol() {
+    if (reduce) return;
+    if (document.querySelector('.mascot-runner')) return;
+    var el = document.createElement('div');
+    el.className = 'mascot-runner';
+    el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = MASCOT_SVG;
+    document.body.appendChild(el);
+    setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 2700);
+  }
+
+  /* Double-clicking the nav logo sends a little cargo ship sailing by. */
+  function sail() {
+    if (reduce) return;
+    if (document.querySelector('.logo-sail')) return;
+    var el = document.createElement('div');
+    el.className = 'logo-sail';
+    el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = SAIL_SVG;
+    document.body.appendChild(el);
+    setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 2900);
+  }
+
+  function initLogoEgg() {
+    var logo = document.querySelector('.nav__logo');
+    if (!logo) return;
+    var last = 0, navTimer = 0;
+    logo.addEventListener('click', function (e) {
+      /* leave modifier / middle clicks to the browser (open in new tab, etc.) */
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey ||
+          e.shiftKey || e.altKey) return;
+      var now = Date.now();
+      if (now - last < 350) {
+        clearTimeout(navTimer);
+        e.preventDefault();
+        last = 0;
+        sail();
+      } else {
+        last = now;
+        e.preventDefault();           /* we navigate manually after a grace period */
+        var href = logo.getAttribute('href');
+        navTimer = setTimeout(function () {
+          if (href) window.location.href = href;
+        }, 320);
+      }
+    });
+  }
+
   ready(function () {
     initAurora();
     /* Disabled on purpose: the 520px pointer halo and the per-card specular
@@ -997,5 +1059,6 @@
     initRipple();
     initMascot();
     initKonami();
+    initLogoEgg();
   });
 })();

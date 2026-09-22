@@ -867,6 +867,11 @@ function observeCounters() {
 function animateCount(el) {
   const target = parseInt(el.dataset.target, 10);
   const suffix = el.dataset.suffix || "";
+  /* reduced-motion: skip the count animation, show the final value at once */
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    el.textContent = target.toLocaleString() + suffix;
+    return;
+  }
   const dur = 1400;
   const start = performance.now();
   function step(now) {
