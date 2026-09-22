@@ -314,7 +314,7 @@ a { color: inherit; text-decoration: none; }
 .page-hero--services  { --h1: 63 134 216; --h2: 29 68 136;  --a: 158 198 255; --a2: 47 111 214; }   /* ocean blue */
 .page-hero--solutions { --h1: 208 138 62; --h2: 122 63 23;  --a: 255 217 168; --a2: 224 162 58; }    /* amber */
 .page-hero--network   { --h1: 52 203 222; --h2: 9 84 104;    --a: 167 240 250; --a2: 18 176 196; }    /* teal — deeper */
-.page-hero--about     { --h1: 126 140 250; --h2: 34 38 142;  --a: 198 190 255; --a2: 122 104 240; }   /* indigo — deeper */
+.page-hero--about     { --h1: 144 158 252; --h2: 70 84 190;  --a: 198 190 255; --a2: 122 104 240; }   /* indigo — lighter */
 .page-hero--contact   { --h1: 38 198 160; --h2: 8 96 80;     --a: 160 244 218; --a2: 24 184 152; }    /* emerald — deeper */
 /* slowly rotating coloured sheen tinted by the page accent */
 /* accent hairline at the bottom edge (fill set by the Apple pass) */
@@ -348,12 +348,12 @@ a { color: inherit; text-decoration: none; }
 .about-found:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(11,30,58,.10); }
 .about-found::before {
   content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; z-index: 1;
-  background: linear-gradient(90deg, rgb(126 140 250), rgb(34 38 142));
+  background: linear-gradient(90deg, rgb(150 162 253), rgb(70 84 190));
 }
 .about-found > * { position: relative; z-index: 1; }
 .about-found__icon {
   width: 50px; height: 50px; border-radius: 14px; display: grid; place-items: center;
-  background: rgb(34 38 142 / .12); color: rgb(34 38 142); margin-bottom: 18px;
+  background: rgb(70 84 190 / .12); color: rgb(70 84 190); margin-bottom: 18px;
 }
 .about-found__icon svg { width: 26px; height: 26px; }
 .about-found__title { font-size: 19px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.01em; }
@@ -556,7 +556,7 @@ a { color: inherit; text-decoration: none; }
 }
 .about-promise__badge {
   flex: none; font-family: var(--font-display); font-weight: 700; font-size: 19px;
-  color: #fff; background: rgb(34 38 142); border: 1px solid transparent;
+  color: #fff; background: rgb(70 84 190); border: 1px solid transparent;
   border-radius: 12px; padding: 12px 16px; white-space: nowrap;
 }
 .about-promise__body { min-width: 0; }
@@ -629,7 +629,7 @@ a { color: inherit; text-decoration: none; }
 .timeline__item:last-child { padding-bottom: 0; }
 .timeline__marker {
   position: absolute; left: 0; top: 7px; width: 16px; height: 16px; border-radius: 50%;
-  background: rgb(34 38 142); border: 3px solid rgb(126 140 250); box-shadow: 0 0 0 4px rgba(34,38,142,.18);
+  background: rgb(70 84 190); border: 3px solid rgb(150 162 253); box-shadow: 0 0 0 4px rgba(70,84,190,.18);
   z-index: 2;   /* above the row surface — the rail node stays crisp */
 }
 .timeline__year {
@@ -805,7 +805,7 @@ html[data-theme="dark"] .office-card__country { color: rgba(231,236,246,.5); }
 html[data-theme="dark"] .about-promise__badge { color: #6ea8ff; }
 
 /* misc accents that were tuned for a white page */
-html[data-theme="dark"] .timeline__marker { background: #0a1424; border-color: rgb(126 140 250); }
+html[data-theme="dark"] .timeline__marker { background: #1b2548; border-color: rgb(126 140 250); }
 html[data-theme="dark"] .subs__group-count { color: var(--blue); background: rgba(0,113,227,.16); }
 html[data-theme="dark"] .section__eyebrow { color: var(--gold); }
 html[data-theme="dark"] .about-found:hover { box-shadow: 0 18px 40px rgba(0,0,0,.5); }
@@ -976,8 +976,8 @@ html[data-theme="dark"] .chip { background: rgba(255,255,255,.07); border-color:
   transition: background .3s var(--ease), border-color .3s var(--ease), box-shadow .35s var(--ease);
 }
 .timeline__item:hover .timeline__marker {
-  background: rgb(126 140 250); border-color: rgb(126 140 250);
-  box-shadow: 0 0 0 6px rgba(34,38,142,.22);
+  background: rgb(150 162 253); border-color: rgb(150 162 253);
+  box-shadow: 0 0 0 6px rgba(70,84,190,.22);
 }
 .timeline__year { transition: background .3s var(--ease), color .3s var(--ease), box-shadow .3s var(--ease); }
 .timeline__item:hover .timeline__year {
@@ -1227,8 +1227,8 @@ body { font-size: 17px; line-height: 1.47059; letter-spacing: -.011em; }
   background: #fff;
   border: 1px solid rgba(0, 0, 0, .10); border-left: 1px solid rgba(0, 0, 0, .10);
 }
-.about-promise__badge { background: rgb(34 38 142); border-color: transparent; }
-.about-found::before { height: 3px; background: rgb(34 38 142); }
+.about-promise__badge { background: rgb(70 84 190); border-color: transparent; }
+.about-found::before { height: 3px; background: rgb(70 84 190); }
 .proc-step::before { height: 3px; background: rgba(0, 113, 227, .55); }
 .proc-step__num {
   background: none; -webkit-background-clip: border-box; background-clip: border-box;
@@ -1392,7 +1392,7 @@ html[data-theme="dark"] .netmap-section .card { background: #2c2c2e; border-colo
 html[data-theme="dark"] .section--dark .card:hover,
 html[data-theme="dark"] .netmap-section .card:hover { background: #3a3a3c; }
 html[data-theme="dark"] .about-promise { background: #1d1d1f; border-color: rgba(255, 255, 255, .12); }
-html[data-theme="dark"] .about-promise__badge { background: #0a1424; border-color: rgba(126,140,250,.35); color: rgb(126 140 250); }
+html[data-theme="dark"] .about-promise__badge { background: #1b2548; border-color: rgba(126,140,250,.35); color: rgb(126 140 250); }
 html[data-theme="dark"] .office-card { background: #1d1d1f; border-color: rgba(255, 255, 255, .12); }
 html[data-theme="dark"] .office-card:hover,
 html[data-theme="dark"] .office-card:focus-visible,
@@ -1414,7 +1414,7 @@ html[data-theme="dark"] .cta,
 html[data-theme="dark"] .hero { background: #1d1d1f; }
 html[data-theme="dark"] .footer { background: #161617; }
 html[data-theme="dark"] .subs__group-count { background: rgba(41, 151, 255, .16); color: #2997ff; }
-html[data-theme="dark"] .timeline__marker { background: #0a1424; border-color: rgb(126 140 250); }
+html[data-theme="dark"] .timeline__marker { background: #1b2548; border-color: rgb(126 140 250); }
 html[data-theme="dark"] .section__eyebrow { color: var(--gold); }
 html[data-theme="dark"] ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, .22); background-clip: content-box; }
 
@@ -1927,4 +1927,4 @@ html[data-theme="dark"] .choose__ico { background: rgba(63, 151, 245, .14); }
 .footer__col a[href^="tel:"] { color: var(--blue); }
 .footer__col a[href^="tel:"]:hover { color: var(--blue); }
 html[data-theme="dark"] .about-found__icon { background: rgb(126 140 250 / .16); color: rgb(126 140 250); }
-html[data-theme="dark"] .about-found::before { background: linear-gradient(90deg, rgb(126 140 250), rgb(34 38 142)); }
+html[data-theme="dark"] .about-found::before { background: linear-gradient(90deg, rgb(126 140 250), rgb(70 84 190)); }
