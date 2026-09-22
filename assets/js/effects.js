@@ -961,9 +961,9 @@
     });
   }
 
-  /* Type "GIRAFFE" anywhere (outside form fields) for a golden particle shower. */
+  /* Type "GIRAF" anywhere (outside form fields) for a golden particle shower. */
   function initTypeEgg() {
-    var WORD = 'giraffe', buf = '';
+    var WORD = 'giraf', buf = '';
     window.addEventListener('keydown', function (e) {
       var tag = ((e.target && e.target.tagName) || '').toLowerCase();
       if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
@@ -1102,6 +1102,41 @@
     });
   }
 
+  /* Selecting text inside any page-hero pops a tiny giraffe that hops and fades.
+     Under reduced-motion only the static gold selection tint (style.css) shows. */
+  function initHeroSelectEgg() {
+    if (reduce) return;
+    var busy = false;
+    function spawn(x, y) {
+      if (busy) return;
+      busy = true;
+      var el = document.createElement('div');
+      el.className = 'hero-select-egg';
+      el.setAttribute('aria-hidden', 'true');
+      el.innerHTML = MASCOT_SVG;
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      document.body.appendChild(el);
+      setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 1300);
+      setTimeout(function () { busy = false; }, 600);
+    }
+    function onSelect() {
+      var sel = window.getSelection();
+      if (!sel || sel.isCollapsed || sel.rangeCount === 0) return;
+      var range = sel.getRangeAt(0);
+      var c = range.commonAncestorContainer;
+      if (!c || !c.nodeType) return;
+      var host = (c.nodeType === 3 ? c.parentElement : c).closest('.page-hero');
+      if (!host) return;
+      var rects = range.getClientRects();
+      if (!rects.length) return;
+      var r = rects[rects.length - 1];
+      spawn(r.right, r.bottom);
+    }
+    document.addEventListener('mouseup', function () { setTimeout(onSelect, 0); });
+    document.addEventListener('touchend', function () { setTimeout(onSelect, 0); });
+  }
+
   ready(function () {
     initAurora();
     /* Disabled on purpose: the 520px pointer halo and the per-card specular
@@ -1119,5 +1154,6 @@
     initKonami();
     initTypeEgg();
     initLogoEgg();
+    initHeroSelectEgg();
   });
 })();

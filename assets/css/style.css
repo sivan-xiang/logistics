@@ -1050,6 +1050,14 @@ html[data-theme="dark"] .theme-toggle:hover svg { transform: rotate(40deg); }
 /* 13 ─ global finishing touches */
 ::selection { background: rgba(0,113,227,.22); }
 html[data-theme="dark"] ::selection { background: rgba(63,151,245,.34); }
+/* Selecting page-hero copy gets a warm gold tint instead of the global blue. */
+.page-hero ::selection { background: rgba(232,163,61,.42); color: #fff; }
+html[data-theme="dark"] .page-hero ::selection { background: rgba(232,163,61,.5); color: #fff; }
+/* Giraffe hops out when page-hero text is selected (hidden under reduced-motion). */
+.hero-select-egg { position: fixed; z-index: 90; width: 30px; height: 30px; margin: -6px 0 0 -15px; color: #fff; pointer-events: none; transform-origin: 50% 100%; animation: hero-egg-hop 1.1s cubic-bezier(.2,.7,.2,1) forwards; filter: drop-shadow(0 4px 8px rgba(0,0,0,.35)); }
+.hero-select-egg svg { width: 100%; height: 100%; }
+@keyframes hero-egg-hop { 0% { opacity: 0; transform: translateY(8px) rotate(-8deg) scale(.6); } 25% { opacity: 1; transform: translateY(-10px) rotate(6deg) scale(1); } 55% { opacity: 1; transform: translateY(0) rotate(-4deg) scale(1); } 100% { opacity: 0; transform: translateY(-18px) rotate(8deg) scale(.85); } }
+@media (prefers-reduced-motion: reduce) { .hero-select-egg { display: none; } }
 a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   outline: 2px solid var(--blue); outline-offset: 3px;
 }
