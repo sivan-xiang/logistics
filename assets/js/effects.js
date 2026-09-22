@@ -278,7 +278,7 @@
         }
         var pn = Math.max(10, Math.round(w / 55));
         for (var k = 0; k < pn; k++) {
-          parts.push({ x: Math.random() * w, y: Math.random() * h, vy: -(0.15 + Math.random() * 0.35), r: 0.6 + Math.random() * 1.1, ph: Math.random() * Math.PI * 2 });
+          parts.push({ x: Math.random() * w, y: Math.random() * h, vy: -(0.15 + Math.random() * 0.35), r: 0.9 + Math.random() * 1.3, ph: Math.random() * Math.PI * 2 });
         }
       }
       function draw() {
@@ -288,8 +288,8 @@
         for (var i = 0; i < links.length; i++) {
           var l = links[i], A = nodes[l.a], B = nodes[l.b];
           var g = ctx.createLinearGradient(A.x, A.y, B.x, B.y);
-          g.addColorStop(0, 'rgba(' + accent[0] + ',' + accent[1] + ',' + accent[2] + ',0.12)');
-          g.addColorStop(1, 'rgba(' + accent[0] + ',' + accent[1] + ',' + accent[2] + ',0.05)');
+          g.addColorStop(0, 'rgba(' + accent[0] + ',' + accent[1] + ',' + accent[2] + ',0.18)');
+          g.addColorStop(1, 'rgba(' + accent[0] + ',' + accent[1] + ',' + accent[2] + ',0.08)');
           ctx.strokeStyle = g;
           ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
         }
@@ -297,7 +297,7 @@
         if (!reduce) {
           ctx.setLineDash([3, 7]);
           ctx.lineDashOffset = -(t * 6) % 14;
-          ctx.strokeStyle = 'rgba(' + accent[0] + ',' + accent[1] + ',' + accent[2] + ',0.30)';
+          ctx.strokeStyle = 'rgba(' + accent[0] + ',' + accent[1] + ',' + accent[2] + ',0.42)';
           for (var j = 0; j < links.length; j++) {
             var L = links[j], X = nodes[L.a], Y = nodes[L.b];
             ctx.beginPath(); ctx.moveTo(X.x, X.y); ctx.lineTo(Y.x, Y.y); ctx.stroke();
@@ -323,7 +323,7 @@
           var col = nd.gold ? gold : accent;
           var rr = nd.r * (0.8 + 0.4 * pulse);
           var gl = ctx.createRadialGradient(nd.x, nd.y, 0, nd.x, nd.y, rr * 3.2);
-          gl.addColorStop(0, 'rgba(' + col[0] + ',' + col[1] + ',' + col[2] + ',' + (0.5 * pulse).toFixed(3) + ')');
+          gl.addColorStop(0, 'rgba(' + col[0] + ',' + col[1] + ',' + col[2] + ',' + (0.72 * pulse).toFixed(3) + ')');
           gl.addColorStop(1, 'rgba(' + col[0] + ',' + col[1] + ',' + col[2] + ',0)');
           ctx.fillStyle = gl;
           ctx.beginPath(); ctx.arc(nd.x, nd.y, rr * 3.2, 0, Math.PI * 2); ctx.fill();
@@ -334,7 +334,7 @@
         for (var q = 0; q < parts.length; q++) {
           var pt = parts[q];
           if (!reduce) { pt.y += pt.vy; if (pt.y < -4) { pt.y = h + 4; pt.x = Math.random() * w; } }
-          var pa = 0.25 + 0.25 * Math.sin(t * 0.5 + pt.ph);
+          var pa = 0.42 + 0.33 * Math.sin(t * 0.5 + pt.ph);
           ctx.fillStyle = 'rgba(255,255,255,' + pa.toFixed(3) + ')';
           ctx.beginPath(); ctx.arc(pt.x, pt.y, pt.r, 0, Math.PI * 2); ctx.fill();
         }
