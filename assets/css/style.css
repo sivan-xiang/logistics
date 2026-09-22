@@ -90,7 +90,7 @@ a { color: inherit; text-decoration: none; }
 .nav__links a:hover { opacity: 1; color: var(--blue); }
 .nav__right { display: flex; align-items: center; gap: 14px; }
 
-.lang { display: flex; gap: 2px; background: var(--gray); border-radius: 999px; padding: 3px; }
+.lang { display: none; gap: 2px; background: var(--gray); border-radius: 999px; padding: 3px; }
 .lang__btn {
   border: 0; background: transparent; cursor: pointer;
   font: inherit; font-size: 12px; font-weight: 600; color: var(--ink-soft);

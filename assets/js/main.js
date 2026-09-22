@@ -35,7 +35,8 @@ function svg(name, cls) {
 /* --------------------------- i18n core --------------------------- */
 const SUPPORTED = ["en", "zh"];
 const STORAGE_KEY = "giraf_lang";
-let current = localStorage.getItem(STORAGE_KEY) || "en";
+/* 语言切换已暂时隐藏：锁定为默认语言（英语），忽略已存储的偏好 */
+let current = "en";
 if (!SUPPORTED.includes(current)) current = "en";
 
 function t(key) {
