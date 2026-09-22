@@ -251,13 +251,15 @@ a { color: inherit; text-decoration: none; }
 .offices { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 .office {
   background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12);
-  border-radius: var(--radius); padding: 26px 24px; display: flex; align-items: center; gap: 14px;
+  border-radius: var(--radius); padding: 26px 24px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
   transition: transform .3s, box-shadow .3s, border-color .3s, background .3s;
 }
   .office:hover { transform: translateY(-4px); box-shadow: 0 16px 34px rgba(0,0,0,.22); border-color: rgba(232,163,61,.5); background: rgba(255,255,255,.08); }
-  .office__dot { width: 12px; height: 12px; border-radius: 50%; background: var(--gold); flex: none; box-shadow: 0 0 0 4px rgba(232,163,61,.18); }
+  .office__main { position: relative; padding-left: 22px; }
+  .office__dot { position: absolute; left: 0; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); flex: none; box-shadow: 0 0 0 4px rgba(232,163,61,.18); }
 .office__city { font-size: 17px; font-weight: 600; }
-.office__country { font-size: 13px; color: rgba(255,255,255,.6); }
+.office__country { font-size: 13px; color: rgba(255,255,255,.6); margin-top: 2px; }
+.office__phone { white-space: nowrap; align-self: flex-start; margin-top: 2px; }
 
 /* ----------------------------- CHIPS ----------------------------- */
 .chips { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }

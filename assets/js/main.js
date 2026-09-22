@@ -202,8 +202,8 @@ function renderOffices() {
   const esc = (v) => String(v == null ? "" : v);
   grid.innerHTML = list.map((b) => `
     <div class="office office--full reveal">
-      <span class="office__dot"></span>
       <div class="office__main">
+        <span class="office__dot"></span>
         <div class="office__city">${esc(b.city)}</div>
         <div class="office__country">${esc(b.country)}</div>
       </div>
