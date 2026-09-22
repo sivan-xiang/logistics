@@ -46,6 +46,16 @@ function applyStatic() {
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     el.innerHTML = t(el.getAttribute("data-i18n"));
   });
+  /* attribute-localised bits: placeholders, titles and aria labels */
+  document.querySelectorAll("[data-i18n-ph]").forEach((el) => {
+    el.setAttribute("placeholder", t(el.getAttribute("data-i18n-ph")));
+  });
+  document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+    el.setAttribute("title", t(el.getAttribute("data-i18n-title")));
+  });
+  document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+    el.setAttribute("aria-label", t(el.getAttribute("data-i18n-aria")));
+  });
   document.documentElement.lang = current;
 }
 
@@ -296,6 +306,378 @@ function renderSubsidiaries() {
     </div>`).join("");
 }
 
+/* ===================================================================
+   ROUND 2 — inquiry builder (contact) + mode chooser (services)
+   Both read the same real data the rest of the site renders: the
+   subsidiary list, the solution catalogue and the service catalogue.
+   Nothing here invents a rate, a transit time or a waybill number.
+   =================================================================== */
+const BUILD_OTHER = "__other";
+const BUILD_ADVISE = "advise";
+const CHOOSER_ICON = { ocean: "ocean", air: "air", rail: "railway", inland: "inland" };
+
+let chooserStep = 0;
+let chooserPicks = [];
+let chooserDone = false;
+let builderPrefilled = false;
+
+function bizData() { return DATA[current] || DATA.en; }
+
+function escHtml(v) {
+  return String(v == null ? "" : v)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+/* ------------------------------- builder ------------------------------- */
+
+/* Fill a <select> while keeping whatever the user had chosen. Option order is
+   identical across locales (same regions, same cities), so the selected *index*
+   survives a language switch even though the labels change language. */
+function fillSelect(el, buildHtml, fallbackIndex) {
+  if (!el) return;
+  const idx = el.selectedIndex;
+  el.innerHTML = buildHtml();
+  if (idx >= 0 && idx < el.options.length) el.selectedIndex = idx;
+  else if (typeof fallbackIndex === "number" && fallbackIndex < el.options.length) el.selectedIndex = fallbackIndex;
+}
+
+function branchOptionsHtml() {
+  const d = bizData();
+  return d.subsidiaries.map((g) =>
+    '<optgroup label="' + escHtml(g.region) + '">' +
+    g.items.map((b) => '<option value="' + escHtml(b.city) + '">' + escHtml(b.city) + "</option>").join("") +
+    "</optgroup>"
+  ).join("") + '<option value="' + BUILD_OTHER + '">' + escHtml(t("build.other")) + "</option>";
+}
+
+function cargoOptionsHtml() {
+  const d = bizData();
+  return d.solutions.map((s) =>
+    '<option value="' + escHtml(s.title) + '">' + escHtml(s.title) + "</option>"
+  ).join("") + '<option value="' + BUILD_OTHER + '">' + escHtml(t("build.other")) + "</option>";
+}
+
+function modeOptionsHtml() {
+  const d = bizData();
+  const modes = d.chooser.modes.map((m) => {
+    const svc = d.services.filter((x) => x.title === m.service)[0] || {};
+    const label = svc.title || m.service;
+    return '<option value="' + escHtml(m.key) + '" data-service="' + escHtml(label) + '">' +
+      escHtml(label + (svc.tag ? " \u00b7 " + svc.tag : "")) + "</option>";
+  }).join("");
+  return modes + '<option value="' + BUILD_ADVISE + '">' + escHtml(t("build.unsure")) + "</option>";
+}
+
+/* Data convention: Greater China is listed last. Default the lane to the HQ
+   branch plus the first European office, so the form opens on a real example. */
+function defaultBranchIndex(which) {
+  const groups = bizData().subsidiaries;
+  let n = 0;
+  if (which === "origin") {
+    for (let i = 0; i < groups.length - 1; i++) n += groups[i].items.length;
+    return n;
+  }
+  for (let i = 0; i < groups.length; i++) {
+    if (/Europe|\u6b27\u6d32/i.test(groups[i].region)) return n;
+    n += groups[i].items.length;
+  }
+  return n;
+}
+
+function syncBuilderOthers() {
+  const pairs = [
+    ["buildOrigin", "buildOriginOther"],
+    ["buildDest", "buildDestOther"],
+    ["buildCargo", "buildCargoOther"]
+  ];
+  pairs.forEach((p) => {
+    const sel = document.getElementById(p[0]);
+    const inp = document.getElementById(p[1]);
+    if (!sel || !inp) return;
+    const on = sel.value === BUILD_OTHER;
+    inp.hidden = !on;
+    if (!on) inp.value = "";
+  });
+}
+
+/* The structured brief, as i18n-labelled lines. This is the single source of
+   truth for both the live summary panel and the email body. */
+function briefLines() {
+  const val = (id) => {
+    const el = document.getElementById(id);
+    return el ? String(el.value == null ? "" : el.value).trim() : "";
+  };
+  const rows = [];
+  const pick = (selId, otherId, key) => {
+    const sel = document.getElementById(selId);
+    if (!sel || !sel.value) return;
+    let v = sel.value;
+    if (v === BUILD_OTHER) v = val(otherId) || t("build.other");
+    rows.push(t(key) + ": " + v);
+  };
+  pick("buildOrigin", "buildOriginOther", "build.origin");
+  pick("buildDest", "buildDestOther", "build.dest");
+  pick("buildCargo", "buildCargoOther", "build.cargo");
+
+  const mode = document.getElementById("buildMode");
+  if (mode && mode.value) {
+    if (mode.value === BUILD_ADVISE) {
+      rows.push(t("build.mode") + ": " + t("build.unsure"));
+    } else {
+      const op = mode.options[mode.selectedIndex];
+      rows.push(t("build.mode") + ": " + ((op && op.getAttribute("data-service")) || mode.value));
+    }
+  }
+  const vol = val("buildVolume");
+  if (vol) rows.push(t("build.volume") + ": " + vol);
+  const when = val("buildWhen");
+  if (when) rows.push(t("build.when") + ": " + when);
+  return rows;
+}
+
+function updateBrief() {
+  const el = document.getElementById("buildSummary");
+  if (!el) return;
+  const rows = briefLines();
+  const notesEl = document.getElementById("cfMsg");
+  const notes = notesEl ? String(notesEl.value || "").trim() : "";
+  if (notes) rows.push(t("build.notes") + ": " + notes);
+  if (!rows.length) {
+    el.textContent = t("build.summaryEmpty");
+    el.classList.add("is-empty");
+    return;
+  }
+  el.classList.remove("is-empty");
+  el.textContent = rows.join("\n");
+}
+
+function renderBuilder() {
+  const origin = document.getElementById("buildOrigin");
+  if (!origin) return;
+  fillSelect(origin, branchOptionsHtml, defaultBranchIndex("origin"));
+  fillSelect(document.getElementById("buildDest"), branchOptionsHtml, defaultBranchIndex("dest"));
+  fillSelect(document.getElementById("buildCargo"), cargoOptionsHtml, 0);
+  fillSelect(document.getElementById("buildMode"), modeOptionsHtml, 0);
+  if (!builderPrefilled) {
+    builderPrefilled = true;
+    applyBuilderParams();
+  }
+  syncBuilderOthers();
+  updateBrief();
+}
+
+/* Deep link support: contact.html?mode=rail&from=London&to=Shenzhen&cargo=... */
+function applyBuilderParams() {
+  let p;
+  try { p = new URLSearchParams(window.location.search); } catch (e) { return; }
+  const setv = (id, v) => {
+    if (!v) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const i = Array.prototype.findIndex.call(el.options, (o) => o.value === v);
+    if (i >= 0) el.selectedIndex = i;
+  };
+  setv("buildOrigin", p.get("from"));
+  setv("buildDest", p.get("to"));
+  setv("buildCargo", p.get("cargo"));
+  setv("buildMode", p.get("mode"));
+}
+
+function legacyCopy(text) {
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.top = "-1000px";
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand("copy");
+    document.body.removeChild(ta);
+    return ok;
+  } catch (e) { return false; }
+}
+
+function copyBrief() {
+  const el = document.getElementById("buildSummary");
+  const btn = document.getElementById("buildCopy");
+  if (!el) return;
+  const text = el.textContent || "";
+  const done = () => {
+    if (!btn) return;
+    btn.classList.add("is-done");
+    btn.textContent = t("build.copied");
+    window.clearTimeout(btn.__t);
+    btn.__t = window.setTimeout(() => {
+      btn.classList.remove("is-done");
+      btn.textContent = t("build.adopt");
+    }, 1700);
+  };
+  const fail = () => {
+    if (window.__girafToast) window.__girafToast(t("build.copyFail"));
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done, () => { legacyCopy(text) ? done() : fail(); });
+  } else {
+    legacyCopy(text) ? done() : fail();
+  }
+}
+
+function initInquiryBuilder() {
+  const form = document.getElementById("contactForm");
+  if (!form) return;
+  if (!form.dataset.builderBound) {
+    form.dataset.builderBound = "1";
+    form.addEventListener("input", updateBrief);
+    /* a select landing on "Other" must reveal its free-text field, and leaving
+       it must clear that field — both are change-time concerns, so keep the
+       input handler free of side effects (it fires on every keystroke). */
+    form.addEventListener("change", function () {
+      syncBuilderOthers();
+      updateBrief();
+    });
+
+    const swap = document.getElementById("buildSwap");
+    if (swap) {
+      swap.addEventListener("click", () => {
+        const o = document.getElementById("buildOrigin");
+        const d = document.getElementById("buildDest");
+        const oo = document.getElementById("buildOriginOther");
+        const od = document.getElementById("buildDestOther");
+        if (!o || !d) return;
+        const i = o.selectedIndex, j = d.selectedIndex;
+        const ov = oo ? oo.value : "", dv = od ? od.value : "";
+        o.selectedIndex = j;
+        d.selectedIndex = i;
+        if (oo) oo.value = dv;
+        if (od) od.value = ov;
+        swap.classList.toggle("is-flip");
+        syncBuilderOthers();
+        updateBrief();
+      });
+    }
+    const copy = document.getElementById("buildCopy");
+    if (copy) copy.addEventListener("click", copyBrief);
+  }
+}
+
+/* ------------------------------- chooser ------------------------------- */
+
+function chooserMeta(key) {
+  const d = bizData();
+  const m = d.chooser.modes.filter((x) => x.key === key)[0];
+  const svc = d.services.filter((s) => s.title === (m && m.service))[0] || {};
+  return {
+    key: key,
+    icon: CHOOSER_ICON[key] || "ocean",
+    title: svc.title || (m ? m.service : key),
+    tag: svc.tag || "",
+    desc: svc.desc || "",
+    intro: svc.intro || svc.desc || ""
+  };
+}
+
+/* Highest weight wins; ties fall back to the declared mode order, so the
+   result is deterministic for the same answers. */
+function chooserRank() {
+  const modes = bizData().chooser.modes.map((m) => m.key);
+  const sc = {};
+  modes.forEach((k) => { sc[k] = 0; });
+  chooserPicks.forEach((w) => {
+    if (!w) return;
+    Object.keys(w).forEach((k) => { if (k in sc) sc[k] += w[k]; });
+  });
+  return modes.slice().sort((a, b) => (sc[b] - sc[a]) || (modes.indexOf(a) - modes.indexOf(b)));
+}
+
+function renderChooser() {
+  const body = document.getElementById("chooserBody");
+  if (!body) return;
+  const d = bizData();
+  const total = d.chooser.questions.length;
+
+  if (chooserDone) {
+    const rank = chooserRank();
+    const top = chooserMeta(rank[0]);
+    const alt = chooserMeta(rank[1] || rank[0]);
+    body.innerHTML =
+      '<div class="choose__result">' +
+        '<p class="choose__badge">' + escHtml(t("chooser.result")) + "</p>" +
+        '<p class="choose__lead">' + escHtml(t("chooser.resultLead")) + "</p>" +
+        '<div class="choose__rec">' +
+          '<span class="choose__ico" aria-hidden="true">' + svg(top.icon) + "</span>" +
+          "<div>" +
+            "<h3>" + escHtml(top.title) + "</h3>" +
+            "<p>" + escHtml(top.intro) + "</p>" +
+            (top.tag ? '<span class="choose__tag">' + escHtml(top.tag) + "</span>" : "") +
+          "</div>" +
+        "</div>" +
+        '<p class="choose__also">' + escHtml(t("chooser.also")) + ": <b>" + escHtml(alt.title) + "</b>" +
+          (alt.tag ? " \u00b7 " + escHtml(alt.tag) : "") + "</p>" +
+        '<div class="choose__acts">' +
+          '<a class="btn btn--primary" href="contact.html?mode=' + encodeURIComponent(top.key) + '">' +
+            escHtml(t("chooser.build")) + "</a>" +
+          '<button type="button" class="choose__back" data-act="restart">' + escHtml(t("chooser.restart")) + "</button>" +
+        "</div>" +
+      "</div>";
+    return;
+  }
+
+  const q = d.chooser.questions[chooserStep];
+  const pct = Math.round((chooserStep / total) * 100);
+  body.innerHTML =
+    '<div class="choose__head">' +
+      '<p class="choose__step">' +
+        escHtml(t("chooser.progress").replace("{n}", String(chooserStep + 1)).replace("{total}", String(total))) +
+      "</p>" +
+      '<div class="choose__bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + total +
+        '" aria-valuenow="' + (chooserStep + 1) + '"><span style="width:' + pct + '%"></span></div>' +
+    "</div>" +
+    '<h3 class="choose__q">' + escHtml(q.q) + "</h3>" +
+    '<div class="choose__opts">' +
+      q.options.map((o, i) =>
+        '<button type="button" class="choose__opt" data-opt="' + i + '">' + escHtml(o.label) + "</button>"
+      ).join("") +
+    "</div>" +
+    (chooserStep > 0
+      ? '<button type="button" class="choose__back" data-act="back">' + escHtml(t("chooser.back")) + "</button>"
+      : "");
+}
+
+function initChooser() {
+  const host = document.getElementById("chooser");
+  if (!host || host.dataset.bound) return;
+  host.dataset.bound = "1";
+  host.addEventListener("click", (e) => {
+    const questions = bizData().chooser.questions;
+    const opt = e.target.closest(".choose__opt");
+    if (opt) {
+      const i = parseInt(opt.getAttribute("data-opt"), 10);
+      const q = questions[chooserStep];
+      if (!q || !q.options[i]) return;
+      chooserPicks[chooserStep] = q.options[i].w;
+      chooserPicks.length = chooserStep + 1;
+      if (chooserStep + 1 >= questions.length) chooserDone = true;
+      else chooserStep++;
+      renderChooser();
+      return;
+    }
+    if (e.target.closest('[data-act="back"]')) {
+      chooserDone = false;
+      chooserStep = Math.max(0, chooserStep - 1);
+      renderChooser();
+      return;
+    }
+    if (e.target.closest('[data-act="restart"]')) {
+      chooserStep = 0;
+      chooserPicks = [];
+      chooserDone = false;
+      renderChooser();
+    }
+  });
+}
+
 function setActiveNav() {
   const page = document.body.dataset.page;
   document.querySelectorAll(".nav__links a").forEach((a) => {
@@ -317,6 +699,8 @@ function renderAll() {
   renderHistory();
   renderContactOffices();
   renderSubsidiaries();
+  renderBuilder();
+  renderChooser();
   setActiveNav();
   applyRevealStagger();
   observeReveal();
@@ -532,11 +916,18 @@ if (contactForm) {
   contactForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const d = new FormData(contactForm);
-    const name = (d.get("name") || "").toString().trim();
-    const email = (d.get("email") || "").toString().trim();
-    const msg = (d.get("message") || "").toString().trim();
+    const val = (k) => (d.get(k) || "").toString().trim();
+    const name = val("name");
+    const email = val("email");
+    /* compose: structured brief first, free-text notes after it */
+    const parts = [];
+    const brief = briefLines();
+    if (brief.length) parts.push(brief.join("\n"));
+    const notes = val("message");
+    if (notes) parts.push(t("build.notes") + ": " + notes);
     const subject = encodeURIComponent("GIRAFSAIL inquiry from " + name);
-    const body = encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\n" + msg);
+    const head = "Name: " + name + "\nEmail: " + email;
+    const body = encodeURIComponent(head + "\n\n" + (parts.join("\n\n") || "-"));
     window.location.href = "mailto:info@giraf-logistics.com?subject=" + subject + "&body=" + body;
   });
 }
@@ -585,4 +976,6 @@ initTheme();
 document.getElementById("year").textContent = new Date().getFullYear();
 document.querySelector('.lang__btn[data-lang="' + current + '"]')
   ?.classList.add("is-active");
+initInquiryBuilder();
+initChooser();
 renderAll();

@@ -4,6 +4,7 @@
  * Effects: Aurora hero canvas, Glow Cursor, Card spotlight + animated
  * border-glow, flowing hero routes, dark-section dot field, and the
  * animated logistics-network backdrop on every second-level page banner.
+ * Also hosts the footer mascot and the Konami celebration.
  * All effects respect prefers-reduced-motion and pause when off-screen.
  * ===================================================================== */
 (function () {
@@ -28,6 +29,32 @@
     io.observe(el);
     return function () { io.disconnect(); };
   }
+
+  /* i18n lookup from inside this closure. main.js owns the global t(), but a
+     name may be shadowed locally (a numeric clock named `t`, say) — so reach
+     for it on window explicitly and always degrade to a readable fallback. */
+  function T(key, fb) {
+    try {
+      if (typeof window.t === 'function') return window.t(key) || fb || key;
+    } catch (e) { /* fall through */ }
+    return fb || key;
+  }
+
+  /* Small transient pill used by the builder and the easter egg. */
+  function toast(msg) {
+    if (!msg) return;
+    var el = document.createElement('div');
+    el.className = 'egg-toast';
+    el.setAttribute('role', 'status');
+    el.textContent = msg;
+    document.body.appendChild(el);
+    requestAnimationFrame(function () { el.classList.add('is-on'); });
+    setTimeout(function () {
+      el.classList.remove('is-on');
+      setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 420);
+    }, 3200);
+  }
+  window.__girafToast = toast;
 
   /* -------------------------------------------------------------------
    * 1. AURORA — drifting colored blobs (lighter compositing) on the hero
@@ -806,6 +833,146 @@
       setTimeout(function () { if (s.parentNode) s.parentNode.removeChild(s); }, 620);
     });
   }
+  /* -------------------------------------------------------------------
+   * 11. MASCOT — a small giraffe in the footer. It is also the keyboard-free
+   *     trigger for the easter egg (five clicks), since Konami needs a
+   *     physical keyboard and this site is read on phones too.
+   * ----------------------------------------------------------------- */
+  var MASCOT_SVG =
+    '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.9" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M19.6 4.4v2.3M23.2 4.4v2.3"/>' +
+    '<path d="M18.6 7.4h5.6l-.9 3.2h-3.8z"/>' +
+    '<path d="M20.4 10.6 18.4 20"/>' +
+    '<path d="M10.6 20h7.8a2 2 0 0 1 2 2v2.6a2 2 0 0 1-2 2h-7.8a2 2 0 0 1-2-2V22a2 2 0 0 1 2-2z"/>' +
+    '<path d="M12 26.6v2.2M15.6 26.6v2.2M19.2 26.6v2.2"/>' +
+    '<path d="M10.7 21.4 8.4 20.3v2.4"/>' +
+    '</svg>';
+
+  function initMascot() {
+    var host = document.querySelector('.footer__brand') || document.querySelector('.footer__bottom');
+    if (!host || host.querySelector('.mascot')) return;
+
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'mascot';
+    b.setAttribute('aria-label', T('egg.mascot', 'GIRAFSAIL mascot'));
+    b.innerHTML = MASCOT_SVG;
+
+    /* keep the label in the active language without main.js knowing we exist */
+    if ('MutationObserver' in window) {
+      new MutationObserver(function () {
+        b.setAttribute('aria-label', T('egg.mascot', 'GIRAFSAIL mascot'));
+      }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+    }
+
+    var n = 0, timer = 0;
+    b.addEventListener('click', function () {
+      b.classList.remove('is-hop');
+      void b.offsetWidth;            /* restart the animation */
+      b.classList.add('is-hop');
+      setTimeout(function () { b.classList.remove('is-hop'); }, 700);
+      n++;
+      clearTimeout(timer);
+      timer = setTimeout(function () { n = 0; }, 1800);
+      if (n >= 5) { n = 0; celebrate(); }
+    });
+
+    host.appendChild(b);
+  }
+
+  /* -------------------------------------------------------------------
+   * 12. KONAMI — the classic sequence, plus a one-shot particle burst and a
+   *     toast. Under reduced-motion the toast still fires (the joke stays
+   *     discoverable) but no particles are drawn.
+   * ----------------------------------------------------------------- */
+  var SEQUENCE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+                  'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  var celebrating = false;
+
+  function initKonami() {
+    var i = 0;
+    window.addEventListener('keydown', function (e) {
+      var tag = ((e.target && e.target.tagName) || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+      var k = e.key || '';
+      if (k.length === 1) k = k.toLowerCase();
+      if (k === SEQUENCE[i]) {
+        i++;
+        if (i === SEQUENCE.length) { i = 0; celebrate(); }
+      } else {
+        i = (k === SEQUENCE[0]) ? 1 : 0;
+      }
+    });
+  }
+
+  function celebrate() {
+    if (celebrating) return;
+    celebrating = true;
+    setTimeout(function () { celebrating = false; }, 2400);
+
+    document.documentElement.classList.add('is-celebrating');
+    setTimeout(function () { document.documentElement.classList.remove('is-celebrating'); }, 2200);
+
+    toast(T('egg.konami', 'You found it.'));
+    if (!reduce) burst();
+  }
+
+  /* Gold + brand-blue confetti on a throwaway full-screen canvas. */
+  function burst() {
+    var c = document.createElement('canvas');
+    c.className = 'konami-burst';
+    c.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(c);
+    var ctx = c.getContext('2d');
+    if (!ctx) { if (c.parentNode) c.parentNode.removeChild(c); return; }
+
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var vw = window.innerWidth, vh = window.innerHeight;
+    c.width = Math.floor(vw * dpr);
+    c.height = Math.floor(vh * dpr);
+    c.style.width = vw + 'px';
+    c.style.height = vh + 'px';
+
+    var cx = c.width / 2, cy = c.height * 0.42;
+    var cols = ['#e8a33d', '#0071e3', '#ffffff', '#c8852a'];
+    var ps = [];
+    for (var n = 0; n < 150; n++) {
+      var a = Math.random() * Math.PI * 2;
+      var sp = (2 + Math.random() * 10) * dpr;
+      ps.push({
+        x: cx, y: cy,
+        vx: Math.cos(a) * sp,
+        vy: Math.sin(a) * sp - 1.4 * dpr,
+        r: (1 + Math.random() * 2.8) * dpr,
+        col: cols[(Math.random() * cols.length) | 0]
+      });
+    }
+
+    var LIFE = 1500;
+    var start = performance.now();
+    function loop(now) {
+      var el = now - start;
+      ctx.clearRect(0, 0, c.width, c.height);
+      var k = Math.max(0, 1 - el / LIFE);
+      for (var i = 0; i < ps.length; i++) {
+        var p = ps[i];
+        p.x += p.vx; p.y += p.vy;
+        p.vy += 0.17 * dpr;
+        p.vx *= 0.993; p.vy *= 0.993;
+        ctx.globalAlpha = k;
+        ctx.fillStyle = p.col;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, 6.2832);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (el < LIFE) requestAnimationFrame(loop);
+      else if (c.parentNode) c.parentNode.removeChild(c);
+    }
+    requestAnimationFrame(loop);
+  }
+
   ready(function () {
     initAurora();
     /* Disabled on purpose: the 520px pointer halo and the per-card specular
@@ -819,5 +986,7 @@
     initNetMap();
     initMagnetic();
     initRipple();
+    initMascot();
+    initKonami();
   });
 })();

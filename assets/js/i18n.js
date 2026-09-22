@@ -123,7 +123,44 @@ const COPY = {
     "contact.info": "Contact details",
     "contact.emailLabel": "Email",
     "contact.phoneLabel": "Phone",
-    "contact.addrLabel": "Offices"
+    "contact.addrLabel": "Offices",
+    "build.eyebrow": "Inquiry builder",
+    "build.title": "Build the brief in 30 seconds",
+    "build.lead": "Pick the lane and the cargo — we assemble a structured brief you can send as-is.",
+    "build.origin": "Origin",
+    "build.dest": "Destination",
+    "build.cargo": "Cargo type",
+    "build.mode": "Preferred mode",
+    "build.volume": "Volume / weight",
+    "build.when": "Target date",
+    "build.other": "Other (type below)",
+    "build.otherPh": "City / port",
+    "build.unsure": "Let GIRAFSAIL advise",
+    "build.volumePh": "e.g. 2 x 40HQ / 18 t",
+    "build.whenPh": "e.g. before 15 Nov",
+    "build.notes": "Notes",
+    "build.summary": "Your brief",
+    "build.summaryEmpty": "Fill in the details above — your brief appears here.",
+    "build.swap": "Swap origin and destination",
+    "build.reset": "Reset",
+    "build.adopt": "Copy this brief",
+    "build.copied": "Brief copied",
+    "build.copyFail": "Could not copy — select the text instead.",
+    "build.sent": "Opening your email app with the brief filled in.",
+
+    "chooser.eyebrow": "Find your fit",
+    "chooser.title": "Which mode moves your cargo?",
+    "chooser.lead": "Four questions, no email needed. We match your answers to the services we actually run.",
+    "chooser.progress": "Question {n} of {total}",
+    "chooser.back": "Back",
+    "chooser.restart": "Start over",
+    "chooser.result": "Recommended",
+    "chooser.resultLead": "Based on your answers, this is the best starting point.",
+    "chooser.also": "Worth comparing too",
+    "chooser.build": "Build an inquiry on this",
+
+    "egg.mascot": "GIRAFSAIL mascot — give it a click",
+    "egg.konami": "You found it. 33 branches, one giraffe."
   },
 
   zh: {
@@ -240,7 +277,44 @@ const COPY = {
     "contact.info": "联系方式",
     "contact.emailLabel": "邮箱",
     "contact.phoneLabel": "电话",
-    "contact.addrLabel": "办公地点"
+    "contact.addrLabel": "办公地点",
+    "build.eyebrow": "询盘构建器",
+    "build.title": "30 秒把需求说清楚",
+    "build.lead": "选好航线与货物，我们自动整理成一份可直接发送的结构化询盘。",
+    "build.origin": "起运地",
+    "build.dest": "目的地",
+    "build.cargo": "货物类型",
+    "build.mode": "期望运输方式",
+    "build.volume": "体积 / 重量",
+    "build.when": "期望时间",
+    "build.other": "其他（请填写）",
+    "build.otherPh": "城市 / 港口",
+    "build.unsure": "请 GIRAFSAIL 推荐",
+    "build.volumePh": "如 2 个 40 尺高柜 / 18 吨",
+    "build.whenPh": "如 11 月 15 日前",
+    "build.notes": "补充说明",
+    "build.summary": "您的询盘",
+    "build.summaryEmpty": "填写上方信息后，这里会实时生成询盘摘要。",
+    "build.swap": "交换起运地与目的地",
+    "build.reset": "重填",
+    "build.adopt": "复制这份询盘",
+    "build.copied": "已复制询盘",
+    "build.copyFail": "复制失败，请手动选中文本复制。",
+    "build.sent": "正在打开邮件客户端，询盘内容已填好。",
+
+    "chooser.eyebrow": "找到最适合的方案",
+    "chooser.title": "哪种运输方式更适合您的货物？",
+    "chooser.lead": "四个问题、无需留邮箱，按我们真实运营的服务为您匹配。",
+    "chooser.progress": "第 {n} / {total} 题",
+    "chooser.back": "上一题",
+    "chooser.restart": "重新开始",
+    "chooser.result": "推荐方案",
+    "chooser.resultLead": "根据您的回答，这是最合适的起点。",
+    "chooser.also": "值得一并比较",
+    "chooser.build": "按此方案发起询盘",
+
+    "egg.mascot": "GIRAFSAIL 吉祥物 —— 点一下试试",
+    "egg.konami": "被你发现了。33 家分支，一只长颈鹿。"
   }
 
   /* es: { ... }  // <- add a full locale here to extend */
@@ -385,7 +459,44 @@ const DATA = {
         { city: "Beijing", address: "Room 1505, Tower A, Rongke Wangjing Center, Wangjing Subdistrict, Chaoyang District, Beijing, China", phone: "", email: "" , lat: 39.904, lon: 116.407 },
         { city: "Chongqing", address: "Room 2509, T2, Jianguo Center, Jiangbeizui, Jiangbei District, Chongqing", phone: "", email: "" , lat: 29.563, lon: 106.551 }
       ] }
-    ]
+    ],
+    chooser: {
+      modes: [
+        { key: "ocean", service: "Ocean Freight" },
+        { key: "air", service: "Air Freight" },
+        { key: "rail", service: "Railway" },
+        { key: "inland", service: "Inland Delivery" }
+      ],
+      questions: [
+        { q: "How soon does it need to arrive?",
+          options: [
+            { label: "Within a week - every day counts", w: { air: 3, rail: 1 } },
+            { label: "A few weeks is fine", w: { rail: 3, ocean: 1, air: 1 } },
+            { label: "Cost matters more than speed", w: { ocean: 3, rail: 1 } }
+          ] },
+        { q: "Roughly how much cargo?",
+          options: [
+            { label: "Full containers", w: { ocean: 3, rail: 2, inland: 1 } },
+            { label: "Loose or consolidated", w: { ocean: 2, air: 1, rail: 1 } },
+            { label: "A few pieces", w: { air: 3, inland: 1 } },
+            { label: "Oversized or heavy-lift", w: { ocean: 3, inland: 1 } }
+          ] },
+        { q: "Which lane are you shipping?",
+          options: [
+            { label: "China and Europe", w: { rail: 3, ocean: 2, air: 1 } },
+            { label: "China and the Americas", w: { ocean: 3, air: 1 } },
+            { label: "Within Asia", w: { ocean: 3, air: 1 } },
+            { label: "Cross-border road", w: { inland: 3 } }
+          ] },
+        { q: "How much of the journey do you need covered?",
+          options: [
+            { label: "Door to door", w: { inland: 3, ocean: 2, air: 2, rail: 2 } },
+            { label: "Port to port", w: { ocean: 3, rail: 2, air: 1 } },
+            { label: "Customs plus delivery", w: { ocean: 2, rail: 2, air: 1, inland: 2 } },
+            { label: "Just first or last mile", w: { inland: 3 } }
+          ] }
+      ]
+    }
   },
 
   zh: {
@@ -525,6 +636,43 @@ const DATA = {
           { city: "北京", address: "Room 1505, Tower A, Rongke Wangjing Center, Wangjing Subdistrict, Chaoyang District, Beijing, China", phone: "", email: "" , lat: 39.904, lon: 116.407 },
           { city: "重庆", address: "Room 2509, T2, Jianguo Center, Jiangbeizui, Jiangbei District, Chongqing", phone: "", email: "" , lat: 29.563, lon: 106.551 }
         ] }
-    ]
+    ],
+    chooser: {
+      modes: [
+        { key: "ocean", service: "海运" },
+        { key: "air", service: "空运" },
+        { key: "rail", service: "铁路" },
+        { key: "inland", service: "陆运" }
+      ],
+      questions: [
+        { q: "货物需要多快到达？",
+          options: [
+            { label: "一周内 —— 每天都在抢时间", w: { air: 3, rail: 1 } },
+            { label: "几周内都可以", w: { rail: 3, ocean: 1, air: 1 } },
+            { label: "成本比时效更重要", w: { ocean: 3, rail: 1 } }
+          ] },
+        { q: "大约多少货量？",
+          options: [
+            { label: "整柜", w: { ocean: 3, rail: 2, inland: 1 } },
+            { label: "拼箱 / 零散", w: { ocean: 2, air: 1, rail: 1 } },
+            { label: "少量几件", w: { air: 3, inland: 1 } },
+            { label: "大件 / 重货", w: { ocean: 3, inland: 1 } }
+          ] },
+        { q: "走哪条线路？",
+          options: [
+            { label: "中国与欧洲", w: { rail: 3, ocean: 2, air: 1 } },
+            { label: "中国与美洲", w: { ocean: 3, air: 1 } },
+            { label: "亚洲区内", w: { ocean: 3, air: 1 } },
+            { label: "跨境陆运", w: { inland: 3 } }
+          ] },
+        { q: "需要覆盖到哪一段？",
+          options: [
+            { label: "门到门", w: { inland: 3, ocean: 2, air: 2, rail: 2 } },
+            { label: "港到港", w: { ocean: 3, rail: 2, air: 1 } },
+            { label: "清关 + 派送", w: { ocean: 2, rail: 2, air: 1, inland: 2 } },
+            { label: "仅头程 / 末端", w: { inland: 3 } }
+          ] }
+      ]
+    }
   }
 };

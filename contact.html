@@ -63,12 +63,62 @@
     <section class="section">
       <div class="wrap contact">
         <form class="contact-form reveal" id="contactForm" novalidate>
-          <label data-i18n="contact.name">Name</label>
-          <input type="text" name="name" required />
-          <label data-i18n="contact.email">Email</label>
-          <input type="email" name="email" required />
-          <label data-i18n="contact.message">How can we help?</label>
-          <textarea name="message" rows="5" required></textarea>
+          <div class="builder" id="inquiryBuilder">
+            <p class="builder__eyebrow" data-i18n="build.eyebrow">Inquiry builder</p>
+            <h3 class="builder__title" data-i18n="build.title">Build the brief in 30 seconds</h3>
+            <p class="builder__lead" data-i18n="build.lead">Pick the lane and the cargo — we assemble a structured brief you can send as-is.</p>
+
+            <div class="builder__grid">
+              <div class="builder__lane">
+                <div class="field">
+                  <label class="field__label" for="buildOrigin" data-i18n="build.origin">Origin</label>
+                  <select id="buildOrigin" name="origin"></select>
+                  <input class="field__other" id="buildOriginOther" name="originOther" type="text" data-i18n-ph="build.otherPh" placeholder="City / port" hidden />
+                </div>
+                <button type="button" class="builder__swap" id="buildSwap" data-i18n-title="build.swap" data-i18n-aria="build.swap" title="Swap origin and destination" aria-label="Swap origin and destination">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v13M7 17l-3-3M7 17l3-3M17 20V7M17 7l3 3M17 7l-3 3"/></svg>
+                </button>
+                <div class="field">
+                  <label class="field__label" for="buildDest" data-i18n="build.dest">Destination</label>
+                  <select id="buildDest" name="dest"></select>
+                  <input class="field__other" id="buildDestOther" name="destOther" type="text" data-i18n-ph="build.otherPh" placeholder="City / port" hidden />
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="buildCargo" data-i18n="build.cargo">Cargo type</label>
+                <select id="buildCargo" name="cargo"></select>
+                <input class="field__other" id="buildCargoOther" name="cargoOther" type="text" placeholder="Cargo type" hidden />
+              </div>
+              <div class="field">
+                <label class="field__label" for="buildMode" data-i18n="build.mode">Preferred mode</label>
+                <select id="buildMode" name="mode"></select>
+              </div>
+              <div class="field">
+                <label class="field__label" for="buildVolume" data-i18n="build.volume">Volume / weight</label>
+                <input id="buildVolume" name="volume" type="text" data-i18n-ph="build.volumePh" placeholder="e.g. 2 x 40HQ / 18 t" />
+              </div>
+              <div class="field">
+                <label class="field__label" for="buildWhen" data-i18n="build.when">Target date</label>
+                <input id="buildWhen" name="when" type="text" data-i18n-ph="build.whenPh" placeholder="e.g. before 15 Nov" />
+              </div>
+            </div>
+
+            <div class="builder__out">
+              <div class="builder__out-head">
+                <p class="builder__out-label" data-i18n="build.summary">Your brief</p>
+                <button type="button" class="builder__copy" id="buildCopy" data-i18n="build.adopt">Copy this brief</button>
+              </div>
+              <pre class="builder__summary" id="buildSummary" aria-live="polite"></pre>
+            </div>
+          </div>
+
+          <label for="cfName" data-i18n="contact.name">Name</label>
+          <input id="cfName" type="text" name="name" required />
+          <label for="cfEmail" data-i18n="contact.email">Email</label>
+          <input id="cfEmail" type="email" name="email" required />
+          <label for="cfMsg" data-i18n="build.notes">Notes</label>
+          <textarea id="cfMsg" name="message" rows="4"></textarea>
           <button type="submit" class="btn btn--gold" data-i18n="contact.submit">Send inquiry</button>
           <p class="form-note" data-i18n="contact.note">We’ll get back to you as soon as possible.</p>
         </form>
