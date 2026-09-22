@@ -427,18 +427,50 @@
    *    graticule + glowing branch nodes with pulsing radiation rings and
    *    hub-and-spoke cargo arcs). No third-party tiles / API keys; no
    *    borders drawn (compliance). Honors reduced-motion + pauses
-   *    off-screen. Hover a node for city / phone.
+   *    off-screen. Hover for city / phone; click a node to pin a detail
+   *    panel (region / address / phone / real local time) and pick an A→B
+   *    lane that pre-fills an inquiry. All figures are the real branch list.
    * ----------------------------------------------------------------- */
+  var NET_TZ = {
+    "Los Angeles": "America/Los_Angeles", "Mexico City": "America/Mexico_City",
+    "London": "Europe/London", "Hamburg": "Europe/Berlin",
+    "Bangkok": "Asia/Bangkok", "Hanoi": "Asia/Ho_Chi_Minh",
+    "Ho Chi Minh City": "Asia/Ho_Chi_Minh", "Klang (Malaysia)": "Asia/Kuala_Lumpur",
+    "Singapore": "Asia/Singapore", "Riyadh": "Asia/Riyadh", "Casablanca": "Africa/Casablanca",
+    "Shenzhen": "Asia/Shanghai", "Shanghai": "Asia/Shanghai", "Ningbo": "Asia/Shanghai",
+    "Tianjin": "Asia/Shanghai", "Qingdao": "Asia/Shanghai", "Hefei": "Asia/Shanghai",
+    "Xiamen": "Asia/Shanghai", "Foshan": "Asia/Shanghai", "Shunde": "Asia/Shanghai",
+    "Guangzhou": "Asia/Shanghai", "Zhongshan": "Asia/Shanghai", "Dongguan": "Asia/Shanghai",
+    "Jiangmen": "Asia/Shanghai", "Huizhou": "Asia/Shanghai", "Shantou": "Asia/Shanghai",
+    "Zhuhai": "Asia/Shanghai", "Wuhan": "Asia/Shanghai", "Nanjing": "Asia/Shanghai",
+    "Chengdu": "Asia/Shanghai", "Changsha": "Asia/Shanghai", "Beijing": "Asia/Shanghai",
+    "Chongqing": "Asia/Shanghai"
+  };
+
   function initNetMap() {
     var c = document.getElementById('netmap');
     if (!c) return;
     var wrap = c.parentElement;            // .netmap
     var tip = document.getElementById('netmapTip');
+    var hint = wrap.querySelector('.netmap__hint');
     var ctx = c.getContext('2d');
     var w = 0, h = 0, dpr = 1, raf = 0, running = true, t = 0;
     var nodes = [], arcs = [], hoverIdx = -1;
+    var pinned = -1, route = { from: -1, to: -1 };
     var LAND = (typeof WORLDMAP !== "undefined") ? WORLDMAP : [];
     var landCanvas = null;
+
+    /* `t` is the numeric animation clock in this scope, so reach the
+       global i18n helper (main.js) via window to avoid shadowing. */
+    var TR = (typeof window !== 'undefined' && typeof window.t === 'function')
+      ? window.t : function (k) { return k; };
+
+    /* detail panel is created here so the page markup stays page-agnostic */
+    var panel = document.createElement('div');
+    panel.className = 'netmap__panel';
+    panel.setAttribute('role', 'status');
+    panel.setAttribute('aria-live', 'polite');
+    wrap.appendChild(panel);
 
     // Continent & ocean labels (bilingual). Positioned in lon/lat so they
     // reproject on resize. type controls font treatment.
@@ -461,13 +493,26 @@
         y: (LAT_MAX - lat) / (LAT_MAX - LAT_MIN) * h
       };
     }
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (ch) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+      });
+    }
+    function localTime(city) {
+      var tz = NET_TZ[city]; if (!tz) return '';
+      try {
+        return new Intl.DateTimeFormat((typeof current !== 'undefined' && current === 'zh') ? 'zh-CN' : 'en-GB',
+          { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date());
+      } catch (err) { return ''; }
+    }
     function build() {
       nodes = [];
       var subs = (typeof DATA !== 'undefined' && DATA[current] && DATA[current].subsidiaries) || [];
       subs.forEach(function (g) {
         (g.items || []).forEach(function (b) {
           if (typeof b.lat === 'number' && typeof b.lon === 'number') {
-            nodes.push({ lat: b.lat, lon: b.lon, city: b.city || '', phone: b.phone || '' });
+            nodes.push({ lat: b.lat, lon: b.lon, city: b.city || '', phone: b.phone || '',
+              email: b.email || '', address: b.address || '', region: g.region || '' });
           }
         });
       });
@@ -531,28 +576,46 @@
     function drawLand() {
       if (landCanvas) ctx.drawImage(landCanvas, 0, 0, w, h);
     }
+    function arcPoint(A, B) {
+      var mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
+      var dx = B.x - A.x, dy = B.y - A.y, dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      var off = Math.min(dist * 0.16, 70);
+      return { cx: mx - dy / dist * off, cy: my + dx / dist * off };
+    }
     function drawArcs() {
+      var routed = (route.from >= 0 && route.to >= 0);
       for (var i = 0; i < arcs.length; i++) {
         var A = nodes[arcs[i].a], B = nodes[arcs[i].b];
-        var mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
-        var dx = B.x - A.x, dy = B.y - A.y, dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        var off = Math.min(dist * 0.16, 70);
-        var cx = mx - dy / dist * off, cy = my + dx / dist * off;
-        ctx.strokeStyle = 'rgba(120,180,255,0.10)';
+        var c2 = arcPoint(A, B);
+        ctx.strokeStyle = 'rgba(120,180,255,' + (routed ? 0.04 : 0.10) + ')';
         ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.quadraticCurveTo(cx, cy, B.x, B.y); ctx.stroke();
-        if (!reduce) {
+        ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.quadraticCurveTo(c2.cx, c2.cy, B.x, B.y); ctx.stroke();
+        if (!reduce && !routed) {
           var p = (t * 0.12 + i * 0.13) % 1;
-          var qx = (1 - p) * (1 - p) * A.x + 2 * (1 - p) * p * cx + p * p * B.x;
-          var qy = (1 - p) * (1 - p) * A.y + 2 * (1 - p) * p * cy + p * p * B.y;
+          var qx = (1 - p) * (1 - p) * A.x + 2 * (1 - p) * p * c2.cx + p * p * B.x;
+          var qy = (1 - p) * (1 - p) * A.y + 2 * (1 - p) * p * c2.cy + p * p * B.y;
           ctx.fillStyle = 'rgba(232,163,61,0.95)';
           ctx.beginPath(); ctx.arc(qx, qy, 1.8, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+      if (routed) {
+        var A2 = nodes[route.from], B2 = nodes[route.to], c3 = arcPoint(A2, B2);
+        ctx.strokeStyle = 'rgba(232,163,61,0.62)';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath(); ctx.moveTo(A2.x, A2.y); ctx.quadraticCurveTo(c3.cx, c3.cy, B2.x, B2.y); ctx.stroke();
+        if (!reduce) {
+          var pp = (t * 0.18) % 1;
+          var x2 = (1 - pp) * (1 - pp) * A2.x + 2 * (1 - pp) * pp * c3.cx + pp * pp * B2.x;
+          var y2 = (1 - pp) * (1 - pp) * A2.y + 2 * (1 - pp) * pp * c3.cy + pp * pp * B2.y;
+          ctx.fillStyle = 'rgba(255,255,255,0.95)';
+          ctx.beginPath(); ctx.arc(x2, y2, 2.4, 0, Math.PI * 2); ctx.fill();
         }
       }
     }
     function drawNodes() {
       for (var i = 0; i < nodes.length; i++) {
         var n = nodes[i];
+        var on = (i === hoverIdx || i === pinned || i === route.from || i === route.to);
         if (!reduce) {
           var phase = (t * 0.6 + i * 0.7) % 1;
           var rr = phase * 22;
@@ -562,11 +625,16 @@
           ctx.fillStyle = g;
           ctx.beginPath(); ctx.arc(n.x, n.y, rr, 0, Math.PI * 2); ctx.fill();
         }
-        var col = (i === hoverIdx) ? '255,255,255' : '232,163,61';
+        var col = on ? '255,255,255' : '232,163,61';
         ctx.fillStyle = 'rgba(' + col + ',0.25)';
         ctx.beginPath(); ctx.arc(n.x, n.y, 6, 0, Math.PI * 2); ctx.fill();
         ctx.fillStyle = 'rgba(' + col + ',0.95)';
-        ctx.beginPath(); ctx.arc(n.x, n.y, (i === hoverIdx) ? 4.2 : 2.6, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(n.x, n.y, on ? 4.2 : 2.6, 0, Math.PI * 2); ctx.fill();
+        if (i === pinned || i === route.from || i === route.to) {
+          ctx.strokeStyle = (i === route.from || i === route.to) ? 'rgba(232,163,61,0.95)' : 'rgba(255,255,255,0.85)';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath(); ctx.arc(n.x, n.y, 9.5, 0, Math.PI * 2); ctx.stroke();
+        }
       }
     }
     function drawLabels() {
@@ -595,14 +663,60 @@
     function showTip(i) {
       if (!tip) return;
       var n = nodes[i]; if (!n) return;
-      var html = '<b>' + n.city + '</b>';
-      if (n.phone) html += '<br><span>' + n.phone + '</span>';
+      var html = '<b>' + esc(n.city) + '</b>';
+      if (n.phone) html += '<br><span>' + esc(n.phone) + '</span>';
       tip.innerHTML = html;
       tip.style.left = n.x + 'px';
       tip.style.top = n.y + 'px';
       tip.classList.add('is-on');
     }
     function hideTip() { if (tip) tip.classList.remove('is-on'); }
+
+    function renderPanel() {
+      if (hint) hint.classList.toggle('is-off', pinned >= 0);
+      if (pinned < 0) { panel.classList.remove('is-on'); panel.innerHTML = ''; return; }
+      var n = nodes[pinned];
+      var routed = (route.from >= 0 && route.to >= 0);
+      var html = '';
+      if (routed) {
+        var A = nodes[route.from], B = nodes[route.to];
+        html += '<h3 class="netmap__lane"><b>' + esc(A.city) + '</b> \u2192 <b>' + esc(B.city) + '</b></h3>';
+      } else {
+        html += '<h3>' + esc(n.city) + '</h3>';
+        if (n.region) html += '<p class="netmap__region">' + esc(n.region) + '</p>';
+        var tm = localTime(n.city);
+        if (tm) html += '<div class="netmap__row"><span class="netmap__k">' + TR('network.panelTime') +
+          '</span><span class="netmap__v" data-tz="' + esc(n.city) + '">' + tm + '</span></div>';
+        if (n.phone) html += '<div class="netmap__row"><span class="netmap__k">' + TR('network.panelPhone') +
+          '</span><span class="netmap__v"><a href="tel:' + esc(n.phone).replace(/[^0-9+]/g, '') + '">' + esc(n.phone) + '</a></span></div>';
+        if (n.address) html += '<p class="netmap__addr">' + esc(n.address) + '</p>';
+      }
+      var acts = '';
+      if (route.from < 0) {
+        acts += '<button type="button" class="netmap__btn netmap__btn--gold" data-act="origin">' + TR('network.setOrigin') + '</button>';
+        acts += '<button type="button" class="netmap__btn" data-act="close">' + TR('network.clearRoute') + '</button>';
+      } else if (!routed) {
+        html += '<p class="netmap__pick">' + TR('network.pickDest') + '</p>';
+        acts += '<button type="button" class="netmap__btn" data-act="close">' + TR('network.clearRoute') + '</button>';
+      } else {
+        var subj = 'Lane inquiry: ' + nodes[route.from].city + ' -> ' + nodes[route.to].city;
+        var body = 'Origin: ' + nodes[route.from].city + '\nDestination: ' + nodes[route.to].city + '\n\nPlease quote this lane.';
+        acts += '<a class="netmap__btn netmap__btn--gold" href="mailto:info@giraf-logistics.com?subject=' +
+          encodeURIComponent(subj) + '&body=' + encodeURIComponent(body) + '">' + TR('network.inquireLane') + '</a>';
+        acts += '<button type="button" class="netmap__btn" data-act="close">' + TR('network.clearRoute') + '</button>';
+      }
+      html += '<div class="netmap__acts">' + acts + '</div>';
+      panel.innerHTML = html;
+      panel.classList.add('is-on');
+      Array.prototype.forEach.call(panel.querySelectorAll('[data-act]'), function (b) {
+        b.addEventListener('click', function () {
+          var a = b.getAttribute('data-act');
+          if (a === 'origin') { route.from = pinned; route.to = -1; renderPanel(); }
+          else { clearSel(); }
+        });
+      });
+    }
+    function clearSel() { pinned = -1; route.from = -1; route.to = -1; hideTip(); renderPanel(); }
 
     c.addEventListener('pointermove', function (e) {
       if (!fine) return;
@@ -616,6 +730,27 @@
       if (found !== hoverIdx) { hoverIdx = found; if (found >= 0) showTip(found); else hideTip(); }
     });
     c.addEventListener('pointerleave', function () { hoverIdx = -1; hideTip(); });
+    c.addEventListener('click', function (e) {
+      var r = c.getBoundingClientRect();
+      var mx = e.clientX - r.left, my = e.clientY - r.top;
+      var found = -1, fd = 400;
+      for (var i = 0; i < nodes.length; i++) {
+        var dx = nodes[i].x - mx, dy = nodes[i].y - my, d2 = dx * dx + dy * dy;
+        if (d2 < fd) { fd = d2; found = i; }
+      }
+      if (found < 0) return;
+      if (route.from >= 0 && found !== route.from) { route.to = found; pinned = found; renderPanel(); return; }
+      if (pinned === found) { clearSel(); return; }
+      pinned = found; route.to = -1; renderPanel();
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') clearSel(); });
+    var langWrap = document.getElementById('langSwitch');
+    if (langWrap) langWrap.addEventListener('click', function () { setTimeout(renderPanel, 0); });
+    setInterval(function () {
+      if (pinned < 0 || !panel.classList.contains('is-on')) return;
+      var el = panel.querySelector('[data-tz]');
+      if (el) { var v = localTime(nodes[pinned].city); if (v) el.textContent = v; }
+    }, 15000);
 
     build(); resize();
     if (reduce) draw(); else loop();
@@ -627,6 +762,50 @@
       function () { running = false; cancelAnimationFrame(raf); });
   }
 
+  /* -------------------------------------------------------------------
+   * 9. MAGNETIC CTAs — primary buttons drift a few px toward the pointer.
+   *    Desktop fine-pointer only; no-op under reduced-motion.
+   * ----------------------------------------------------------------- */
+  function initMagnetic() {
+    if (reduce) return;
+    var btns = document.querySelectorAll('.btn--primary, .btn--gold');
+    Array.prototype.forEach.call(btns, function (b) {
+      b.addEventListener('pointermove', function (e) {
+        /* only a real mouse drives the pull; ignore touch / pen drags */
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        var r = b.getBoundingClientRect();
+        var mx = (e.clientX - r.left - r.width / 2) / r.width;
+        var my = (e.clientY - r.top - r.height / 2) / r.height;
+        b.style.setProperty('--mag-x', (mx * 8).toFixed(2) + 'px');
+        b.style.setProperty('--mag-y', (my * 6).toFixed(2) + 'px');
+      });
+      b.addEventListener('pointerleave', function () {
+        b.style.setProperty('--mag-x', '0px');
+        b.style.setProperty('--mag-y', '0px');
+      });
+    });
+  }
+
+  /* -------------------------------------------------------------------
+   * 10. RIPPLE — a soft currentColor wave from the press point on .btn.
+   * ----------------------------------------------------------------- */
+  function initRipple() {
+    if (reduce) return;
+    document.addEventListener('pointerdown', function (e) {
+      var tgt = e.target;
+      var b = tgt && tgt.closest ? tgt.closest('.btn') : null;
+      if (!b) return;
+      var r = b.getBoundingClientRect();
+      var d = Math.max(r.width, r.height);
+      var s = document.createElement('span');
+      s.className = 'ripple';
+      s.style.width = s.style.height = d + 'px';
+      s.style.left = (e.clientX - r.left - d / 2) + 'px';
+      s.style.top = (e.clientY - r.top - d / 2) + 'px';
+      b.appendChild(s);
+      setTimeout(function () { if (s.parentNode) s.parentNode.removeChild(s); }, 620);
+    });
+  }
   ready(function () {
     initAurora();
     /* Disabled on purpose: the 520px pointer halo and the per-card specular
@@ -638,5 +817,7 @@
     initHeroNetwork();
     initParticleText();
     initNetMap();
+    initMagnetic();
+    initRipple();
   });
 })();
