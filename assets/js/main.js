@@ -49,6 +49,32 @@ function applyStatic() {
   document.documentElement.lang = current;
 }
 
+/* --------------------------- page <title> localization --------------------------- */
+const PAGE_TITLES = {
+  en: {
+    home: "GIRAFSAIL Logistics — Simplify the Cross-Border Trade",
+    services: "Services — GIRAFSAIL Logistics",
+    solutions: "Solutions — GIRAFSAIL Logistics",
+    network: "Network — GIRAFSAIL Logistics",
+    about: "About — GIRAFSAIL Logistics",
+    contact: "Contact — GIRAFSAIL Logistics"
+  },
+  zh: {
+    home: "GIRAFSAIL 物流 — 让跨境贸易更简单",
+    services: "服务 — GIRAFSAIL 物流",
+    solutions: "解决方案 — GIRAFSAIL 物流",
+    network: "全球网络 — GIRAFSAIL 物流",
+    about: "关于我们 — GIRAFSAIL 物流",
+    contact: "联系我们 — GIRAFSAIL 物流"
+  }
+};
+function applyPageTitle() {
+  const map = PAGE_TITLES[current] || PAGE_TITLES.en;
+  const key = document.body.dataset.page || "home";
+  const title = map[key];
+  if (title) document.title = title;
+}
+
 /* --------------------------- renderers --------------------------- */
 function renderStats() {
   const grid = document.getElementById("statsGrid");
@@ -278,6 +304,7 @@ function setActiveNav() {
 }
 
 function renderAll() {
+  applyPageTitle();
   applyStatic();
   if (document.getElementById("statsGrid")) renderStats();
   if (document.getElementById("servicesGrid")) renderServices();

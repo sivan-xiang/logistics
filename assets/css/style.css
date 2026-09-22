@@ -200,7 +200,7 @@ a { color: inherit; text-decoration: none; }
 .section--dark { background: var(--navy); color: #fff; }
 
 .section__head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
-.section__eyebrow { font-size: 14px; font-weight: 600; color: var(--gold-deep); letter-spacing: .04em; margin-bottom: 12px; }
+.section__eyebrow { font-size: 14px; font-weight: 600; color: #7a4e12; letter-spacing: .04em; margin-bottom: 12px; }
 .section--dark .section__eyebrow { color: var(--gold); }
 .section__title { font-size: clamp(30px, 4.4vw, 48px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
 .section__lead { font-size: clamp(16px, 2vw, 19px); color: var(--ink-soft); margin-top: 16px; }
@@ -317,25 +317,10 @@ a { color: inherit; text-decoration: none; }
 .page-hero--about     { --h1: 108 123 232; --h2: 44 47 134;  --a: 195 184 255; --a2: 108 92 224; }    /* indigo */
 .page-hero--contact   { --h1: 34 179 148; --h2: 14 94 82;   --a: 143 240 212; --a2: 31 170 140; }    /* emerald */
 /* slowly rotating coloured sheen tinted by the page accent */
-.page-hero::before {
-  content: "";
-  position: absolute; inset: -40%;
-  background: conic-gradient(from 0deg at 50% 50%,
-    transparent 0deg,
-    rgb(var(--a2) / .14) 60deg,
-    transparent 150deg,
-    rgb(var(--a) / .12) 250deg,
-    transparent 360deg);
-  animation: heroSheen 26s linear infinite;
-  pointer-events: none; z-index: 0;
-}
-@keyframes heroSheen { to { transform: rotate(360deg); } }
-/* accent hairline at the bottom edge */
+/* accent hairline at the bottom edge (fill set by the Apple pass) */
 .page-hero::after {
   content: "";
-  position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
-  background: linear-gradient(90deg, transparent, rgb(var(--a)), rgb(var(--a2)), transparent);
-  z-index: 3; pointer-events: none;
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; pointer-events: none;
 }
 .page-hero__canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; opacity: .92; }
 .page-hero .wrap { position: relative; z-index: 2; }
@@ -347,7 +332,7 @@ a { color: inherit; text-decoration: none; }
 .nav__links a.is-active::after { content: ""; }
 
 /* About — story redesigned: editorial lead + foundation pillars + presence strip */
-.about-story { --a: 108 92 224; --a2: 44 47 134; padding: 110px 0; }
+.about-story { --a: 0 113 227; --a2: 200 133 42; padding: 110px 0; }
 .about-story__lead {
   font-family: var(--font-display);
   font-size: clamp(22px, 3.2vw, 34px); font-weight: 600; line-height: 1.34;
@@ -400,8 +385,8 @@ a { color: inherit; text-decoration: none; }
 }
 .subs__group-count {
   font-family: var(--font-display);
-  font-size: 12px; font-weight: 700; color: #0e8c92;
-  background: rgba(26,178,184,.12); border-radius: 999px; padding: 3px 11px;
+  font-size: 12px; font-weight: 700; color: var(--blue);
+  background: rgba(0,113,227,.10); border-radius: 999px; padding: 3px 11px;
 }
 .subs__group-rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--line), transparent); }
 .subs__offices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -565,13 +550,13 @@ a { color: inherit; text-decoration: none; }
 .about-promise {
   display: flex; gap: 22px; align-items: center;
   margin-top: 40px; margin-bottom: 56px; padding: 26px 30px;
-  background: linear-gradient(135deg, rgb(108 92 224 / .10), rgb(0 113 227 / .05));
-  border: 1px solid var(--line); border-left: 3px solid rgb(108 92 224);
+  background: linear-gradient(135deg, rgb(0 113 227 / .10), rgb(0 113 227 / .05));
+  border: 1px solid var(--line); border-left: 3px solid rgb(0 113 227);
   border-radius: 18px;
 }
 .about-promise__badge {
   flex: none; font-family: var(--font-display); font-weight: 700; font-size: 19px;
-  color: rgb(108 92 224); background: #fff; border: 1px solid var(--line);
+  color: var(--blue); background: #fff; border: 1px solid var(--line);
   border-radius: 12px; padding: 12px 16px; white-space: nowrap;
 }
 .about-promise__body { min-width: 0; }
@@ -817,11 +802,11 @@ html[data-theme="dark"] .contact-form textarea::placeholder { color: #6b778e; }
 
 /* text colours that were tuned for a white card */
 html[data-theme="dark"] .office-card__country { color: rgba(231,236,246,.5); }
-html[data-theme="dark"] .about-promise__badge { color: #a99dff; }
+html[data-theme="dark"] .about-promise__badge { color: #6ea8ff; }
 
 /* misc accents that were tuned for a white page */
 html[data-theme="dark"] .timeline__marker { background: #0d1728; }
-html[data-theme="dark"] .subs__group-count { color: #4fd6dc; background: rgba(79,214,220,.14); }
+html[data-theme="dark"] .subs__group-count { color: var(--blue); background: rgba(0,113,227,.16); }
 html[data-theme="dark"] .section__eyebrow { color: var(--gold); }
 html[data-theme="dark"] .about-found:hover { box-shadow: 0 18px 40px rgba(0,0,0,.5); }
 
@@ -1433,8 +1418,16 @@ html[data-theme="dark"] .timeline__marker { background: #1d1d1f; }
 html[data-theme="dark"] .section__eyebrow { color: var(--gold); }
 html[data-theme="dark"] ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, .22); background-clip: content-box; }
 
+/* 14b ─ Dark-mode banners: same monochrome dark surface as stats / section--dark,
+       with a whisper of the per-page accent so the five pages stay faintly distinct. */
+html[data-theme="dark"] .page-hero {
+  background-color: #0a1424;
+  background-image: radial-gradient(120% 95% at 50% 0%, rgb(var(--h1) / .14), transparent 60%);
+}
+html[data-theme="dark"] .page-hero__stroke { opacity: .08; }
+
 /* 15 ─ Banner + map surfaces settled after the first visual pass */
-.page-hero__canvas { opacity: .50; }
+.page-hero__canvas { opacity: .22; }
 /* the map panel needs its own tone: with the band and the panel both flat
    navy it had no edge at all. A darker well + hairline rim reads as a
    mounted screen rather than a hole in the band. */
