@@ -160,6 +160,8 @@ const COPY = {
     "chooser.build": "Build an inquiry on this",
 
     "egg.mascot": "GIRAFSAIL mascot — give it a click",
+    "egg.stamp": "Stamps",
+    "egg.badge": "World tour · 33 branches",
   },
 
   zh: {
@@ -313,6 +315,8 @@ const COPY = {
     "chooser.build": "按此方案发起询盘",
 
     "egg.mascot": "GIRAFSAIL 吉祥物 —— 点一下试试",
+    "egg.stamp": "打卡",
+    "egg.badge": "环游 33 分支",
   }
 
   /* es: { ... }  // <- add a full locale here to extend */

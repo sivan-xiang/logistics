@@ -55,6 +55,7 @@
     }, 3200);
   }
   window.__girafToast = toast;
+  window.__girafCelebrate = celebrate;
 
   /* -------------------------------------------------------------------
    * 1. AURORA — drifting colored blobs (lighter compositing) on the hero
@@ -868,15 +869,41 @@
     b.setAttribute('aria-label', T('egg.mascot', 'GIRAFSAIL mascot'));
     b.innerHTML = MASCOT_SVG;
 
+    /* stamp-collection badge — hidden until the user starts clicking the giraffe */
+    var badge = document.createElement('span');
+    badge.className = 'mascot-badge';
+    badge.setAttribute('aria-hidden', 'true');
+
     /* keep the label in the active language without main.js knowing we exist */
     if ('MutationObserver' in window) {
       new MutationObserver(function () {
         b.setAttribute('aria-label', T('egg.mascot', 'GIRAFSAIL mascot'));
+        paintBadge();
       }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
     }
 
+    var STAMP_KEY = 'giraf_mascot_clicks', TOUR_KEY = 'giraf_mascot_tour', TARGET = 33;
+    function totalClicks() {
+      var v = parseInt(localStorage.getItem(STAMP_KEY) || '0', 10);
+      return isNaN(v) ? 0 : v;
+    }
+    function paintBadge() {
+      var c = totalClicks();
+      if (localStorage.getItem(TOUR_KEY) === '1') {
+        badge.textContent = T('egg.badge', 'World tour · 33 branches');
+        badge.classList.add('is-on');
+      } else if (c > 0) {
+        badge.textContent = T('egg.stamp', 'Stamps') + ' ' + c + ' / ' + TARGET;
+        badge.classList.add('is-on');
+      } else {
+        badge.classList.remove('is-on');
+      }
+    }
+    paintBadge();
+
     var n = 0, timer = 0;
     b.addEventListener('click', function () {
+      b.classList.remove('is-idle'); /* cancel any pending idle sway */
       b.classList.remove('is-hop');
       void b.offsetWidth;            /* restart the animation */
       b.classList.add('is-hop');
@@ -885,9 +912,28 @@
       clearTimeout(timer);
       timer = setTimeout(function () { n = 0; }, 1800);
       if (n >= 5) { n = 0; celebrate(); }
+
+      /* persistent stamp counter for the 33-branch world tour */
+      var c = totalClicks() + 1;
+      try { localStorage.setItem(STAMP_KEY, String(c)); } catch (e) {}
+      if (c >= TARGET) { try { localStorage.setItem(TOUR_KEY, '1'); } catch (e) {} }
+      paintBadge();
     });
 
     host.appendChild(b);
+    host.appendChild(badge);
+
+    /* idle sway: after a few quiet seconds the giraffe gives a little wave */
+    if (!reduce) {
+      var idleTimer = 0;
+      function goIdle() { b.classList.add('is-idle'); }
+      function armIdle() { clearTimeout(idleTimer); idleTimer = setTimeout(goIdle, 6000); }
+      function wake() { b.classList.remove('is-idle'); armIdle(); }
+      ['pointermove', 'keydown', 'click', 'touchstart', 'scroll'].forEach(function (ev) {
+        document.addEventListener(ev, wake, { passive: true });
+      });
+      armIdle();
+    }
   }
 
   /* -------------------------------------------------------------------
@@ -912,6 +958,19 @@
       } else {
         i = (k === SEQUENCE[0]) ? 1 : 0;
       }
+    });
+  }
+
+  /* Type "GIRAFFE" anywhere (outside form fields) for a golden particle shower. */
+  function initTypeEgg() {
+    var WORD = 'giraffe', buf = '';
+    window.addEventListener('keydown', function (e) {
+      var tag = ((e.target && e.target.tagName) || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+      var k = (e.key || '').toLowerCase();
+      if (k.length !== 1 || k < 'a' || k > 'z') return;
+      buf = (buf + k).slice(-WORD.length);
+      if (buf === WORD) { buf = ''; celebrate(); }
     });
   }
 
@@ -1058,6 +1117,7 @@
     initRipple();
     initMascot();
     initKonami();
+    initTypeEgg();
     initLogoEgg();
   });
 })();
