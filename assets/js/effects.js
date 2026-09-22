@@ -923,7 +923,6 @@
     document.documentElement.classList.add('is-celebrating');
     setTimeout(function () { document.documentElement.classList.remove('is-celebrating'); }, 2200);
 
-    toast(T('egg.konami', 'You found it.'));
     if (!reduce) { burst(); patrol(); }
   }
 

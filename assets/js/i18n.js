@@ -160,7 +160,6 @@ const COPY = {
     "chooser.build": "Build an inquiry on this",
 
     "egg.mascot": "GIRAFSAIL mascot — give it a click",
-    "egg.konami": "You found it. 33 branches, one giraffe."
   },
 
   zh: {
@@ -314,7 +313,6 @@ const COPY = {
     "chooser.build": "按此方案发起询盘",
 
     "egg.mascot": "GIRAFSAIL 吉祥物 —— 点一下试试",
-    "egg.konami": "被你发现了。33 家分支，一只长颈鹿。"
   }
 
   /* es: { ... }  // <- add a full locale here to extend */
