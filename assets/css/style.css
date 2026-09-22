@@ -1813,10 +1813,11 @@ html[data-theme="dark"] .form-note { color: #a1a1a6; }
 .mascot {
   appearance: none; background: none; border: 0; padding: 0; margin-top: 16px; cursor: pointer;
   display: inline-flex; align-items: center; line-height: 0; border-radius: 10px;
-  color: rgba(255, 255, 255, .40);
+  /* a solid silhouette needs a touch more presence than the old hairline drawing */
+  color: rgba(255, 255, 255, .46);
   transition: color .25s var(--ease, ease), transform .25s var(--ease, ease);
 }
-.mascot svg { width: 26px; height: 26px; display: block; }
+.mascot svg { width: 30px; height: 30px; display: block; }
 .mascot:hover { color: rgba(255, 255, 255, .92); transform: translateY(-2px); }
 .mascot:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; color: #fff; }
 .mascot.is-hop { animation: mascotHop .62s var(--ease, ease); }

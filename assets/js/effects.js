@@ -839,14 +839,23 @@
    *     physical keyboard and this site is read on phones too.
    * ----------------------------------------------------------------- */
   var MASCOT_SVG =
-    '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.9" ' +
-    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<path d="M19.6 4.4v2.3M23.2 4.4v2.3"/>' +
-    '<path d="M18.6 7.4h5.6l-.9 3.2h-3.8z"/>' +
-    '<path d="M20.4 10.6 18.4 20"/>' +
-    '<path d="M10.6 20h7.8a2 2 0 0 1 2 2v2.6a2 2 0 0 1-2 2h-7.8a2 2 0 0 1-2-2V22a2 2 0 0 1 2-2z"/>' +
-    '<path d="M12 26.6v2.2M15.6 26.6v2.2M19.2 26.6v2.2"/>' +
-    '<path d="M10.7 21.4 8.4 20.3v2.4"/>' +
+    '<svg viewBox="6 5.8 24.7 24.7" fill="currentColor" aria-hidden="true">' +
+    /* one filled mass: head, neck, body and both legs, so the outline never
+       self-closes into a blob at small sizes */
+    '<path fill-rule="evenodd" d="M27.1 9.2C27.2 8.5 26.7 7.9 25.9 7.6' +
+    'C25.0 7.2 23.5 7.2 22.6 7.6C21.8 7.9 21.4 8.6 21.4 9.7' +
+    'C21.0 12.2 19.2 15.2 17.6 17.4C16.1 18.4 13.6 18.8 11.6 19.4' +
+    'C10.2 19.8 9.5 20.7 9.7 21.9C9.9 22.9 10.6 23.4 11.7 23.4L12.4 23.4' +
+    'L12.1 29.6C12.1 30.2 12.5 30.5 13.0 30.5C13.5 30.5 13.9 30.2 14.0 29.6' +
+    'L14.4 23.4L16.6 23.3L16.7 29.6C16.7 30.2 17.1 30.5 17.6 30.5' +
+    'C18.1 30.5 18.5 30.2 18.6 29.6L18.7 23.1L19.6 23.0' +
+    'C19.9 21.4 20.0 19.6 19.7 18.2C20.0 15.8 21.4 13.1 23.3 10.9' +
+    'C24.5 10.5 25.7 10.4 26.3 10.3C26.9 10.1 27.1 9.7 27.1 9.2Z' +
+    /* the eye is a hole, so it works on any background */
+    'M23.9 8.3A.8.8 0 1 0 23.9 9.9A.8.8 0 1 0 23.9 8.3Z"/>' +
+    /* ossicones */
+    '<path d="M22.7 7.8 22.5 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' +
+    '<path d="M24.4 7.9 24.2 6.1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' +
     '</svg>';
 
   function initMascot() {
