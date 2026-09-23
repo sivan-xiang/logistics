@@ -168,13 +168,19 @@
   }
 
   /* -------------------------------------------------------------------
-   * 4. DOT FIELD — subtle twinkling grid behind the dark network section
+   * 4. DOT FIELD — subtle twinkling grid behind dark & light sections.
+   *    Any <canvas data-dotfield> opts in; data-dot-color (r,g,b, default
+   *    white) sets the dot tint so it reads on both dark and light bgs.
    * ----------------------------------------------------------------- */
   function initDotField() {
-    var c = document.getElementById('dotfield');
-    if (!c) return;
+    var list = document.querySelectorAll('[data-dotfield]');
+    for (var i = 0; i < list.length; i++) setupDotField(list[i]);
+  }
+
+  function setupDotField(c) {
     var ctx = c.getContext('2d');
     var w = 0, h = 0, dpr = 1, raf = 0, running = true, dots = [], gap = 30;
+    var rgb = (c.getAttribute('data-dot-color') || '255,255,255').trim();
     function resize() {
       dpr = Math.min(window.devicePixelRatio || 1, 1.4);
       var r = c.getBoundingClientRect();
@@ -197,8 +203,8 @@
       ctx.clearRect(0, 0, w, h);
       for (var i = 0; i < dots.length; i++) {
         var d = dots[i];
-        var a = (reduce ? 0.35 : (0.18 + 0.22 * (0.5 + 0.5 * Math.sin(t * d.s + d.p)))) * d.s;
-        ctx.fillStyle = 'rgba(255,255,255,' + a.toFixed(3) + ')';
+        var a = (reduce ? 0.30 : (0.14 + 0.20 * (0.5 + 0.5 * Math.sin(t * d.s + d.p)))) * d.s;
+        ctx.fillStyle = 'rgba(' + rgb + ',' + a.toFixed(3) + ')';
         ctx.beginPath();
         ctx.arc(d.x, d.y, 1.1, 0, Math.PI * 2);
         ctx.fill();
