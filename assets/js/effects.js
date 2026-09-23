@@ -1129,14 +1129,6 @@
    * 13. EASTER-EGG MOTION - tasteful extensions on top of the existing
    *     Konami / mascot celebration. Both are no-ops under reduced-motion.
    * ----------------------------------------------------------------- */
-  var SAIL_SVG =
-    '<svg viewBox="0 0 64 40" fill="none" aria-hidden="true">' +
-    '<rect x="11" y="15" width="13" height="9" rx="1.5" fill="#0071e3"/>' +
-    '<rect x="26" y="15" width="13" height="9" rx="1.5" fill="#e8a33d"/>' +
-    '<rect x="41" y="15" width="12" height="9" rx="1.5" fill="#0071e3"/>' +
-    '<path d="M6 25 L58 25 L50 35 L14 35 Z" fill="currentColor"/>' +
-    '<path d="M33 15 L33 5 L45 10 Z" fill="#e8a33d"/>' +
-    '</svg>';
 
   /* A giraffe laps the viewport once after the celebration fires. */
   function patrol() {
@@ -1150,16 +1142,70 @@
     setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 2700);
   }
 
-  /* Double-clicking the nav logo sends a little cargo ship sailing by. */
-  function sail() {
+  /* Double-clicking the nav logo showers confetti from the logo. */
+  function logoConfetti() {
     if (reduce) return;
-    if (document.querySelector('.logo-sail')) return;
-    var el = document.createElement('div');
-    el.className = 'logo-sail';
-    el.setAttribute('aria-hidden', 'true');
-    el.innerHTML = SAIL_SVG;
-    document.body.appendChild(el);
-    setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 2900);
+    if (document.querySelector('.logo-confetti')) return;
+    var c = document.createElement('canvas');
+    c.className = 'logo-confetti';
+    c.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(c);
+    var ctx = c.getContext('2d');
+    if (!ctx) { if (c.parentNode) c.parentNode.removeChild(c); return; }
+
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var vw = window.innerWidth, vh = window.innerHeight;
+    c.width = Math.floor(vw * dpr);
+    c.height = Math.floor(vh * dpr);
+    c.style.width = vw + 'px';
+    c.style.height = vh + 'px';
+
+    var logo = document.querySelector('.nav__logo');
+    var lr = logo ? logo.getBoundingClientRect() : null;
+    var cx = lr ? (lr.left + lr.width / 2) * dpr : c.width / 2;
+    var cy = lr ? (lr.top + lr.height / 2) * dpr : c.height * 0.3;
+    var cols = ['#e8a33d', '#0071e3', '#ffffff', '#c8852a'];
+    var ps = [];
+    for (var n = 0; n < 150; n++) {
+      var a = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.3;
+      var sp = (3 + Math.random() * 9) * dpr;
+      ps.push({
+        x: cx, y: cy,
+        vx: Math.cos(a) * sp,
+        vy: Math.sin(a) * sp,
+        r: (2 + Math.random() * 3.4) * dpr,
+        rot: Math.random() * 6.2832,
+        vr: (Math.random() - 0.5) * 0.35,
+        col: cols[(Math.random() * cols.length) | 0],
+        rect: Math.random() < 0.6
+      });
+    }
+
+    var LIFE = 1700;
+    var start = performance.now();
+    function loop(now) {
+      var el = now - start;
+      ctx.clearRect(0, 0, c.width, c.height);
+      var k = Math.max(0, 1 - el / LIFE);
+      for (var i = 0; i < ps.length; i++) {
+        var p = ps[i];
+        p.x += p.vx; p.y += p.vy;
+        p.vy += 0.17 * dpr;
+        p.vx *= 0.992; p.vy *= 0.992;
+        p.rot += p.vr;
+        ctx.save();
+        ctx.globalAlpha = k;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.col;
+        if (p.rect) ctx.fillRect(-p.r, -p.r * 0.5, p.r * 2, p.r);
+        else { ctx.beginPath(); ctx.arc(0, 0, p.r, 0, 6.2832); ctx.fill(); }
+        ctx.restore();
+      }
+      if (el < LIFE) requestAnimationFrame(loop);
+      else if (c.parentNode) c.parentNode.removeChild(c);
+    }
+    requestAnimationFrame(loop);
   }
 
   function initLogoEgg() {
@@ -1175,7 +1221,7 @@
         clearTimeout(navTimer);
         e.preventDefault();
         last = 0;
-        sail();
+        logoConfetti();
       } else {
         last = now;
         e.preventDefault();           /* we navigate manually after a grace period */
