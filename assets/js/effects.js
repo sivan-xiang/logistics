@@ -237,6 +237,123 @@
    *    links, and particles drift upward. Honors reduced-motion + pauses
    *    off-screen.
    * ----------------------------------------------------------------- */
+  /* -------------------------------------------------------------------
+   * 5b. WEB THREADS - faint constellation web on light sections.
+   *     Nodes drift slowly; near pairs are linked by faint threads; the
+   *     cursor gently pulls nearby nodes and brightens their links. Tuned
+   *     for a light background (low-alpha slate/blue) so it reads as a
+   *     calm texture, not a headline. Honors reduced-motion + pauses
+   *     off-screen. Theme-aware (re-tints on data-theme change).
+   * ----------------------------------------------------------------- */
+  function initWebThreads() {
+    var canvases = document.querySelectorAll('[data-web-threads]');
+    if (!canvases.length) return;
+    Array.prototype.forEach.call(canvases, function (c) {
+      var ctx = c.getContext('2d');
+      var w = 0, h = 0, dpr = 1, raf = 0, running = true, t = 0, maxD = 200;
+      var nodes = [], links = [], mouse = { x: -9999, y: -9999, on: false };
+      var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      function palette() {
+        isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        return isDark
+          ? { node: [150, 170, 210], line: [120, 160, 210], mline: [120, 190, 240] }
+          : { node: [70, 92, 130], line: [80, 100, 130], mline: [0, 113, 227] };
+      }
+      var P = palette();
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        var r = c.getBoundingClientRect();
+        w = r.width; h = r.height;
+        c.width = Math.max(1, w * dpr);
+        c.height = Math.max(1, h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        seed();
+      }
+      function seed() {
+        nodes = []; links = [];
+        var n = Math.max(18, Math.min(42, Math.round((w * h) / 26000)));
+        for (var i = 0; i < n; i++) {
+          nodes.push({
+            x: Math.random() * w, y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.18,
+            vy: (Math.random() - 0.5) * 0.18,
+            r: 1.1 + Math.random() * 1.4,
+            ph: Math.random() * Math.PI * 2
+          });
+        }
+        maxD = Math.min(w, h) * 0.26 + 60;
+        for (var a = 0; a < nodes.length; a++) {
+          for (var b = a + 1; b < nodes.length; b++) {
+            var dx = nodes[a].x - nodes[b].x, dy = nodes[a].y - nodes[b].y;
+            var d = Math.sqrt(dx * dx + dy * dy);
+            if (d < maxD) links.push({ a: a, b: b });
+          }
+        }
+      }
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        P = palette();
+        for (var i = 0; i < links.length; i++) {
+          var l = links[i], A = nodes[l.a], B = nodes[l.b];
+          var d = Math.sqrt((A.x - B.x) * (A.x - B.x) + (A.y - B.y) * (A.y - B.y));
+          var a2 = Math.max(0, 0.16 * (1 - d / maxD));
+          ctx.strokeStyle = 'rgba(' + P.line[0] + ',' + P.line[1] + ',' + P.line[2] + ',' + a2.toFixed(3) + ')';
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+        }
+        if (mouse.on && !reduce) {
+          for (var m = 0; m < nodes.length; m++) {
+            var nd = nodes[m];
+            var dx2 = nd.x - mouse.x, dy2 = nd.y - mouse.y;
+            var dm = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+            if (dm < 150) {
+              var am = Math.max(0, 0.38 * (1 - dm / 150));
+              ctx.strokeStyle = 'rgba(' + P.mline[0] + ',' + P.mline[1] + ',' + P.mline[2] + ',' + am.toFixed(3) + ')';
+              ctx.lineWidth = 1;
+              ctx.beginPath(); ctx.moveTo(nd.x, nd.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+            }
+          }
+        }
+        for (var k = 0; k < nodes.length; k++) {
+          var n2 = nodes[k];
+          var pulse = reduce ? 0.7 : (0.6 + 0.4 * Math.sin(t * 0.8 + n2.ph));
+          var rr = n2.r * (0.85 + 0.3 * pulse);
+          ctx.fillStyle = 'rgba(' + P.node[0] + ',' + P.node[1] + ',' + P.node[2] + ',' + (0.55 * pulse).toFixed(3) + ')';
+          ctx.beginPath(); ctx.arc(n2.x, n2.y, rr, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+      function step() {
+        for (var i = 0; i < nodes.length; i++) {
+          var n = nodes[i];
+          if (!reduce) {
+            n.x += n.vx; n.y += n.vy;
+            if (mouse.on) {
+              var dx = mouse.x - n.x, dy = mouse.y - n.y;
+              var d = Math.sqrt(dx * dx + dy * dy);
+              if (d < 150 && d > 0.1) { n.x += (dx / d) * 0.25; n.y += (dy / d) * 0.25; }
+            }
+            if (n.x < -20) n.x = w + 20; if (n.x > w + 20) n.x = -20;
+            if (n.y < -20) n.y = h + 20; if (n.y > h + 20) n.y = -20;
+          }
+        }
+      }
+      function loop() { t += 0.016; step(); draw(); if (running && !reduce) raf = requestAnimationFrame(loop); }
+      resize();
+      if (reduce) draw(); else loop();
+      var rt;
+      window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { resize(); if (reduce) draw(); }, 150); });
+      var sEl = c.closest('section');
+      if (sEl) sEl.addEventListener('mousemove', function (e) { var r = c.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; mouse.on = true; });
+      if (sEl) sEl.addEventListener('mouseleave', function () { mouse.on = false; mouse.x = -9999; mouse.y = -9999; });
+      if (window.MutationObserver) {
+        var mo = new MutationObserver(function () { P = palette(); if (reduce) draw(); });
+        mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+      }
+      visibilityPause(c, function () { running = true; if (!reduce) loop(); },
+        function () { running = false; cancelAnimationFrame(raf); });
+    });
+  }
+
   function initHeroNetwork() {
     var canvases = document.querySelectorAll('[data-hero-network]');
     if (!canvases.length) return;
@@ -1263,6 +1380,7 @@
     // initGlowCursor();
     // initSpotlight();
     initDotField();
+    initWebThreads();
     initHeroNetwork();
     initParticleText();
     initNetMap();

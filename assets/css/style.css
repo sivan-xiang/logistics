@@ -497,6 +497,11 @@ a { color: inherit; text-decoration: none; }
   animation: services-grid-breathe 7s ease-in-out infinite;
 }
 #services .wrap { position: relative; z-index: 1; }
+
+/* Solutions section: faint constellation "web-threads" backdrop canvas (behind content). */
+#solutions { position: relative; }
+.section__web { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+#solutions .wrap { position: relative; z-index: 1; }
 @keyframes services-grid-breathe {
   0%, 100% { opacity: .4; }
   50%      { opacity: .6; }
