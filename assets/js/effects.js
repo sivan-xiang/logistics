@@ -1040,6 +1040,91 @@
     requestAnimationFrame(loop);
   }
 
+  /* Typing "longsail" launches fireworks from the bottom of the screen.
+     Pure motion — suppressed under reduced-motion. */
+  function fireworks() {
+    if (reduce) return;
+    if (document.querySelector('.longsail-fireworks')) return;
+    var c = document.createElement('canvas');
+    c.className = 'longsail-fireworks';
+    c.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(c);
+    var ctx = c.getContext('2d');
+    if (!ctx) { if (c.parentNode) c.parentNode.removeChild(c); return; }
+
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = window.innerWidth, H = window.innerHeight;
+    c.width = Math.floor(W * dpr);
+    c.height = Math.floor(H * dpr);
+    c.style.width = W + 'px';
+    c.style.height = H + 'px';
+    ctx.scale(dpr, dpr);
+
+    var cols = ['#e8a33d', '#0071e3', '#ffffff', '#c8852a', '#7ac0ff'];
+    var parts = [], rockets = [];
+
+    function launch() {
+      rockets.push({
+        x: W * (0.12 + Math.random() * 0.76),
+        y: H + 10,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: -(7 + Math.random() * 3),
+        ty: H * (0.16 + Math.random() * 0.34),
+        col: cols[(Math.random() * cols.length) | 0],
+        trail: []
+      });
+    }
+    function explode(x, y, col) {
+      var n = 36 + (Math.random() * 24 | 0);
+      for (var i = 0; i < n; i++) {
+        var a = (i / n) * Math.PI * 2 + Math.random() * 0.25;
+        var sp = 1.5 + Math.random() * 3.6;
+        parts.push({ x: x, y: y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 1, col: col });
+      }
+    }
+
+    var start = performance.now(), LIFE = 3700, last = 0, count = 0;
+    function loop(now) {
+      var el = now - start;
+      ctx.clearRect(0, 0, W, H);
+      for (var r = rockets.length - 1; r >= 0; r--) {
+        var rk = rockets[r];
+        rk.x += rk.vx; rk.y += rk.vy; rk.vy += 0.045;
+        rk.trail.push(rk.x, rk.y);
+        if (rk.trail.length > 20) rk.trail.splice(0, 2);
+        for (var t = 0; t < rk.trail.length; t += 2) {
+          ctx.globalAlpha = (t / rk.trail.length) * 0.6;
+          ctx.fillStyle = rk.col;
+          ctx.beginPath();
+          ctx.arc(rk.trail[t], rk.trail[t + 1], 1.5, 0, 6.2832);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = rk.col;
+        ctx.beginPath();
+        ctx.arc(rk.x, rk.y, 2.4, 0, 6.2832);
+        ctx.fill();
+        if (rk.y <= rk.ty || rk.vy >= 0) { explode(rk.x, rk.y, rk.col); rockets.splice(r, 1); }
+      }
+      for (var i = parts.length - 1; i >= 0; i--) {
+        var p = parts[i];
+        p.x += p.vx; p.y += p.vy; p.vy += 0.05; p.vx *= 0.985; p.vy *= 0.985;
+        p.life -= 0.012;
+        if (p.life <= 0) { parts.splice(i, 1); continue; }
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.col;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2.1, 0, 6.2832);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (el < 2300 && el - last > 280 && count < 9) { launch(); last = el; count++; }
+      if (el < LIFE && (rockets.length || parts.length || el < 2300)) requestAnimationFrame(loop);
+      else if (c.parentNode) c.parentNode.removeChild(c);
+    }
+    requestAnimationFrame(loop);
+  }
+
   /* -------------------------------------------------------------------
    * 13. EASTER-EGG MOTION - tasteful extensions on top of the existing
    *     Konami / mascot celebration. Both are no-ops under reduced-motion.
@@ -1137,6 +1222,19 @@
     document.addEventListener('touchend', function () { setTimeout(onSelect, 0); });
   }
 
+  /* Type "longsail" anywhere (outside form fields) to launch fireworks. */
+  function initLongsailEgg() {
+    var WORD = 'longsail', buf = '';
+    window.addEventListener('keydown', function (e) {
+      var tag = ((e.target && e.target.tagName) || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+      var k = (e.key || '').toLowerCase();
+      if (k.length !== 1 || k < 'a' || k > 'z') return;
+      buf = (buf + k).slice(-WORD.length);
+      if (buf === WORD) { buf = ''; fireworks(); }
+    });
+  }
+
   ready(function () {
     initAurora();
     /* Disabled on purpose: the 520px pointer halo and the per-card specular
@@ -1155,5 +1253,6 @@
     initTypeEgg();
     initLogoEgg();
     initHeroSelectEgg();
+    initLongsailEgg();
   });
 })();

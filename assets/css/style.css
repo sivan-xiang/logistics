@@ -1864,6 +1864,7 @@ html.is-celebrating .mascot { color: var(--gold); animation: mascotHop .62s var(
 
 /* ---------- Konami celebration ---------- */
 .konami-burst { position: fixed; inset: 0; z-index: 9999; pointer-events: none; }
+.longsail-fireworks { position: fixed; inset: 0; z-index: 9999; pointer-events: none; }
 .egg-toast {
   position: fixed; left: 50%; bottom: 26px; z-index: 10000; pointer-events: none;
   padding: 12px 20px; border-radius: 999px; font-size: 14px; line-height: 1.3;
