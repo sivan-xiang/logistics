@@ -486,20 +486,20 @@ a { color: inherit; text-decoration: none; }
 .section--dark { position: relative; overflow: hidden; }
 .section__dots { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; opacity: .55; pointer-events: none; }
 .section--dark .wrap { position: relative; z-index: 1; }
-/* Services section: static brand-blue dot-grid + very subtle breathing (no canvas, zero JS). */
+/* Services section: faint gray dot-grid + very subtle breathing (no canvas, zero JS). */
 #services { position: relative; }
 #services::before {
   content: "";
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  background-image: radial-gradient(circle, rgba(0,113,227,.22) 1.4px, transparent 1.6px);
+  background-image: radial-gradient(circle, rgba(90,100,120,.12) 1.3px, transparent 1.5px);
   background-size: 26px 26px;
-  opacity: .55;
+  opacity: .5;
   animation: services-grid-breathe 7s ease-in-out infinite;
 }
 #services .wrap { position: relative; z-index: 1; }
 @keyframes services-grid-breathe {
-  0%, 100% { opacity: .42; }
-  50%      { opacity: .68; }
+  0%, 100% { opacity: .4; }
+  50%      { opacity: .6; }
 }
 
 /* Reduced motion: neutralize all effect animation */
@@ -514,7 +514,7 @@ a { color: inherit; text-decoration: none; }
   .hero__caret { animation: none; opacity: 1; }
   .page-hero__stroke { opacity: .12 !important; }
   .page-hero__title { background-size: 100% 100% !important; animation: none !important; }
-  #services::before { animation: none; opacity: .55; }
+  #services::before { animation: none; opacity: .5; }
 }
 
 /* ----------------------------- RESPONSIVE ----------------------------- */
